@@ -1,0 +1,19 @@
+name: Introduction
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+jobs:
+  update-readme:
+    name: Repository introduction
+    runs-on: ubuntu-latest
+    steps:
+    - uses: lowlighter/metrics@latest
+      with:
+        filename: metrics.plugin.introduction.repository.svg
+        token: ${{ secrets.METRICS_TOKEN }}
+        template: repository
+        repo: metrics
+        base: header
+        plugin_introduction: yes
