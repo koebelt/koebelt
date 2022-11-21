@@ -1,12 +1,16 @@
-On github since 2018
+## koebelt -- Thomas KOEBEL <thomas.koebel@epitech.eu>
+
+> On github since 2018
 
 
 <!--![Metrics](/metrics.plugin.introduction.repository.svg)-->
 ![Metrics](/metrics.plugin.isocalendar.svg)
 
-Only from personnal repositories
+
 
 ![Metrics](/metrics.plugin.languages.svg)
+
+> **Note:** Languages stats are only from personnal repositories
 
 <!--START_SECTION:waka-->
 <!--END_SECTION:waka-->
