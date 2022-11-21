@@ -1,4 +1,4 @@
-![Metrics](/metrics.plugin.introduction.repository.svg)
+<!--![Metrics](/metrics.plugin.introduction.repository.svg)-->
 ![Metrics](/metrics.plugin.isocalendar.svg)
 ![Metrics](/metrics.plugin.languages.svg)
 
