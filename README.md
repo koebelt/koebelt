@@ -18,6 +18,14 @@
 > **Note:** Languages stats are only from personnal repositories
 
 <!--START_SECTION:waka-->
+
+```text
+From: 20 November 2022 - To: 21 November 2022
+
+C++                    ████████████████████████▓   98.87 %
+JSON                   ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.13 %
+```
+
 <!--END_SECTION:waka-->
 
 [![Twitter Badge](https://img.shields.io/badge/Twitter-Profile-informational?style=flat&logo=twitter&logoColor=white&color=1CA2F1)](https://twitter.com/jesuis_roux)
