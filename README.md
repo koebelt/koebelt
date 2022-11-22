@@ -3,8 +3,7 @@
 <!-- On github since 2018-->
 
 
-
-
+![Metrics](/metrics.classic.svg)
 
 
 
