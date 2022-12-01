@@ -19,10 +19,10 @@
 <!--START_SECTION:waka-->
 
 ```text
-From: 20 November 2022 - To: 28 November 2022
+From: 20 November 2022 - To: 29 November 2022
 
-C++                          ████████████████████████░   95.65 %
-Other                        █░░░░░░░░░░░░░░░░░░░░░░░░   03.64 %
+C++                          ███████████████████████▓░   94.87 %
+Other                        █░░░░░░░░░░░░░░░░░░░░░░░░   03.60 %
 ```
 
 <!--END_SECTION:waka-->
