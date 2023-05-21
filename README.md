@@ -19,7 +19,7 @@
 <!--START_SECTION:waka-->
 
 ```text
-From: 20 November 2022 - To: 18 May 2023
+From: 20 November 2022 - To: 19 May 2023
 
 C++                           ███████▒░░░░░░░░░░░░░░░░░   29.87 %
 JavaScript                    ██████░░░░░░░░░░░░░░░░░░░   23.95 %
