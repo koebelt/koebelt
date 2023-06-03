@@ -18,8 +18,8 @@
 
 <!--START_SECTION:waka-->
 
-```text
-From: 20 November 2022 - To: 31 May 2023
+```txt
+From: 20 November 2022 - To: 01 June 2023
 
 C++                           ███████░░░░░░░░░░░░░░░░░░   27.82 %
 Dart                          ██████░░░░░░░░░░░░░░░░░░░   23.63 %
