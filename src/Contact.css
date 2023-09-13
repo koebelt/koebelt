@@ -1,0 +1,46 @@
+h1 {
+    font-family: "Satoshi";
+    font-size: 40px;
+    font-weight: 300;
+    text-transform: none;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.contact {
+    text-align: left;
+}
+
+
+p {
+    font-family: "Satoshi Light", sans-serif;
+    color: #fff;
+    text-decoration: none;
+}
+
+p a {
+    font-family: "Satoshi Light", sans-serif;
+    color: #fff;
+    text-decoration: none;
+}
+
+input, textarea{
+    font-family: "Satoshi Light", sans-serif;
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 5px;
+    font-size: 20px;
+    font-weight: 300;
+    text-transform: none;
+    width: 70vw;
+    border: none;
+}
+
+@media screen and (max-width: 800px) {
+    input, textarea {
+        width: 90vw;
+    }
+}

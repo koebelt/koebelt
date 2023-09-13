@@ -1,0 +1,32 @@
+.is-available {
+    display: flex;
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: #fff solid 0.5px;
+    color: #000;
+    border-radius: 10px;
+    padding: 5px;
+
+}
+
+.is-available-text {
+    margin: 0;
+    text-decoration: none;
+    font-family: "Inter", "Inter Placeholder", Inter, sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #000;
+}
+
+.is-available-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #00ff00;
+    margin-left: 10px;
+}

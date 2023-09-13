@@ -1,0 +1,70 @@
+        /* <div className="project-list-entry"><h3 className="project-list-entry-title"> {
+            props.title
+        }
+
+        //
+        </h3><a className="project-list-entry-link" href= {
+            props.link
+        }
+
+        >View </a></div> */
+
+.project-list-entry {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: black;
+    transition: all 0.5s ease-in-out;
+    margin: 0 2vw 0 2vw;
+    text-align: center;
+    border-bottom: 2.5px solid white;
+}
+
+.project-list-entry:hover {
+    background-color: white;
+}
+
+.project-list-entry * {
+    fill: #fff;
+    transition: fill 0.1s ease-in-out;
+}
+
+.project-list-entry:hover * {
+    color: #000;
+    fill: #000;
+}
+
+.project-list-entry-title {
+    font-family: "Inter", "Inter Placeholder", Inter, sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: #fff;
+    margin: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.project-list-entry-view-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-list-entry-arrow {
+    height: 20px;
+    width: 20px;
+    fill: white;
+}
+
+.project-list-entry-link {
+    font-family: "Inter", "Inter Placeholder", Inter, sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: #fff;
+    margin: 0;
+    transition: all 0.5s ease-in-out;
+}

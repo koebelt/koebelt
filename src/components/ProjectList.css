@@ -1,0 +1,39 @@
+.moving-list-container {
+    overflow: hidden;
+    height: 200px;
+    /* Adjust the height as needed */
+}
+
+.moving-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    animation: moveUp 10s linear infinite;
+    /* Adjust the animation duration as needed */
+}
+
+.projects {
+    height: 300px;
+}
+
+.project-list-entries {
+    width: 100vw;
+}
+
+.moving-item {
+    padding: 10px;
+    background-color: #f0f0f0;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+@keyframes moveUp {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}

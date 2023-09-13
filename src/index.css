@@ -1,13 +1,90 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+    cursor: none !important;
 }
+
+        @font-face {
+            font-family: 'Satoshi';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Regular'), url('../public/assets/fonts/Satoshi-Regular.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Italic';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Italic'), url('../public/assets/fonts/Satoshi-Italic.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Light';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Light'), url('../public/assets/fonts/Satoshi-Light.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Light Italic';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Light Italic'), url('../public/assets/fonts/Satoshi-LightItalic.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Medium';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Medium'), url('../public/assets/fonts/Satoshi-Medium.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Medium Italic';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Medium Italic'), url('../public/assets/fonts/Satoshi-MediumItalic.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Bold';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Bold'), url('../public/assets/fonts/Satoshi-Bold.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Bold Italic';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Bold Italic'), url('../public/assets/fonts/Satoshi-BoldItalic.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Black';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Black'), url('../public/assets/fonts/Satoshi-Black.woff') format('woff');
+        }
+    
+    
+        @font-face {
+            font-family: 'Satoshi Black Italic';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Satoshi Black Italic'), url('../public/assets/fonts/Satoshi-BlackItalic.woff') format('woff');
+        }
