@@ -1,4 +1,4 @@
-## koebelt -- Thomas KOEBEL <thomas.koebel@epitech.eu>
+## koebelt -- Thomas KOEBEL contact@koebelt.com>
 
 <!-- On github since 2018-->
 
