@@ -1,4 +1,4 @@
-## koebelt -- Thomas KOEBEL contact@koebelt.com>
+## koebelt -- Thomas KOEBEL <contact@koebelt.com>
 
 <!-- On github since 2018-->
 
