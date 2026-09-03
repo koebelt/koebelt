@@ -19,7 +19,7 @@
 <!--START_SECTION:waka-->
 
 ```txt
-From: 20 November 2022 - To: 31 August 2026
+From: 20 November 2022 - To: 01 September 2026
 
 Dart                                 ██████▓░░░░░░░░░░░░░░░░░░   26.67 %
 JavaScript                           ██████░░░░░░░░░░░░░░░░░░░   24.04 %
