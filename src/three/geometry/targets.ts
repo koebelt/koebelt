@@ -26,27 +26,41 @@ export const DEGREE_COUNT = 2
 const heroTarget: TargetGenerator = ({ home }) => Float32Array.from(home)
 
 /**
- * Per-latitude-row lists of land columns, built once from the generated mask.
+ * Per-latitude-row lists of COASTLINE columns, built once from the generated mask.
  *
- * Rows with no land at all (the Southern Ocean, roughly 57°S) borrow the nearest
- * row that has some, so no point is left without anywhere to land — a hidden
- * point would either clump at the origin or streak offscreen during the morph.
+ * A cell is coastline when it is land and at least one of its four neighbours is
+ * not, so the continents are drawn as outlines rather than filled. Outlines read
+ * far better at this scale: a filled landmass turns into an undifferentiated blob
+ * of dots, whereas an edge is a line, which is what the design system's whole
+ * visual language is built from. It is also 7x cheaper — 10,432 coastline cells
+ * against 75,121 land cells — so the same detail costs a fraction of the points.
+ *
+ * Rows with no coastline borrow the nearest row that has some, so no point is
+ * left without anywhere to land; a hidden point would either clump at the origin
+ * or streak offscreen during the morph.
  */
-let landRowsCache: Uint16Array[] | null = null
+let coastRowsCache: Uint16Array[] | null = null
 
-function landRows(): Uint16Array[] {
-  if (landRowsCache) return landRowsCache
+function coastRows(): Uint16Array[] {
+  if (coastRowsCache) return coastRowsCache
 
   const mask = landMask()
-  const rows: (Uint16Array | null)[] = []
+  // Longitude wraps; latitude does not, so the poles count as edges.
+  const at = (col: number, row: number) =>
+    row >= 0 && row < LAND_HEIGHT && isLand(mask, (col + LAND_WIDTH) % LAND_WIDTH, row)
 
+  const rows: (Uint16Array | null)[] = []
   for (let row = 0; row < LAND_HEIGHT; row++) {
     const cols: number[] = []
-    for (let col = 0; col < LAND_WIDTH; col++) if (isLand(mask, col, row)) cols.push(col)
+    for (let col = 0; col < LAND_WIDTH; col++) {
+      if (!at(col, row)) continue
+      const interior = at(col - 1, row) && at(col + 1, row) && at(col, row - 1) && at(col, row + 1)
+      if (!interior) cols.push(col)
+    }
     rows.push(cols.length > 0 ? Uint16Array.from(cols) : null)
   }
 
-  const filled = rows.map((cols, row) => {
+  coastRowsCache = rows.map((cols, row) => {
     if (cols) return cols
     for (let d = 1; d < LAND_HEIGHT; d++) {
       const up = rows[row - d]
@@ -56,13 +70,11 @@ function landRows(): Uint16Array[] {
     }
     return new Uint16Array([0])
   })
-
-  landRowsCache = filled
-  return filled
+  return coastRowsCache
 }
 
 /**
- * Scene 2 — Earth, with the continents filled.
+ * Scene 2 — Earth, drawn as coastlines.
  *
  * Every point keeps its own latitude and its own ordering in longitude; what
  * changes is that the full 360° of longitude is re-mapped onto just the land
@@ -73,7 +85,7 @@ function landRows(): Uint16Array[] {
  */
 const aboutTarget: TargetGenerator = ({ home, seed, n }) => {
   const out = new Float32Array(n * 3)
-  const rows = landRows()
+  const rows = coastRows()
 
   for (let i = 0; i < n; i++) {
     const lat = Math.asin(clamp(home[i * 3 + 1], -1, 1))
@@ -90,7 +102,7 @@ const aboutTarget: TargetGenerator = ({ home, seed, n }) => {
     const f = (lon + Math.PI) / TAU
     const col = cols[clampInt(Math.floor(f * cols.length), 0, cols.length - 1)]
 
-    // Sub-cell jitter so the fill reads as a cloud rather than a lattice.
+    // Sub-cell jitter so the line reads as a drawn edge rather than a lattice.
     const jx = (seed[i] - 0.5) * (TAU / LAND_WIDTH)
     const jy = (fract(seed[i] * 7.13) - 0.5) * (Math.PI / LAND_HEIGHT)
 

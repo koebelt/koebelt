@@ -6,13 +6,13 @@ import type { QualityLevel } from './types'
  *
  * The counts are set by the globe, which is the most demanding scene: the
  * continents only become recognisable — France in particular — once there are
- * enough points to resolve a coastline a few degrees across. Everything else
- * looks fine at a fraction of this.
+ * enough points to resolve a coastline a few degrees across. Drawing coastlines
+ * rather than filled land is what keeps that number modest.
  */
 export const QUALITY: Record<'desktop' | 'tablet' | 'mobile', QualityLevel> = {
-  desktop: { points: 14000, dprCap: 2 },
-  tablet: { points: 9000, dprCap: 2 },
-  mobile: { points: 4500, dprCap: 1.5 },
+  desktop: { points: 7000, dprCap: 2 },
+  tablet: { points: 5000, dprCap: 2 },
+  mobile: { points: 3000, dprCap: 1.5 },
 }
 
 export const QUALITY_LADDER: QualityLevel[] = [QUALITY.desktop, QUALITY.tablet, QUALITY.mobile]

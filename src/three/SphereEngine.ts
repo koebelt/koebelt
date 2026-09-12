@@ -44,10 +44,17 @@ const DOLLY_NEAR = 2.7
  * facing the reader is legible. Loose clouds keep the softer default, where
  * seeing through the form is part of the effect.
  */
-/** Scenes that draw only the hemisphere facing the reader. */
+/**
+ * Scenes that draw only the hemisphere facing the reader.
+ *
+ * None, now that the globe is an outline: culling was needed when the continents
+ * were filled and the compressed far side accumulated into a competing mass. A
+ * coastline is sparse enough to simply fade with depth, which is what every other
+ * scene does and what makes the globe look like it belongs with them.
+ */
 const SCENE_BACK_CULL: Record<SceneId, boolean> = {
   hero: false,
-  about: true,
+  about: false,
   skills: false,
   projects: false,
   experience: false,
@@ -57,7 +64,7 @@ const SCENE_BACK_CULL: Record<SceneId, boolean> = {
 
 const SCENE_DEPTH: Record<SceneId, [floor: number, power: number]> = {
   hero: [0.1, 1.5],
-  about: [0.78, 0.6],
+  about: [0.06, 2.0],
   skills: [0.1, 1.5],
   projects: [0.1, 1.5],
   experience: [0.1, 1.5],
@@ -67,9 +74,9 @@ const SCENE_DEPTH: Record<SceneId, [floor: number, power: number]> = {
 
 const SCENE_SPIN: Record<SceneId, number> = {
   hero: 1,
-  // The globe turns on its axis fast enough to be seen doing it: roughly one
-  // revolution every twenty seconds.
-  about: 3.5,
+  // Slow enough to be ambient rather than distracting: roughly one revolution
+  // every three quarters of a minute.
+  about: 1.4,
   skills: 0.65,
   projects: 0,
   experience: 0.12,

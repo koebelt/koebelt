@@ -12,7 +12,7 @@ npm run verify     # typecheck + design-system adherence + production build
 
 ## The sphere
 
-A cloud of up to 14,000 points rendered as **one `THREE.Points`, one `ShaderMaterial`,
+A cloud of up to 7,000 points rendered as **one `THREE.Points`, one `ShaderMaterial`,
 one draw call**. Everything it does happens in the vertex shader against uniforms
 the engine writes once per frame. The HUD asserts the draw-call count, because
 that is the whole architectural claim.
@@ -22,7 +22,7 @@ It is not decoration: it holds one scene per page section and morphs between the
 | scene | form | what it says |
 |---|---|---|
 | `hero` | Fibonacci sphere | the rest pose |
-| `about` | **Earth, continents filled** | one marked point is Niort |
+| `about` | **Earth, drawn as coastlines** | one marked point is Niort |
 | `skills` | four nested orbital shells | one per discipline; hovering a card picks one out, and any skill opens why he claims it |
 | `projects` | four knots in a row | one per project, sitting above its card |
 | `experience` | a column that swells once per role | five roles as five bulges |
@@ -36,22 +36,24 @@ into a 720×360 bitmask committed as source (`src/three/geometry/landmask.ts`) �
 no runtime dependency, no network fetch. 29.0% of the grid is land, which matches
 the real figure.
 
-Points are not *filtered* to land, they are *squeezed* onto it: each point keeps
-its own latitude and its ordering in longitude, and the full 360° is remapped
-onto only the land cells at that latitude. The mapping is monotonic, so
-neighbours stay neighbours and the sphere deforms into the continents rather than
-scrambling; each row gets points in proportion to how much land it holds, so the
-fill is area-correct.
+Only **coastlines** are drawn — a cell counts when it is land and at least one of
+its four neighbours is not. Outlines read far better than a fill at this scale: a
+filled landmass becomes an undifferentiated blob of dots, whereas an edge is a
+line, which is what the whole design system is built from. It is also 7× cheaper
+(10,432 coastline cells against 75,121 land cells), which is why the globe needs
+only a few thousand points.
 
-Because there is no depth buffer, both hemispheres would rasterise, and the far
-one is compressed by perspective into a smaller area where even a very low alpha
-accumulates into a mass that competes with the near side. The globe therefore
-culls the back hemisphere outright, at a threshold slightly past the equator so
-the grazing band does not crowd into a bright rim.
+Points are not *filtered* to the coast, they are *squeezed* onto it: each point
+keeps its own latitude and its ordering in longitude, and the full 360° is
+remapped onto only the coastline cells at that latitude. The mapping is
+monotonic, so neighbours stay neighbours and the sphere deforms into the
+continents rather than scrambling.
 
-The globe leans its northern hemisphere toward the reader, turns on its axis once
-every twenty seconds or so, and is the one scene with no scattered accent points
-— the marked location is the only lime on it.
+The globe leans its northern hemisphere toward the reader so Europe sits near the
+middle of the disc, turns on its axis about once every three quarters of a
+minute, fades its far side with depth exactly as every other scene does, and is
+the one scene with no scattered accent points — the marked location is the only
+lime on it.
 
 **Morph targets are derived from each point's own home position**, never sampled
 fresh — so point *i* stays near its neighbours and the cloud deforms instead of
@@ -124,7 +126,7 @@ From the design system's brand rules, and enforced rather than assumed:
 - `prefers-reduced-motion` is live-tracked: the render loop stops entirely and
   draws one frame per state change. A global CSS block also freezes the design
   system's `Marquee`, whose animation is inline and otherwise unreachable.
-- Quality ladder by device (14,000 / 9,000 / 4,500 points), DPR capped at 2, with
+- Quality ladder by device (7,000 / 5,000 / 3,000 points), DPR capped at 2, with
   one automatic downgrade if frame time stays above 20ms. Never upgrades back —
   oscillating between rungs is more visible than staying on the lower one.
 - The render loop pauses when the tab is hidden; WebGL context loss is recovered.
