@@ -1,0 +1,20 @@
+<!-- @dsCard group="Components" viewport="700x380" name="Forms — fields and toggles" subtitle="Input, textarea, select, checkbox and switch inside Field" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{padding:20px 24px;background:var(--surface-page)}.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}.col{display:flex;flex-direction:column;gap:14px}.cap{font:var(--text-label-sm);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--text-faint)}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const {Field,Input,Textarea,Select,Checkbox,Switch}=window.KOEBELTDesignSystem_35e9bf;
+ReactDOM.createRoot(document.getElementById('root')).render(
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,alignItems:'start'}}>
+ <Field label="Name" htmlFor="n" required><Input id="n" placeholder="Camille Vasse"/></Field>
+ <Field label="Email" htmlFor="e" error="Enter a valid address."><Input id="e" invalid defaultValue="camille@"/></Field>
+ <Field label="Project type" htmlFor="s"><Select id="s" options={["Brand identity","Web design","Art direction"]} defaultValue="Web design"/></Field>
+ <Field label="Budget" htmlFor="b" hint="Rough band is fine."><Input id="b" placeholder="€10—25k"/></Field>
+ <Field label="Brief" htmlFor="t" style={{gridColumn:'1 / -1'}}><Textarea id="t" rows={3} placeholder="What are you building?"/></Field>
+ <Checkbox label="Add me to the studio newsletter" defaultChecked/>
+ <div className="row" style={{gap:24}}><Switch label="Reduce motion" defaultChecked/><Switch label="Grid view"/></div>
+</div>);
+</script></body></html>

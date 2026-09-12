@@ -1,0 +1,13 @@
+:root{
+--space-0:0px;--space-1:2px;--space-2:4px;--space-3:8px;--space-4:12px;--space-5:16px;
+--space-6:20px;--space-7:24px;--space-8:32px;--space-9:40px;--space-10:56px;
+--space-11:72px;--space-12:96px;--space-13:128px;--space-14:160px;--space-15:224px;
+
+--gutter-inline:24px;--gutter-inline-lg:56px;
+--section-y:96px;--section-y-lg:160px;
+--stack-tight:8px;--stack-default:16px;--stack-loose:32px;
+--grid-columns:12; /* @kind other */--grid-gap:24px;
+--measure-prose:62ch; /* @kind other */ --measure-narrow:44ch; /* @kind other */
+--container-max:1440px;--container-text:760px;
+--hairline:1px; /* @kind spacing */
+}

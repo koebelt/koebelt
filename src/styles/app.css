@@ -1,0 +1,87 @@
+/* App-level layout only. Everything visual comes from design-system tokens —
+   this file must never define a colour, a font or a duration of its own. */
+
+/* The design system's 12-column grid: headings occupy columns 1—6,
+   media runs 7—12 or full bleed. (guidelines/spacing-grid.html) */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter-inline);
+}
+
+@media (min-width: 900px) {
+  .container {
+    padding-inline: var(--gutter-inline-lg);
+  }
+}
+
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* Single column below the grid breakpoint; every child spans full width. */
+@media (max-width: 899px) {
+  .grid12 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .grid12 > * {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+.col-1-6 {
+  grid-column: 1 / span 6;
+}
+.col-7-12 {
+  grid-column: 7 / span 6;
+}
+.col-full {
+  grid-column: 1 / -1;
+}
+
+.prose {
+  max-width: var(--measure-prose);
+}
+
+/* Minimum card widths for auto-fit grids. The design system has no token for a
+   grid track minimum, so these are defined here rather than inlined as raw px. */
+:root {
+  --card-min-sm: 240px;
+  --card-min-md: 280px;
+}
+
+/* Page content sits above the fixed sphere canvas (z-index 0).
+   Sections stay transparent so the sphere shows through; Card, NavBar and
+   FooterBar are opaque and legitimately occlude it — the design system's
+   "depth is surface steps, not shadow" model. */
+.layer-content {
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+@media (min-width: 900px) {
+  .section {
+    padding-block: var(--section-y-lg);
+  }
+}
+
+/* The design system ships no reduced-motion handling. This block is the only
+   thing that stops Marquee, whose infinite animation is declared inline and is
+   therefore unreachable from any stylesheet rule of lower specificity. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

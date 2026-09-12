@@ -1,0 +1,193 @@
+import { Button, Card, Divider, Icon, SectionHeading, Tag } from '@ds'
+import { useEffect, useRef } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { Reveal } from '../components/Reveal'
+import { projectBySlug, projects } from '../content/projects'
+import { useSceneRegistry } from '../scroll/SceneContext'
+import { useSphere } from '../three/SphereContext'
+import NotFound from './NotFound'
+
+export default function ProjectDetail() {
+  const { slug } = useParams()
+  const navigate = useNavigate()
+  const sphere = useSphere()
+  const registry = useSceneRegistry()
+  const articleRef = useRef<HTMLElement | null>(null)
+  const slotRef = useRef<HTMLDivElement | null>(null)
+  const project = slug ? projectBySlug(slug) : undefined
+
+  // Register as the projects scene. Without this the controller has no sections
+  // on this route, so it would hold the sphere full-bleed over the copy and
+  // overwrite any setScene call on the next frame.
+  useEffect(() => {
+    const el = articleRef.current
+    if (!el || !project) return
+    return registry.register('projects', el, slotRef.current)
+  }, [project, registry])
+
+  // Pin the sphere to this project's knot for as long as the page is open.
+  useEffect(() => {
+    if (!project) return
+    const i = projects.findIndex((p) => p.slug === project.slug)
+    sphere?.setFocus(i)
+    window.scrollTo(0, 0)
+    return () => sphere?.setFocus(null)
+  }, [project, sphere])
+
+  if (!project) return <NotFound />
+
+  return (
+    <article ref={articleRef} className="container section">
+      <div className="grid12">
+        <div className="col-1-6" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+          <Button
+            as="a"
+            href="/#projects"
+            variant="ghost"
+            size="sm"
+            iconLeft={<Icon name="arrow-right" size={16} style={{ transform: 'rotate(180deg)' }} />}
+            onClick={(e) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey) return
+              e.preventDefault()
+              navigate('/#projects')
+            }}
+          >
+            All projects
+          </Button>
+
+          <Reveal>
+            <SectionHeading eyebrow={project.year ?? 'Project'} title={project.title} description={project.summary} />
+          </Reveal>
+
+          <Reveal order={1}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
+              {project.tags.map((t) => (
+                <Tag key={t}>{t}</Tag>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="col-7-12">
+          <Reveal order={1}>
+            <Card>
+              <Meta label="Role" value={project.role} />
+              <Meta label="Stack" value={project.stack.join(' · ')} />
+            </Card>
+          </Reveal>
+          {/* The sphere's home on this route: below the meta card, still in
+              columns 7—12, so it never draws across the case study. */}
+          <div
+            ref={slotRef}
+            aria-hidden="true"
+            data-sphere-slot="projects"
+            style={{ minHeight: 'var(--space-15)', marginTop: 'var(--space-8)' }}
+          />
+        </div>
+      </div>
+
+      <div className="grid12" style={{ marginTop: 'var(--space-12)' }}>
+        <div className="col-1-6" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-11)' }}>
+          <Reveal>
+            <Block title="The problem">
+              <p style={body}>{project.problem}</p>
+            </Block>
+          </Reveal>
+
+          <Reveal>
+            <Block title="Constraints">
+              <ul style={{ ...body, margin: 0, paddingLeft: 'var(--space-6)' }}>
+                {project.constraints.map((c) => (
+                  <li key={c} style={{ marginBottom: 'var(--space-3)' }}>
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </Block>
+          </Reveal>
+
+          <Reveal>
+            <Block title="Decisions">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+                {project.decisions.map((d) => (
+                  <div key={d.title}>
+                    <h3
+                      style={{
+                        font: 'var(--text-heading-xs)',
+                        letterSpacing: 'var(--tr-heading)',
+                        color: 'var(--text-primary)',
+                        margin: '0 0 var(--space-4)',
+                      }}
+                    >
+                      {d.title}
+                    </h3>
+                    <p style={body}>{d.body}</p>
+                  </div>
+                ))}
+              </div>
+            </Block>
+          </Reveal>
+
+          <Reveal>
+            <Block title="What I'd change">
+              <p style={body}>{project.retrospective}</p>
+            </Block>
+          </Reveal>
+
+          {project.links?.length ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+              {project.links.map((l) => (
+                <Button
+                  key={l.href}
+                  as="a"
+                  href={l.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="secondary"
+                  iconRight={<Icon name="arrow-up-right" size={16} />}
+                >
+                  {l.label}
+                </Button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+const body = {
+  font: 'var(--text-body-lg)',
+  color: 'var(--text-secondary)',
+  maxWidth: 'var(--measure-prose)',
+  margin: 0,
+} as const
+
+function Block({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+      <Divider label={title} />
+      {children}
+    </div>
+  )
+}
+
+function Meta({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
+      <span
+        style={{
+          font: 'var(--text-label-sm)',
+          letterSpacing: 'var(--tr-label)',
+          textTransform: 'uppercase',
+          color: 'var(--text-faint)',
+        }}
+      >
+        {label}
+      </span>
+      <span style={{ font: 'var(--text-body-md)', color: 'var(--text-secondary)' }}>{value}</span>
+    </div>
+  )
+}

@@ -1,0 +1,14 @@
+:root{
+--dur-instant:80ms; /* @kind other */
+--dur-fast:140ms; /* @kind other */
+--dur-base:220ms; /* @kind other */
+--dur-slow:380ms; /* @kind other */
+--dur-reveal:640ms; /* @kind other */
+--ease-standard:cubic-bezier(.2,.8,.2,1); /* @kind other */
+--ease-out:cubic-bezier(.16,1,.3,1); /* @kind other */
+--ease-in:cubic-bezier(.5,0,.9,.2); /* @kind other */
+--ease-linear:linear; /* @kind other */
+--transition-control:background-color var(--dur-fast) var(--ease-standard),color var(--dur-fast) var(--ease-standard),border-color var(--dur-fast) var(--ease-standard),transform var(--dur-fast) var(--ease-standard); /* @kind other */
+--transition-reveal:opacity var(--dur-reveal) var(--ease-out),transform var(--dur-reveal) var(--ease-out); /* @kind other */
+--press-scale:0.985; /* @kind other */
+}

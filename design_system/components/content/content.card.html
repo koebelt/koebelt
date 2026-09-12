@@ -1,0 +1,26 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Content — cards, rows, headings" subtitle="Project tiles, index rows, section openers, media frames and quotes" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{padding:20px 24px;background:var(--surface-page)}.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}.col{display:flex;flex-direction:column;gap:14px}.cap{font:var(--text-label-sm);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--text-faint)}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const {ProjectCard,WorkRow,SectionHeading,Card,MediaFrame,Quote,Button}=window.KOEBELTDesignSystem_35e9bf;
+ReactDOM.createRoot(document.getElementById('root')).render(<div className="col" style={{gap:24}}>
+ <SectionHeading eyebrow="01 — Work" title="Selected projects" action={<Button variant="ghost" size="sm">All work</Button>}/>
+ <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:20,alignItems:'start'}}>
+  <ProjectCard title="Atelier Vasse" year="2025" summary="Identity for a Lyon furniture studio." tags={["Identity"]}/>
+  <ProjectCard title="Nord Type" year="2024" ratio="3/4" summary="A variable grotesque in four widths." tags={["Type"]}/>
+  <Card padding="16px" style={{display:'flex',flexDirection:'column',gap:10}}>
+   <span className="cap">Card</span>
+   <MediaFrame ratio="16/9" label="Media frame"/>
+   <Quote attribution="C. Vasse" role="Founder" style={{paddingLeft:14}}>Shipped in five weeks.</Quote>
+  </Card>
+ </div>
+ <div>
+  <WorkRow index="01" title="Atelier Vasse" discipline="Brand identity" year="2025"/>
+  <WorkRow index="02" title="Nord Type" discipline="Typeface" year="2024"/>
+ </div>
+</div>);
+</script></body></html>
