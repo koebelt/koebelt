@@ -58,7 +58,7 @@ export const en: Copy = {
     levels: {
       c: "Since EPITECH",
       ts: "Daily, since EPITECH",
-      python: 'Working knowledge',
+      python: "Production, at Nagarro and ALE",
       dart: "Daily, since Facix",
       haskell: 'Academic',
       rust: 'Working knowledge',
@@ -80,7 +80,7 @@ export const en: Copy = {
     why: {
       c: "The core languages of the EPITECH cursus, where I learned them, and then the ones every piece of hardware I have built runs on — the quadcopter firmware, its remote controller and the robotic arm are all C and C++ on bare metal. Writing the attitude loop meant caring about how long each iteration takes, so this is where I learned to read what the compiler actually produces rather than trusting it.",
       ts: "The backbone of every web project I have built, from the EPITECH cursus through to today. This portfolio is TypeScript, WebGL engine included, where the types carry real weight — shader uniforms and buffer layouts are exactly the kind of thing a compiler should be checking.",
-      python: 'My reach-for-it language for scripts, data wrangling and anything that has to exist by the end of the afternoon. I have not run it in production, so I would not claim depth on packaging or async.',
+      python: "Deployed to production at Nagarro and at ALE Enterprise, so this is not just my scripting language — I have had Python running as part of a real system, with the operational questions that come with it. It remains what I reach for when something has to exist by the end of the afternoon.",
       dart: "Came with the mobile work at Facix and is now the language of the Cbienlà app, written and maintained daily since 2025. Sound null safety and the isolate model are the parts I have had to think hardest about.",
       haskell: 'Studied at EPITECH rather than shipped. I keep it on the list because what it taught me about types, totality and pure functions shows up in the TypeScript I write every day, not because I would claim to be a Haskell engineer.',
       rust: 'Personal projects and reading rather than production. The ownership model changed how I think about lifetimes in C++, which is honestly most of the value I have got from it so far.',

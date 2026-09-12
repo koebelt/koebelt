@@ -58,7 +58,7 @@ export const fr: Copy = {
     levels: {
       c: "Depuis EPITECH",
       ts: "Quotidien, depuis EPITECH",
-      python: 'Bonnes bases',
+      python: "En production, chez Nagarro et ALE",
       dart: "Quotidien, depuis Facix",
       haskell: 'Académique',
       rust: 'Bonnes bases',
@@ -80,7 +80,7 @@ export const fr: Copy = {
     why: {
       c: "Les langages de base du cursus EPITECH, où je les ai appris, puis ceux sur lesquels tourne tout le matériel que j'ai construit : le firmware du quadricoptère, sa radiocommande et le bras robotisé sont tous en C et C++, sans système d'exploitation. Écrire la boucle d'attitude imposait de savoir combien de temps prend chaque itération : c'est là que j'ai appris à lire ce que le compilateur produit vraiment plutôt qu'à lui faire confiance.",
       ts: "La colonne vertébrale de tous les projets web que j'ai construits, du cursus EPITECH jusqu'à aujourd'hui. Ce portfolio est en TypeScript, moteur WebGL compris, et les types y pèsent réellement : les uniforms de shader et les dispositions de buffers sont exactement ce qu'un compilateur devrait vérifier.",
-      python: "Mon réflexe pour les scripts, le traitement de données et tout ce qui doit exister avant la fin de l'après-midi. Je ne l'ai pas mis en production, donc je ne revendique pas de maîtrise du packaging ou de l'asynchrone.",
+      python: "Déployé en production chez Nagarro et chez ALE Enterprise : ce n'est donc pas seulement mon langage de script — j'ai fait tourner du Python au sein d'un vrai système, avec les questions d'exploitation que cela implique. Il reste ce vers quoi je me tourne quand quelque chose doit exister avant la fin de l'après-midi.",
       dart: "Arrivé avec le mobile chez Facix, c'est aujourd'hui le langage de l'application Cbienlà, écrite et maintenue quotidiennement depuis 2025. La sûreté du null et le modèle d'isolats sont les points qui m'ont demandé le plus de réflexion.",
       haskell: "Étudié à EPITECH plutôt que livré. Je le garde dans la liste parce que ce qu'il m'a appris sur les types, la totalité et les fonctions pures se retrouve dans le TypeScript que j'écris tous les jours — pas parce que je me présenterais comme développeur Haskell.",
       rust: "Projets personnels et lectures, pas de production. Le modèle d'ownership a changé ma façon de penser les durées de vie en C++, ce qui reste honnêtement l'essentiel de ce qu'il m'a apporté.",

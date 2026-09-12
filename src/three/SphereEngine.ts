@@ -75,8 +75,8 @@ const SCENE_DEPTH: Record<SceneId, [floor: number, power: number]> = {
 const SCENE_SPIN: Record<SceneId, number> = {
   hero: 1,
   // Slow enough to be ambient rather than distracting: roughly one revolution
-  // every three quarters of a minute.
-  about: 1.4,
+  // every two minutes.
+  about: 0.85,
   skills: 0.65,
   projects: 0,
   experience: 0.12,

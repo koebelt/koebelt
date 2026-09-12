@@ -10,9 +10,24 @@ export const site = {
   coords: { lat: 46.3239, lon: -0.4645 },
   github: 'https://github.com/koebelt',
   linkedin: 'https://linkedin.com/in/koebelt',
-  /** No PDF exists yet. The Download CV button renders only once this is set. */
-  cvUrl: undefined as string | undefined,
 } as const
+
+/**
+ * One résumé per language, served straight out of public/.
+ *
+ * The filenames are Thomas's own and contain a space, so they are encoded for
+ * the URL; the download attribute still hands the reader the original name.
+ * The contact button renders only for a locale that has a file here.
+ */
+export const cvFiles: Record<string, string> = {
+  en: 'Resume_Thomas_KOEBEL.pdf',
+  fr: 'CV_Thomas KOEBEL.pdf',
+}
+
+export function cvHref(locale: string): string | undefined {
+  const file = cvFiles[locale]
+  return file ? '/' + encodeURIComponent(file) : undefined
+}
 
 /** Hero caption dwell time, in ms. The fade itself uses --dur-slow. */
 export const CAPTION_INTERVAL_MS = 3600

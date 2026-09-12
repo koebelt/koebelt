@@ -50,8 +50,8 @@ monotonic, so neighbours stay neighbours and the sphere deforms into the
 continents rather than scrambling.
 
 The globe leans its northern hemisphere toward the reader so Europe sits near the
-middle of the disc, turns on its axis about once every three quarters of a
-minute, fades its far side with depth exactly as every other scene does, and is
+middle of the disc, turns on its axis about once every two
+minutess, fades its far side with depth exactly as every other scene does, and is
 the one scene with no scattered accent points — the marked location is the only
 lime on it.
 
@@ -138,8 +138,6 @@ From the design system's brand rules, and enforced rather than assumed:
 
 ## Known gaps
 
-- `site.cvUrl` is unset, so the Download CV button does not render. Drop a PDF in
-  `public/` and set it.
 - Project deep-dive prose (`problem`, `constraints`, `decisions`, `retrospective`
   in `src/i18n/{en,fr}.ts`) is drafted in both languages and needs Thomas's
   real numbers — especially the drone controller, whose build details are inferred.

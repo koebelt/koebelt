@@ -3,11 +3,13 @@ import { Button, Icon, SectionHeading } from '@ds'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { SphereCaption } from '../components/SphereCaption'
-import { site } from '../content/site'
-import { useCopy } from '../i18n/LocaleContext'
+import { cvFiles, cvHref, site } from '../content/site'
+import { useCopy, useLocale } from '../i18n/LocaleContext'
 
 export function Contact() {
   const { contact } = useCopy()
+  const { locale } = useLocale()
+  const cv = cvHref(locale)
 
   return (
     <Section id="contact">
@@ -33,13 +35,14 @@ export function Contact() {
             {site.email}
           </Button>
 
-          {/* Rendered only once a PDF exists — a disabled button with apologetic
-              copy would break the voice rules. Set site.cvUrl to enable. */}
-          {site.cvUrl ? (
+          {/* The résumé in whichever language the site is currently in. Rendered
+              only for a locale that actually has a file, so a missing translation
+              is an absent button rather than a broken download. */}
+          {cv ? (
             <Button
               as="a"
-              href={site.cvUrl}
-              download=""
+              href={cv}
+              download={cvFiles[locale]}
               variant="secondary"
               size="lg"
               iconLeft={<Icon name="download" size={18} />}
