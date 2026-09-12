@@ -49,26 +49,32 @@ export default function ProjectDetail() {
 
   return (
     <article ref={articleRef} className="container section">
-      <div className="grid12">
-        <div
-          className="col-1-6"
-          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}
-        >
-          <Button
-            as="a"
-            href="/#projects"
-            variant="ghost"
-            size="sm"
-            iconLeft={<Icon name="arrow-right" size={16} style={{ transform: 'rotate(180deg)' }} />}
-            onClick={(e) => {
-              if (e.metaKey || e.ctrlKey || e.shiftKey) return
-              e.preventDefault()
-              navigate('/#projects')
-            }}
-          >
-            {copy.projects.back}
-          </Button>
+      {/* Outside the grid and outside any flex column: as a flex child this
+          stretched to the column width and centred its own label. */}
+      <Button
+        as="a"
+        href="/#projects"
+        variant="ghost"
+        size="sm"
+        iconLeft={<Icon name="arrow-right" size={16} style={{ transform: 'rotate(180deg)' }} />}
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey) return
+          e.preventDefault()
+          navigate('/#projects')
+        }}
+        style={{ marginBottom: 'var(--space-8)' }}
+      >
+        {copy.projects.back}
+      </Button>
 
+      {/* One grid, not two. Splitting the heading and the body into separate
+          grid rows meant the tall right column set the height of the first row,
+          and the case study started a whole screen below the fold. */}
+      {/* Three direct grid children — heading, media, body — so the DOM order
+          is already right when they stack on a phone (title, illustration, then
+          the write-up), and the media spans both rows on a wide screen. */}
+      <div className="grid12 case-study">
+        <div className="case-heading" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
           <Reveal>
             <SectionHeading
               eyebrow={copy.projects.title}
@@ -86,38 +92,27 @@ export default function ProjectDetail() {
           </Reveal>
         </div>
 
-        <div className="col-7-12">
-          <Reveal order={1}>
-            <MediaFrame
-              src={projectImages[slug]}
-              alt={project.title}
-              ratio="4/3"
-              label={project.title}
-              style={{ marginBottom: 'var(--space-6)' }}
-            />
+        <div className="case-media" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+          <Reveal>
+            <MediaFrame src={projectImages[slug]} alt={project.title} ratio="4/3" label={project.title} />
           </Reveal>
-          <Reveal order={2}>
+          <Reveal order={1}>
             <Card>
               <Meta label={copy.projects.roleLabel} value={project.role} />
               <Meta label={copy.projects.stackLabel} value={stack.join(' · ')} />
             </Card>
           </Reveal>
-          {/* The sphere's home on this route: below the meta card, still in
-              columns 7—12, so it never draws across the case study. */}
+          {/* The sphere's home on this route, still in columns 7—12 so it never
+              draws across the case study. */}
           <div
             ref={slotRef}
             aria-hidden="true"
             data-sphere-slot="projects"
-            style={{ minHeight: 'var(--space-15)', marginTop: 'var(--space-8)' }}
+            style={{ minHeight: 'var(--space-14)' }}
           />
         </div>
-      </div>
 
-      <div className="grid12" style={{ marginTop: 'var(--space-12)' }}>
-        <div
-          className="col-1-6"
-          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-11)' }}
-        >
+        <div className="case-body" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-11)' }}>
           <Reveal>
             <Block title={copy.projects.problemLabel}>
               <p style={body}>{project.problem}</p>

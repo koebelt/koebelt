@@ -72,6 +72,31 @@
   }
 }
 
+/* Case-study layout. The three blocks are direct grid children so that stacking
+   on a phone gives title, illustration, then write-up with no reordering. On a
+   wide screen the media column spans both rows beside them. */
+@media (min-width: 900px) {
+  .case-study .case-heading {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+  }
+  .case-study .case-media {
+    grid-column: 7 / span 6;
+    grid-row: 1 / span 2;
+  }
+  .case-study .case-body {
+    grid-column: 1 / span 6;
+    grid-row: 2;
+    margin-top: var(--space-11);
+  }
+}
+
+@media (max-width: 899px) {
+  .case-study .case-media {
+    margin-block: var(--space-9);
+  }
+}
+
 /* WorkRow lays itself out as a five-column grid with 352px of fixed track
    (48px index, 200px discipline, 80px year, 24px arrow) and no responsive
    behaviour, so it is wider than any phone and forces the page to scroll
