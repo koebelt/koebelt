@@ -1,46 +1,59 @@
 import { Button, Card, Divider, Icon, SectionHeading, Tag } from '@ds'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Reveal } from '../components/Reveal'
-import { projectBySlug, projects } from '../content/projects'
+import { projectLinks, projectStacks } from '../content/site'
+import { useCopy } from '../i18n/LocaleContext'
+import { PROJECT_SLUGS, type ProjectSlug } from '../i18n/types'
 import { useSceneRegistry } from '../scroll/SceneContext'
 import { useSphere } from '../three/SphereContext'
 import NotFound from './NotFound'
+
+const isSlug = (value: string | undefined): value is ProjectSlug =>
+  !!value && (PROJECT_SLUGS as readonly string[]).includes(value)
 
 export default function ProjectDetail() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const sphere = useSphere()
   const registry = useSceneRegistry()
+  const copy = useCopy()
   const articleRef = useRef<HTMLElement | null>(null)
   const slotRef = useRef<HTMLDivElement | null>(null)
-  const project = slug ? projectBySlug(slug) : undefined
+
+  const valid = isSlug(slug)
 
   // Register as the projects scene. Without this the controller has no sections
   // on this route, so it would hold the sphere full-bleed over the copy and
   // overwrite any setScene call on the next frame.
   useEffect(() => {
     const el = articleRef.current
-    if (!el || !project) return
+    if (!el || !valid) return
     return registry.register('projects', el, slotRef.current)
-  }, [project, registry])
+  }, [valid, registry])
 
   // Pin the sphere to this project's knot for as long as the page is open.
   useEffect(() => {
-    if (!project) return
-    const i = projects.findIndex((p) => p.slug === project.slug)
-    sphere?.setFocus(i)
+    if (!valid) return
+    sphere?.setFocus(PROJECT_SLUGS.indexOf(slug))
     window.scrollTo(0, 0)
     return () => sphere?.setFocus(null)
-  }, [project, sphere])
+  }, [valid, slug, sphere])
 
-  if (!project) return <NotFound />
+  if (!valid) return <NotFound />
+
+  const project = copy.projects.entries[slug]
+  const stack = projectStacks[slug] ?? []
+  const links = projectLinks[slug] ?? []
 
   return (
     <article ref={articleRef} className="container section">
       <div className="grid12">
-        <div className="col-1-6" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+        <div
+          className="col-1-6"
+          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}
+        >
           <Button
             as="a"
             href="/#projects"
@@ -53,11 +66,15 @@ export default function ProjectDetail() {
               navigate('/#projects')
             }}
           >
-            All projects
+            {copy.projects.back}
           </Button>
 
           <Reveal>
-            <SectionHeading eyebrow={project.year ?? 'Project'} title={project.title} description={project.summary} />
+            <SectionHeading
+              eyebrow={copy.projects.title}
+              title={project.title}
+              description={project.summary}
+            />
           </Reveal>
 
           <Reveal order={1}>
@@ -72,8 +89,8 @@ export default function ProjectDetail() {
         <div className="col-7-12">
           <Reveal order={1}>
             <Card>
-              <Meta label="Role" value={project.role} />
-              <Meta label="Stack" value={project.stack.join(' · ')} />
+              <Meta label={copy.projects.roleLabel} value={project.role} />
+              <Meta label={copy.projects.stackLabel} value={stack.join(' · ')} />
             </Card>
           </Reveal>
           {/* The sphere's home on this route: below the meta card, still in
@@ -88,15 +105,18 @@ export default function ProjectDetail() {
       </div>
 
       <div className="grid12" style={{ marginTop: 'var(--space-12)' }}>
-        <div className="col-1-6" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-11)' }}>
+        <div
+          className="col-1-6"
+          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-11)' }}
+        >
           <Reveal>
-            <Block title="The problem">
+            <Block title={copy.projects.problemLabel}>
               <p style={body}>{project.problem}</p>
             </Block>
           </Reveal>
 
           <Reveal>
-            <Block title="Constraints">
+            <Block title={copy.projects.constraintsLabel}>
               <ul style={{ ...body, margin: 0, paddingLeft: 'var(--space-6)' }}>
                 {project.constraints.map((c) => (
                   <li key={c} style={{ marginBottom: 'var(--space-3)' }}>
@@ -108,7 +128,7 @@ export default function ProjectDetail() {
           </Reveal>
 
           <Reveal>
-            <Block title="Decisions">
+            <Block title={copy.projects.decisionsLabel}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
                 {project.decisions.map((d) => (
                   <div key={d.title}>
@@ -130,14 +150,14 @@ export default function ProjectDetail() {
           </Reveal>
 
           <Reveal>
-            <Block title="What I'd change">
+            <Block title={copy.projects.retrospectiveLabel}>
               <p style={body}>{project.retrospective}</p>
             </Block>
           </Reveal>
 
-          {project.links?.length ? (
+          {links.length > 0 ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
-              {project.links.map((l) => (
+              {links.map((l) => (
                 <Button
                   key={l.href}
                   as="a"
@@ -165,7 +185,7 @@ const body = {
   margin: 0,
 } as const
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <Divider label={title} />
@@ -176,7 +196,14 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
 
 function Meta({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-2)',
+        marginBottom: 'var(--space-6)',
+      }}
+    >
       <span
         style={{
           font: 'var(--text-label-sm)',

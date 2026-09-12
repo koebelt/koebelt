@@ -3,12 +3,13 @@ import { Card, SectionHeading } from '@ds'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { SphereCaption } from '../components/SphereCaption'
-import { skillGroups } from '../content/skills'
+import { useCopy } from '../i18n/LocaleContext'
 import { useSphere } from '../three/SphereContext'
 import { TagGroup } from './About'
 
 export function Skills() {
   const sphere = useSphere()
+  const { skills } = useCopy()
 
   return (
     <Section
@@ -23,7 +24,7 @@ export function Skills() {
             marginTop: 'var(--space-10)',
           }}
         >
-          {skillGroups.map((group, i) => (
+          {skills.groups.map((group, i) => (
             <Reveal key={group.label} order={i}>
               {/* Each card is one orbital shell in the sphere; hovering focuses it. */}
               <Card
@@ -40,9 +41,9 @@ export function Skills() {
     >
       <Reveal>
         <SectionHeading
-          eyebrow="02 — Skills"
-          title="Technical skills"
-          description="Four disciplines, four shells. Hover a card to pick one out."
+          eyebrow={skills.eyebrow}
+          title={skills.title}
+          description={skills.description}
         />
       </Reveal>
 

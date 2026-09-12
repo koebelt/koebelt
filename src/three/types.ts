@@ -1,5 +1,12 @@
 /** One scene per page section. The sphere holds exactly one at a time. */
-export type SceneId = 'hero' | 'about' | 'skills' | 'projects' | 'experience' | 'contact'
+export type SceneId =
+  | 'hero'
+  | 'about'
+  | 'skills'
+  | 'projects'
+  | 'experience'
+  | 'education'
+  | 'contact'
 
 export const SCENE_ORDER: readonly SceneId[] = [
   'hero',
@@ -7,6 +14,7 @@ export const SCENE_ORDER: readonly SceneId[] = [
   'skills',
   'projects',
   'experience',
+  'education',
   'contact',
 ]
 

@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { SphereCaption } from '../components/SphereCaption'
-import { projects } from '../content/projects'
+import { useCopy } from '../i18n/LocaleContext'
+import { PROJECT_SLUGS } from '../i18n/types'
 import { useSphere } from '../three/SphereContext'
 
 export function Projects() {
   const sphere = useSphere()
   const navigate = useNavigate()
+  const { projects } = useCopy()
 
   return (
     <Section
@@ -25,34 +27,36 @@ export function Projects() {
             marginTop: 'var(--space-10)',
           }}
         >
-          {projects.map((project, i) => (
-            <Reveal key={project.slug} order={i}>
-              <ProjectCard
-                title={project.title}
-                year={project.year}
-                summary={project.summary}
-                tags={project.tags}
-                href={`/work/${project.slug}`}
-                // Hovering a card tightens that project's knot in the sphere.
-                onMouseEnter={() => sphere?.setFocus(i)}
-                onMouseLeave={() => sphere?.setFocus(null)}
-                onClick={(e) => {
-                  // Let modified clicks open a new tab the way a real link should.
-                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
-                  e.preventDefault()
-                  navigate(`/work/${project.slug}`)
-                }}
-              />
-            </Reveal>
-          ))}
+          {PROJECT_SLUGS.map((slug, i) => {
+            const project = projects.entries[slug]
+            return (
+              <Reveal key={slug} order={i}>
+                <ProjectCard
+                  title={project.title}
+                  summary={project.summary}
+                  tags={project.tags}
+                  href={`/work/${slug}`}
+                  // Hovering a card tightens that project's knot in the sphere.
+                  onMouseEnter={() => sphere?.setFocus(i)}
+                  onMouseLeave={() => sphere?.setFocus(null)}
+                  onClick={(e) => {
+                    // Let modified clicks open a new tab the way a real link should.
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+                    e.preventDefault()
+                    navigate(`/work/${slug}`)
+                  }}
+                />
+              </Reveal>
+            )
+          })}
         </div>
       }
     >
       <Reveal>
         <SectionHeading
-          eyebrow="03 — Selected work"
-          title="Projects"
-          description="Four builds, each written up in full. Personal projects, plus one company I co-founded."
+          eyebrow={projects.eyebrow}
+          title={projects.title}
+          description={projects.description}
         />
       </Reveal>
 

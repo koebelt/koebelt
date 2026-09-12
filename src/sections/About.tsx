@@ -3,13 +3,15 @@ import { Divider, SectionHeading, Tag } from '@ds'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { SphereCaption } from '../components/SphereCaption'
-import { about } from '../content/site'
+import { useCopy } from '../i18n/LocaleContext'
 
 export function About() {
+  const { about } = useCopy()
+
   return (
     <Section id="about">
       <Reveal>
-        <SectionHeading eyebrow="01 — About" title="Profile" />
+        <SectionHeading eyebrow={about.eyebrow} title={about.title} />
       </Reveal>
 
       <Reveal order={1} style={{ marginTop: 'var(--space-8)' }}>
@@ -22,11 +24,11 @@ export function About() {
       </Reveal>
 
       <Reveal order={2} style={{ marginTop: 'var(--space-10)' }}>
-        <TagGroup label="Languages" items={about.languages} />
+        <TagGroup label={about.languagesLabel} items={about.languages} />
       </Reveal>
 
       <Reveal order={3} style={{ marginTop: 'var(--space-8)' }}>
-        <TagGroup label="Soft skills" items={about.softSkills} />
+        <TagGroup label={about.softSkillsLabel} items={about.softSkills} />
       </Reveal>
 
       <div style={{ marginTop: 'var(--space-10)' }}>

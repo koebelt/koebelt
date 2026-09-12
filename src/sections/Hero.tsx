@@ -2,17 +2,17 @@ import { Badge, Button, Icon } from '@ds'
 import { useEffect, useRef } from 'react'
 
 import { SphereCaption } from '../components/SphereCaption'
-import { hero } from '../content/site'
+import { useCopy } from '../i18n/LocaleContext'
 import { useSceneRegistry } from '../scroll/SceneContext'
 
 /**
  * Not a <Section>: the hero owns the full viewport height and its own slot
  * geometry. The sphere still sits in columns 7—12 — the design system's grid rule
- * puts headings in 1—6 and media in 7—12, and a display line at --fs-display-xl
- * has no margin to share.
+ * puts headings in 1—6 and media in 7—12, and a display line has no margin to share.
  */
 export function Hero() {
   const registry = useSceneRegistry()
+  const { hero } = useCopy()
   const ref = useRef<HTMLElement | null>(null)
   const slotRef = useRef<HTMLDivElement | null>(null)
 
@@ -38,7 +38,7 @@ export function Hero() {
       <div className="grid12" style={{ width: '100%' }}>
         <div
           className="col-1-6"
-          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-7)' }}
+          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}
         >
           <Badge tone="accent">{hero.badge}</Badge>
 
@@ -52,15 +52,38 @@ export function Hero() {
               lineHeight: 'var(--lh-display)',
               color: 'var(--text-primary)',
               margin: 0,
-              maxWidth: '14ch',
             }}
           >
-            {hero.title}
+            {hero.name}
           </h1>
+
+          <p
+            style={{
+              font: 'var(--text-heading-sm)',
+              fontSize: 'clamp(var(--fs-heading-xs), 2.2vw, var(--fs-heading-sm))',
+              letterSpacing: 'var(--tr-heading)',
+              color: 'var(--text-primary)',
+              margin: 0,
+              maxWidth: '24ch',
+            }}
+          >
+            {hero.statement}
+          </p>
+
+          <p
+            className="prose"
+            style={{
+              font: 'var(--text-body-md)',
+              color: 'var(--text-secondary)',
+              margin: 0,
+            }}
+          >
+            {hero.lede}
+          </p>
 
           <SphereCaption scene="hero" />
 
-          <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-5)' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-3)' }}>
             <Button
               as="a"
               href="#projects"
@@ -82,12 +105,12 @@ export function Hero() {
         />
       </div>
 
-      <ScrollHint />
+      <ScrollHint label={hero.scroll} />
     </section>
   )
 }
 
-function ScrollHint() {
+function ScrollHint({ label }: { label: string }) {
   return (
     <div
       aria-hidden="true"
@@ -104,7 +127,7 @@ function ScrollHint() {
         color: 'var(--text-faint)',
       }}
     >
-      <span>Scroll</span>
+      <span>{label}</span>
       <Icon name="chevron-down" size={16} />
     </div>
   )

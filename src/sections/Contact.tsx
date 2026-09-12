@@ -4,15 +4,18 @@ import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { SphereCaption } from '../components/SphereCaption'
 import { site } from '../content/site'
+import { useCopy } from '../i18n/LocaleContext'
 
 export function Contact() {
+  const { contact } = useCopy()
+
   return (
     <Section id="contact">
       <Reveal>
         <SectionHeading
-          eyebrow="05 — Contact"
-          title="Get in touch"
-          description="Open to full-time roles in backend, web, mobile or embedded engineering."
+          eyebrow={contact.eyebrow}
+          title={contact.title}
+          description={contact.description}
         />
       </Reveal>
 
@@ -41,7 +44,7 @@ export function Contact() {
               size="lg"
               iconLeft={<Icon name="download" size={18} />}
             >
-              Download CV
+              {contact.downloadCv}
             </Button>
           ) : null}
         </div>

@@ -1,6 +1,7 @@
 import { site } from '../../content/site'
 import type { SceneId } from '../types'
 import type { SphereCloud } from './fibonacci'
+import { LAND_HEIGHT, LAND_WIDTH, isLand, landMask } from './landmask'
 
 /**
  * Every target is derived from the point's own home position by transformation,
@@ -18,53 +19,94 @@ const TAU = Math.PI * 2
 export const CLUSTER_COUNT = 4
 /** Number of gaussian bulges in the experience column. */
 export const ROLE_COUNT = 5
+/** Number of strata in the education scene. */
+export const DEGREE_COUNT = 2
 
 /** Scene 1 — the canonical sphere. Also the rest pose. */
 const heroTarget: TargetGenerator = ({ home }) => Float32Array.from(home)
 
 /**
- * Scene 2 — a graticule globe with one marked point.
+ * Per-latitude-row lists of land columns, built once from the generated mask.
  *
- * Longitude snaps to 24 meridians and latitude to 12 parallels, so the cloud
- * collapses onto a grid of point-lines. A grid of hairlines is the design
- * system's own structural device; a procedural landmass would be a texture,
- * which the brand rules forbid.
+ * Rows with no land at all (the Southern Ocean, roughly 57°S) borrow the nearest
+ * row that has some, so no point is left without anywhere to land — a hidden
+ * point would either clump at the origin or streak offscreen during the morph.
+ */
+let landRowsCache: Uint16Array[] | null = null
+
+function landRows(): Uint16Array[] {
+  if (landRowsCache) return landRowsCache
+
+  const mask = landMask()
+  const rows: (Uint16Array | null)[] = []
+
+  for (let row = 0; row < LAND_HEIGHT; row++) {
+    const cols: number[] = []
+    for (let col = 0; col < LAND_WIDTH; col++) if (isLand(mask, col, row)) cols.push(col)
+    rows.push(cols.length > 0 ? Uint16Array.from(cols) : null)
+  }
+
+  const filled = rows.map((cols, row) => {
+    if (cols) return cols
+    for (let d = 1; d < LAND_HEIGHT; d++) {
+      const up = rows[row - d]
+      if (up) return up
+      const down = rows[row + d]
+      if (down) return down
+    }
+    return new Uint16Array([0])
+  })
+
+  landRowsCache = filled
+  return filled
+}
+
+/**
+ * Scene 2 — Earth, with the continents filled.
+ *
+ * Every point keeps its own latitude and its own ordering in longitude; what
+ * changes is that the full 360° of longitude is re-mapped onto just the land
+ * cells at that latitude. Because the mapping is monotonic in longitude, points
+ * that were neighbours stay neighbours — the sphere squeezes onto the continents
+ * rather than scrambling — and because each row gets points in proportion to how
+ * much land it holds, the fill is area-correct.
  */
 const aboutTarget: TargetGenerator = ({ home, seed, n }) => {
   const out = new Float32Array(n * 3)
-  const meridians = 24
-  const parallels = 12
+  const rows = landRows()
 
   for (let i = 0; i < n; i++) {
-    const x = home[i * 3]
-    const y = home[i * 3 + 1]
-    const z = home[i * 3 + 2]
+    const lat = Math.asin(clamp(home[i * 3 + 1], -1, 1))
+    const lon = Math.atan2(home[i * 3 + 2], home[i * 3])
 
-    let lat = Math.asin(clamp(y, -1, 1))
-    let lon = Math.atan2(z, x)
+    const row = clampInt(
+      Math.floor(((Math.PI / 2 - lat) / Math.PI) * LAND_HEIGHT),
+      0,
+      LAND_HEIGHT - 1,
+    )
+    const cols = rows[row]
 
-    const jitter = (seed[i] - 0.5) * 0.008
+    // Fractional position around the globe, preserved through the remap.
+    const f = (lon + Math.PI) / TAU
+    const col = cols[clampInt(Math.floor(f * cols.length), 0, cols.length - 1)]
 
-    // Half the points snap to a meridian, half to a parallel. Snapping every
-    // point to both would leave only the intersections — a sparse dot grid
-    // rather than lines.
-    if (seed[i] < 0.5) {
-      lon = Math.round(lon / (TAU / meridians)) * (TAU / meridians) + jitter
-    } else {
-      lat = Math.round(lat / (Math.PI / parallels)) * (Math.PI / parallels) + jitter
-    }
+    // Sub-cell jitter so the fill reads as a cloud rather than a lattice.
+    const jx = (seed[i] - 0.5) * (TAU / LAND_WIDTH)
+    const jy = (fract(seed[i] * 7.13) - 0.5) * (Math.PI / LAND_HEIGHT)
 
-    writeLatLon(out, i, lat, lon, 1)
+    const outLon = ((col + 0.5) / LAND_WIDTH) * TAU - Math.PI + jx
+    const outLat = Math.PI / 2 - ((row + 0.5) / LAND_HEIGHT) * Math.PI + jy
+
+    writeLatLon(out, i, outLat, outLon, 1)
   }
 
   // The marked point sits at Niort and is written last so it always wins.
-  const flat = markerIndex(n)
   writeLatLon(
     out,
-    flat,
+    markerIndex(n),
     (site.coords.lat * Math.PI) / 180,
     (site.coords.lon * Math.PI) / 180,
-    1.02,
+    1.03,
   )
 
   return out
@@ -186,23 +228,58 @@ const experienceTarget: TargetGenerator = ({ home, seed, index, n }) => {
   return out
 }
 
+/**
+ * Scene 6 — two stacked strata, one per degree.
+ *
+ * Education is layers laid down over time, so the form is two flat discs rather
+ * than anything vertical: distinct from the experience column beside it, and
+ * legible in a wide, short slot.
+ */
+const educationTarget: TargetGenerator = ({ home, seed, index, n }) => {
+  const out = new Float32Array(n * 3)
+  const tilt = (18 * Math.PI) / 180
+
+  for (let i = 0; i < n; i++) {
+    const scaled = index[i] * DEGREE_COUNT
+    const layer = Math.min(DEGREE_COUNT - 1, Math.floor(scaled))
+
+    // sqrt keeps the disc evenly filled rather than crowding the centre.
+    const radius = 0.92 * Math.sqrt(scaled - layer)
+    const angle = Math.atan2(home[i * 3 + 2], home[i * 3])
+
+    let px = Math.cos(angle) * radius
+    let py = (layer === 0 ? 1 : -1) * 0.3 + (seed[i] - 0.5) * 0.05
+    let pz = Math.sin(angle) * radius
+    ;[py, pz] = rotate(py, pz, tilt)
+
+    out[i * 3] = px
+    out[i * 3 + 1] = py
+    out[i * 3 + 2] = pz
+  }
+
+  return out
+}
+
 export const targetGenerators: Record<SceneId, TargetGenerator> = {
   hero: heroTarget,
   about: aboutTarget,
   skills: skillsTarget,
   projects: projectsTarget,
   experience: experienceTarget,
-  // A deliberate return to the opening form, five sections later.
+  education: educationTarget,
+  // A deliberate return to the opening form, six sections later.
   contact: heroTarget,
 }
 
 /** How much of the cloud each scene shows. Thinning is a reactivity channel. */
 export const sceneDensity: Record<SceneId, number> = {
   hero: 1,
-  about: 0.82,
+  // The continents need every point they can get.
+  about: 1,
   skills: 0.9,
   projects: 0.55,
   experience: 0.75,
+  education: 0.85,
   contact: 1,
 }
 
@@ -213,6 +290,7 @@ export const sceneClusters: Record<SceneId, number> = {
   skills: CLUSTER_COUNT,
   projects: CLUSTER_COUNT,
   experience: ROLE_COUNT,
+  education: DEGREE_COUNT,
   contact: 0,
 }
 
@@ -236,4 +314,12 @@ function rotate(a: number, b: number, angle: number): [number, number] {
 
 function clamp(n: number, lo: number, hi: number) {
   return n < lo ? lo : n > hi ? hi : n
+}
+
+function clampInt(n: number, lo: number, hi: number) {
+  return n < lo ? lo : n > hi ? hi : n
+}
+
+function fract(n: number) {
+  return n - Math.floor(n)
 }

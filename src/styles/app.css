@@ -72,6 +72,49 @@
   }
 }
 
+/* WorkRow lays itself out as a five-column grid with 352px of fixed track
+   (48px index, 200px discipline, 80px year, 24px arrow) and no responsive
+   behaviour, so it is wider than any phone and forces the page to scroll
+   sideways. Below the grid breakpoint it restacks into index + stacked text.
+   Overridden here rather than in the design system, which regenerates. */
+@media (max-width: 899px) {
+  .work-row {
+    grid-template-columns: var(--space-9) minmax(0, 1fr) !important;
+    row-gap: var(--space-2);
+  }
+
+  /* discipline and year move under the title, in the text column */
+  .work-row > :nth-child(3),
+  .work-row > :nth-child(4) {
+    grid-column: 2;
+  }
+
+  /* the trailing hover arrow has no room and no meaning on touch */
+  .work-row > :nth-child(5) {
+    display: none;
+  }
+}
+
+/* FooterBar sets the email at --text-display-md (56px) with display tracking and
+   pads its sides with --gutter-inline-lg (56px). On a phone that single line is
+   wider than the viewport and forces the whole page to scroll horizontally.
+   Overridden here rather than in the design system, which regenerates. */
+.footer-bar {
+  padding-inline: var(--gutter-inline) !important;
+  overflow-wrap: anywhere;
+}
+
+.footer-bar a[href^='mailto:'] {
+  font-size: clamp(var(--fs-heading-sm), 5vw, var(--fs-display-md)) !important;
+  line-height: var(--lh-tight);
+}
+
+@media (min-width: 900px) {
+  .footer-bar {
+    padding-inline: var(--gutter-inline-lg) !important;
+  }
+}
+
 /* The design system ships no reduced-motion handling. This block is the only
    thing that stops Marquee, whose infinite animation is declared inline and is
    therefore unreachable from any stylesheet rule of lower specificity. */

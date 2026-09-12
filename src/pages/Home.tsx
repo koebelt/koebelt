@@ -1,14 +1,18 @@
 import { Marquee } from '@ds'
 
-import { marqueeItems } from '../content/skills'
+import { useCopy } from '../i18n/LocaleContext'
 import { About } from '../sections/About'
 import { Contact } from '../sections/Contact'
+import { Education } from '../sections/Education'
 import { Experience } from '../sections/Experience'
 import { Hero } from '../sections/Hero'
 import { Projects } from '../sections/Projects'
 import { Skills } from '../sections/Skills'
 
 export default function Home() {
+  const { skills } = useCopy()
+  const marqueeItems = skills.groups.flatMap((g) => g.items)
+
   return (
     <>
       <Hero />
@@ -18,6 +22,7 @@ export default function Home() {
       <Skills />
       <Projects />
       <Experience />
+      <Education />
       <Contact />
     </>
   )

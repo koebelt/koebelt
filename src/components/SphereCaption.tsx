@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { CAPTIONS, CAPTION_INTERVAL_MS } from '../content/site'
+import { CAPTION_INTERVAL_MS } from '../content/site'
+import { useCopy } from '../i18n/LocaleContext'
 import { usePrefersReducedMotion } from '../scroll/usePrefersReducedMotion'
 import { useSphere } from '../three/SphereContext'
 import type { SceneId } from '../three/types'
@@ -17,13 +18,17 @@ export interface SphereCaptionProps {
  * the sphere's meaning actually lives for anyone not looking at it.
  */
 export function SphereCaption({ scene }: SphereCaptionProps) {
-  const lines = CAPTIONS[scene]
+  const { captions } = useCopy()
+  const lines = captions[scene]
   const reduced = usePrefersReducedMotion()
   const sphere = useSphere()
   const [index, setIndex] = useState(0)
   const [visible, setVisible] = useState(true)
 
   const cycles = lines.length > 1 && !reduced
+
+  // A language switch changes the line count; start over rather than index past it.
+  useEffect(() => setIndex(0), [lines])
 
   useEffect(() => {
     if (!cycles) return
@@ -53,7 +58,12 @@ export function SphereCaption({ scene }: SphereCaptionProps) {
     >
       <span
         aria-hidden="true"
-        style={{ width: 'var(--space-7)', height: 1, background: 'var(--border-subtle)', flex: '0 0 auto' }}
+        style={{
+          width: 'var(--space-7)',
+          height: 1,
+          background: 'var(--border-subtle)',
+          flex: '0 0 auto',
+        }}
       />
       <p
         aria-live="polite"
@@ -67,7 +77,7 @@ export function SphereCaption({ scene }: SphereCaptionProps) {
           transition: 'opacity var(--dur-slow) var(--ease-standard)',
         }}
       >
-        {lines[index]}
+        {lines[index] ?? lines[0]}
       </p>
     </div>
   )

@@ -37,6 +37,12 @@ export function SphereCanvas({ children }: { children: ReactNode }) {
         instance.start()
         setEngine(instance)
 
+        // Dev-only handle, so the sphere can be driven from the console or a
+        // screenshot harness. Stripped from production builds.
+        if (import.meta.env.DEV) {
+          ;(window as unknown as Record<string, unknown>).__sphere = instance
+        }
+
         const engine = instance
         const onResize = () => {
           engine.resize(window.innerWidth, window.innerHeight, window.devicePixelRatio)

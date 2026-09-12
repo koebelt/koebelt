@@ -34,12 +34,44 @@ const DOLLY_NEAR = 2.7
  * foreshortened into dashes by a full spin, so they hold still and rely on
  * pointer parallax for life instead.
  */
+/**
+ * Depth contrast per scene: [alpha floor, falloff power].
+ *
+ * Both hemispheres are drawn — there is no depth buffer — and the far one is
+ * compressed by perspective into a smaller area, so it reads DENSER than the
+ * near one and competes with it. Where the silhouette carries meaning, as the
+ * continents do, the far side is pushed to near-invisible so only the hemisphere
+ * facing the reader is legible. Loose clouds keep the softer default, where
+ * seeing through the form is part of the effect.
+ */
+/** Scenes that draw only the hemisphere facing the reader. */
+const SCENE_BACK_CULL: Record<SceneId, boolean> = {
+  hero: false,
+  about: true,
+  skills: false,
+  projects: false,
+  experience: false,
+  education: false,
+  contact: false,
+}
+
+const SCENE_DEPTH: Record<SceneId, [floor: number, power: number]> = {
+  hero: [0.1, 1.5],
+  about: [0.35, 1.2],
+  skills: [0.1, 1.5],
+  projects: [0.1, 1.5],
+  experience: [0.1, 1.5],
+  education: [0.1, 1.5],
+  contact: [0.1, 1.5],
+}
+
 const SCENE_SPIN: Record<SceneId, number> = {
   hero: 1,
-  about: 1,
+  about: 0,
   skills: 0.65,
   projects: 0,
   experience: 0.12,
+  education: 0.2,
   contact: 1,
 }
 
@@ -49,6 +81,7 @@ const SCENE_DOLLY: Record<SceneId, number> = {
   skills: 3.0,
   projects: 2.3,
   experience: 3.0,
+  education: 2.6,
   contact: DOLLY_NEAR,
 }
 
@@ -168,6 +201,8 @@ export class SphereEngine {
         uAccentCut: { value: 0.05 },
         uAlphaFloor: { value: 0.1 },
         uAlphaGain: { value: 0.85 },
+        uDepthPow: { value: 1.5 },
+        uBackCull: { value: 0 },
         uFocus: { value: 0 },
         uFocusIndex: { value: 0 },
         uClusterCount: { value: 0 },
@@ -280,6 +315,13 @@ export class SphereEngine {
 
   setViewportRect(rect: ViewportRect | null) {
     this.slot = rect
+  }
+
+  /** Debug only: force the spin to a known angle so a view can be reproduced. */
+  setYaw(radians: number) {
+    this.yaw = radians
+    this.mouseYaw = 0
+    if (this.reducedMotion) this.renderOnce()
   }
 
   setFocus(index: number | null) {
@@ -458,6 +500,12 @@ export class SphereEngine {
 
     // Density and focus ease toward their targets rather than stepping.
     u.uDensity.value += (this.densityTarget - u.uDensity.value) * 0.08
+    const [depthFloor, depthPow] = SCENE_DEPTH[this.currentScene]
+    u.uAlphaFloor.value += (depthFloor - u.uAlphaFloor.value) * 0.08
+    u.uAlphaGain.value += (1 - depthFloor - u.uAlphaGain.value) * 0.08
+    u.uDepthPow.value += (depthPow - u.uDepthPow.value) * 0.08
+    // Binary, not eased: a half-culled cloud has no meaningful in-between.
+    u.uBackCull.value = SCENE_BACK_CULL[this.currentScene] ? 1 : 0
     u.uFocus.value += (this.focusTarget - u.uFocus.value) * 0.12
 
     // Rotation: a slow base spin, plus scroll velocity, plus eased pointer parallax.
