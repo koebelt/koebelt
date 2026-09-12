@@ -84,9 +84,9 @@ design_system/     the KOEBELT design system, unmodified except:
   index.js           runtime barrel (the system ships none, but its lint expects one)
   index.d.ts         type barrel — the ONLY place component props are widened
 src/
-  three/           SphereEngine + shaders + the six morph-target generators
+  three/           SphereEngine + shaders + the seven morph-target generators
   scroll/          IntersectionObserver scene controller, reduced-motion hooks
-  sections/        Hero, About, Skills, Projects, Experience, Contact
+  sections/        Hero, About, Skills, Projects, Experience, Education, Contact
   pages/           Home, ProjectDetail (/work/:slug), NotFound
   content/         locale-invariant data (dates, URLs, stacks, coordinates)
   i18n/            the Copy interface and the en/fr dictionaries
@@ -123,8 +123,8 @@ From the design system's brand rules, and enforced rather than assumed:
   one automatic downgrade if frame time stays above 20ms. Never upgrades back —
   oscillating between rungs is more visible than staying on the lower one.
 - The render loop pauses when the tab is hidden; WebGL context loss is recovered.
-- three.js is dynamically imported, so it never blocks first paint (111 kB gz
-  initial, 136 kB gz deferred).
+- three.js is dynamically imported, so it never blocks first paint (117 kB gz
+  initial, 143 kB gz deferred).
 - The canvas is `aria-hidden`; everything the sphere conveys is also in the DOM,
   with captions in an `aria-live` region.
 - No WebGL, or a failed chunk, degrades to the full static portfolio.
@@ -134,7 +134,8 @@ From the design system's brand rules, and enforced rather than assumed:
 - `site.cvUrl` is unset, so the Download CV button does not render. Drop a PDF in
   `public/` and set it.
 - Project deep-dive prose (`problem`, `constraints`, `decisions`, `retrospective`
-  in `src/content/projects.ts`) is drafted and needs Thomas's real numbers.
+  in `src/i18n/{en,fr}.ts`) is drafted in both languages and needs Thomas's
+  real numbers — especially the drone controller, whose build details are inferred.
 - No project imagery; `MediaFrame` renders the design system's flat placeholder,
   which is what its documentation prescribes.
 - Several design-system components have no responsive behaviour of their own and
