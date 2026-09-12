@@ -61,3 +61,63 @@ export const projectStacks: Record<string, string[]> = {
 export const projectLinks: Record<string, { label: string; href: string }[]> = {
   cbienla: [{ label: 'cbienla.fr', href: 'https://cbienla.fr' }],
 }
+
+export interface SkillEntry {
+  /** Stable key into copy.skills.levels / copy.skills.why. */
+  id: string
+  /** Technology names are the same in every language, so they live here. */
+  name: string
+}
+
+export interface SkillGroup {
+  /** Stable key into copy.skills.groupLabels. */
+  id: string
+  items: SkillEntry[]
+}
+
+/** Four groups — one orbital shell each in the skills scene. */
+export const skillGroups: SkillGroup[] = [
+  {
+    id: 'languages',
+    items: [
+      { id: 'c', name: 'C / C++' },
+      { id: 'ts', name: 'JavaScript / TypeScript' },
+      { id: 'python', name: 'Python' },
+      { id: 'dart', name: 'Dart' },
+      { id: 'haskell', name: 'Haskell' },
+      { id: 'rust', name: 'Rust' },
+      { id: 'java', name: 'Java' },
+    ],
+  },
+  {
+    id: 'web',
+    items: [
+      { id: 'node', name: 'NodeJS' },
+      { id: 'react', name: 'ReactJS' },
+      { id: 'vue', name: 'VueJS' },
+      { id: 'nuxt', name: 'NuxtJS' },
+      { id: 'angular', name: 'AngularJS' },
+      { id: 'spring', name: 'Spring Boot' },
+    ],
+  },
+  {
+    id: 'mobile',
+    items: [
+      { id: 'react-native', name: 'React Native' },
+      { id: 'flutter', name: 'Flutter' },
+    ],
+  },
+  {
+    id: 'cloud',
+    items: [
+      { id: 'aws', name: 'AWS' },
+      { id: 'gcp', name: 'GCP' },
+      { id: 'firebase', name: 'Firebase' },
+      { id: 'docker', name: 'Docker' },
+      { id: 'linux', name: 'Linux (Arch, Debian)' },
+    ],
+  },
+]
+
+/** Flat list of names, for the marquee band. */
+export const skillNames: string[] = skillGroups.flatMap((g) => g.items.map((i) => i.name))

@@ -24,7 +24,7 @@ const PERSP_D = 2.6
  * Camera distance per scene. Larger is further away, so the sphere reads smaller
  * and more ambient; the hero sits back and the content scenes pull forward.
  */
-const DOLLY_FAR = 3.4
+const DOLLY_FAR = 2.75
 const DOLLY_NEAR = 2.7
 /**
  * How fast each scene spins.
@@ -57,7 +57,7 @@ const SCENE_BACK_CULL: Record<SceneId, boolean> = {
 
 const SCENE_DEPTH: Record<SceneId, [floor: number, power: number]> = {
   hero: [0.1, 1.5],
-  about: [0.35, 1.2],
+  about: [0.78, 0.6],
   skills: [0.1, 1.5],
   projects: [0.1, 1.5],
   experience: [0.1, 1.5],
@@ -67,12 +67,48 @@ const SCENE_DEPTH: Record<SceneId, [floor: number, power: number]> = {
 
 const SCENE_SPIN: Record<SceneId, number> = {
   hero: 1,
-  about: 0,
+  // The globe turns on its axis fast enough to be seen doing it: roughly one
+  // revolution every twenty seconds.
+  about: 3.5,
   skills: 0.65,
   projects: 0,
   experience: 0.12,
   education: 0.2,
   contact: 1,
+}
+
+/**
+ * Extra pitch per scene, in radians.
+ *
+ * The globe leans its northern hemisphere toward the reader so that Europe — and
+ * Niort, the one point that is marked — sits near the middle of the disc rather
+ * than squashed against the top limb.
+ */
+const SCENE_PITCH: Record<SceneId, number> = {
+  hero: 0,
+  about: 0.42,
+  skills: 0,
+  projects: 0,
+  experience: 0,
+  education: 0,
+  contact: 0,
+}
+
+/**
+ * Fraction of points drawn in the accent colour.
+ *
+ * Zero on the globe: the marked location is the only thing there worth calling
+ * out, and a scattering of lime elsewhere would compete with it. That also keeps
+ * the scene closest to the brand rule that lime marks one thing at a time.
+ */
+const SCENE_ACCENT: Record<SceneId, number> = {
+  hero: 0.05,
+  about: 0,
+  skills: 0.05,
+  projects: 0.05,
+  experience: 0.05,
+  education: 0.05,
+  contact: 0.05,
 }
 
 const SCENE_DOLLY: Record<SceneId, number> = {
@@ -191,7 +227,7 @@ export class SphereEngine {
         uMorph: { value: 1 },
         uStagger: { value: 0.35 },
         uDensity: { value: 1 },
-        uSize: { value: 2.4 },
+        uSize: { value: 2.0 },
         uDpr: { value: 1 },
         uPerspD: { value: PERSP_D },
         uCamZ: { value: DOLLY_FAR },
@@ -506,6 +542,7 @@ export class SphereEngine {
     u.uDepthPow.value += (depthPow - u.uDepthPow.value) * 0.08
     // Binary, not eased: a half-culled cloud has no meaningful in-between.
     u.uBackCull.value = SCENE_BACK_CULL[this.currentScene] ? 1 : 0
+    u.uAccentCut.value += (SCENE_ACCENT[this.currentScene] - u.uAccentCut.value) * 0.08
     u.uFocus.value += (this.focusTarget - u.uFocus.value) * 0.12
 
     // Rotation: a slow base spin, plus scroll velocity, plus eased pointer parallax.
@@ -524,7 +561,8 @@ export class SphereEngine {
     // Parallax stays available even where the scene does not spin, so a still
     // form still responds to the pointer.
     this.mouseYaw += (this.pointerX * 0.6 * Math.max(spin, 0.35) - this.mouseYaw) * 0.04
-    this.pitch += (0.15 + this.pointerY * 0.22 - this.pitch) * 0.04
+    const basePitch = 0.15 + SCENE_PITCH[this.currentScene]
+    this.pitch += (basePitch + this.pointerY * 0.22 - this.pitch) * 0.04
     this.points.rotation.y = this.yaw + this.mouseYaw
     this.points.rotation.x = this.pitch
 

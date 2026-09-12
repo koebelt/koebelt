@@ -107,7 +107,9 @@ export const VERT = /* glsl */ `
     // even a very low alpha accumulates through blending into a solid mass that
     // competes with the near side. Fading it is not enough — where the
     // silhouette carries meaning, the far half is simply not drawn.
-    if (uBackCull > 0.5 && b < 0.5) {
+    // 0.56 rather than 0.5: the last few degrees before the silhouette are seen
+    // so obliquely that they crowd into a bright rim, so they go with the back.
+    if (uBackCull > 0.5 && b < 0.56) {
       gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
       gl_PointSize = 0.0;
       vAlpha = 0.0;
@@ -116,11 +118,6 @@ export const VERT = /* glsl */ `
     }
 
     vAlpha = uAlphaFloor + pow(b, uDepthPow) * uAlphaGain;
-
-    // Soften the terminator. Points at a grazing angle crowd into the silhouette
-    // edge, and a hard cull there leaves a bright rim; fading them out across the
-    // last few degrees gives the clean edge a globe should have.
-    if (uBackCull > 0.5) vAlpha *= smoothstep(0.5, 0.63, b);
 
     // The accent subset: ~5% of points, front-facing only. This is the only
     // place the brand's one saturated colour appears in the sphere.
@@ -132,7 +129,9 @@ export const VERT = /* glsl */ `
     // so near points are larger. Also normalised against the live camera
     // distance, so dollying changes apparent size rather than point size.
     float attenuation = uCamZ / max(-mv.z, 0.1);
-    gl_PointSize = max(1.0, uSize * uDpr * attenuation * (1.0 + aFlag));
+    // The location marker is drawn conspicuously larger — it is one point
+    // among thousands and it is the whole reason the globe is here.
+    gl_PointSize = max(1.0, uSize * uDpr * attenuation * (1.0 + aFlag * 2.6));
   }
 `
 

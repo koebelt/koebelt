@@ -12,7 +12,7 @@ npm run verify     # typecheck + design-system adherence + production build
 
 ## The sphere
 
-A cloud of ~3,600 points rendered as **one `THREE.Points`, one `ShaderMaterial`,
+A cloud of up to 14,000 points rendered as **one `THREE.Points`, one `ShaderMaterial`,
 one draw call**. Everything it does happens in the vertex shader against uniforms
 the engine writes once per frame. The HUD asserts the draw-call count, because
 that is the whole architectural claim.
@@ -23,7 +23,7 @@ It is not decoration: it holds one scene per page section and morphs between the
 |---|---|---|
 | `hero` | Fibonacci sphere | the rest pose |
 | `about` | **Earth, continents filled** | one marked point is Niort |
-| `skills` | four nested orbital shells | one per discipline; hovering a card picks one out |
+| `skills` | four nested orbital shells | one per discipline; hovering a card picks one out, and any skill opens why he claims it |
 | `projects` | four knots in a row | one per project, sitting above its card |
 | `experience` | a column that swells once per role | five roles as five bulges |
 | `education` | two stacked strata | one layer per degree |
@@ -46,7 +46,12 @@ fill is area-correct.
 Because there is no depth buffer, both hemispheres would rasterise, and the far
 one is compressed by perspective into a smaller area where even a very low alpha
 accumulates into a mass that competes with the near side. The globe therefore
-culls the back hemisphere outright and fades the terminator.
+culls the back hemisphere outright, at a threshold slightly past the equator so
+the grazing band does not crowd into a bright rim.
+
+The globe leans its northern hemisphere toward the reader, turns on its axis once
+every twenty seconds or so, and is the one scene with no scattered accent points
+— the marked location is the only lime on it.
 
 **Morph targets are derived from each point's own home position**, never sampled
 fresh — so point *i* stays near its neighbours and the cloud deforms instead of
@@ -119,7 +124,7 @@ From the design system's brand rules, and enforced rather than assumed:
 - `prefers-reduced-motion` is live-tracked: the render loop stops entirely and
   draws one frame per state change. A global CSS block also freezes the design
   system's `Marquee`, whose animation is inline and otherwise unreachable.
-- Quality ladder by device (3,600 / 2,400 / 1,536 points), DPR capped at 2, with
+- Quality ladder by device (14,000 / 9,000 / 4,500 points), DPR capped at 2, with
   one automatic downgrade if frame time stays above 20ms. Never upgrades back —
   oscillating between rungs is more visible than staying on the lower one.
 - The render loop pauses when the tab is hidden; WebGL context loss is recovered.

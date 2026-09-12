@@ -299,11 +299,18 @@ export function markerIndex(n: number): number {
   return Math.floor(n * 0.5)
 }
 
+/**
+ * Geographic lat/lon to a point on the sphere.
+ *
+ * The Z term is negated so that increasing longitude runs EAST across the screen
+ * when the globe is viewed from the camera. Without it the whole map renders
+ * mirrored — the Americas appear where Asia should be.
+ */
 function writeLatLon(out: Float32Array, i: number, lat: number, lon: number, r: number) {
   const cl = Math.cos(lat)
   out[i * 3] = Math.cos(lon) * cl * r
   out[i * 3 + 1] = Math.sin(lat) * r
-  out[i * 3 + 2] = Math.sin(lon) * cl * r
+  out[i * 3 + 2] = -Math.sin(lon) * cl * r
 }
 
 function rotate(a: number, b: number, angle: number): [number, number] {

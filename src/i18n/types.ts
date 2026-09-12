@@ -27,11 +27,6 @@ export interface ProjectCopy {
   retrospective: string
 }
 
-export interface SkillGroupCopy {
-  label: string
-  items: string[]
-}
-
 export interface Copy {
   localeName: string
   nav: Record<Exclude<SceneId, 'hero'>, string>
@@ -60,7 +55,14 @@ export interface Copy {
     eyebrow: string
     title: string
     description: string
-    groups: SkillGroupCopy[]
+    /** Keyed by group id in content/site.ts. */
+    groupLabels: Record<string, string>
+    /** Keyed by skill id: how much of it he actually does. */
+    levels: Record<string, string>
+    /** Keyed by skill id: why he claims it. */
+    why: Record<string, string>
+    levelLabel: string
+    close: string
   }
 
   projects: {
