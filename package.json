@@ -14,7 +14,8 @@
     "typecheck": "tsc -b",
     "lint:adherence": "node scripts/adherence-lint.mjs",
     "verify": "npm run typecheck && npm run lint:adherence && npm run build",
-    "build:landmask": "node scripts/build-landmask.mjs"
+    "build:landmask": "node scripts/build-landmask.mjs",
+    "build:favicon": "python3 scripts/build-favicon.py"
   },
   "dependencies": {
     "react": "^19.2.8",

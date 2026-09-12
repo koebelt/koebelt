@@ -100,6 +100,7 @@ src/
 scripts/
   adherence-lint.mjs   enforces the design system's own no-raw-hex / no-raw-px rules
   build-landmask.mjs   rasterises Natural Earth land polygons into a committed bitmask
+  build-favicon.py     composites the logo mark onto brand ink for the favicons
 ```
 
 `@ds` resolves to the design system; it stays at the repo root, untouched, so the
