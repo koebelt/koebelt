@@ -15,7 +15,8 @@
     "lint:adherence": "node scripts/adherence-lint.mjs",
     "verify": "npm run typecheck && npm run lint:adherence && npm run build",
     "build:landmask": "node scripts/build-landmask.mjs",
-    "build:favicon": "python3 scripts/build-favicon.py"
+    "build:favicon": "python3 scripts/build-favicon.py",
+    "build:images": "python3 scripts/build-project-images.py"
   },
   "dependencies": {
     "react": "^19.2.8",

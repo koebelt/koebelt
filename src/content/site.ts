@@ -72,6 +72,19 @@ export const projectStacks: Record<string, string[]> = {
   'robotic-arm': ['C++', 'Microcontroller firmware', 'Bluetooth', 'Mobile client'],
 }
 
+/**
+ * Project illustrations, keyed by slug.
+ *
+ * Prepared by scripts/build-project-images.py from public/_originals: cropped to
+ * the card's 4:3 frame and written as greyscale, which is what they already are.
+ */
+export const projectImages: Record<string, string> = {
+  quadcopter: '/projects/quadcopter.png',
+  'drone-controller': '/projects/drone-controller.png',
+  cbienla: '/projects/cbienla.png',
+  'robotic-arm': '/projects/robotic-arm.png',
+}
+
 /** Optional outbound links per project. */
 export const projectLinks: Record<string, { label: string; href: string }[]> = {
   cbienla: [{ label: 'cbienla.fr', href: 'https://cbienla.fr' }],

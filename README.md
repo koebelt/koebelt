@@ -101,6 +101,8 @@ scripts/
   adherence-lint.mjs   enforces the design system's own no-raw-hex / no-raw-px rules
   build-landmask.mjs   rasterises Natural Earth land polygons into a committed bitmask
   build-favicon.py     composites the logo mark onto brand ink for the favicons
+  build-project-images.py  crops project art to the card frame and writes it greyscale
+  pnglib.py            minimal stdlib PNG decode/encode shared by both
 ```
 
 `@ds` resolves to the design system; it stays at the repo root, untouched, so the
@@ -137,13 +139,21 @@ From the design system's brand rules, and enforced rather than assumed:
   with captions in an `aria-live` region.
 - No WebGL, or a failed chunk, degrades to the full static portfolio.
 
+## Images
+
+Project art lives in `public/_originals/` and is prepared by
+`npm run build:images` into `public/projects/`. The originals are ~1 MB each;
+they are line art on black, which means they are greyscale in everything but the
+file header, so cropping them to the card's 4:3 frame and writing a single
+greyscale plane takes the set from **3,076 kB to 417 kB (87% smaller)**. The
+Cbienlà wordmark is transparent and very wide, so `object-fit: cover` would crop
+it to nothing; it is centred on a brand-ink field at the same ratio instead.
+
 ## Known gaps
 
 - Project deep-dive prose (`problem`, `constraints`, `decisions`, `retrospective`
   in `src/i18n/{en,fr}.ts`) is drafted in both languages and needs Thomas's
   real numbers — especially the drone controller, whose build details are inferred.
-- No project imagery; `MediaFrame` renders the design system's flat placeholder,
-  which is what its documentation prescribes.
 - Several design-system components have no responsive behaviour of their own and
   are overridden from `src/styles/app.css` rather than edited in place: `WorkRow`
   (352px of fixed grid track), `FooterBar` (56px display email and 56px side

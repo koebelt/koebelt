@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { SphereCaption } from '../components/SphereCaption'
+import { projectImages } from '../content/site'
 import { useCopy } from '../i18n/LocaleContext'
 import { PROJECT_SLUGS } from '../i18n/types'
 import { useSphere } from '../three/SphereContext'
@@ -35,6 +36,7 @@ export function Projects() {
                   title={project.title}
                   summary={project.summary}
                   tags={project.tags}
+                  image={projectImages[slug]}
                   href={`/work/${slug}`}
                   // Hovering a card tightens that project's knot in the sphere.
                   onMouseEnter={() => sphere?.setFocus(i)}

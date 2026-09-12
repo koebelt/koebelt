@@ -1,9 +1,9 @@
-import { Button, Card, Divider, Icon, SectionHeading, Tag } from '@ds'
+import { Button, Card, Divider, Icon, MediaFrame, SectionHeading, Tag } from '@ds'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Reveal } from '../components/Reveal'
-import { projectLinks, projectStacks } from '../content/site'
+import { projectImages, projectLinks, projectStacks } from '../content/site'
 import { useCopy } from '../i18n/LocaleContext'
 import { PROJECT_SLUGS, type ProjectSlug } from '../i18n/types'
 import { useSceneRegistry } from '../scroll/SceneContext'
@@ -88,6 +88,15 @@ export default function ProjectDetail() {
 
         <div className="col-7-12">
           <Reveal order={1}>
+            <MediaFrame
+              src={projectImages[slug]}
+              alt={project.title}
+              ratio="4/3"
+              label={project.title}
+              style={{ marginBottom: 'var(--space-6)' }}
+            />
+          </Reveal>
+          <Reveal order={2}>
             <Card>
               <Meta label={copy.projects.roleLabel} value={project.role} />
               <Meta label={copy.projects.stackLabel} value={stack.join(' · ')} />
