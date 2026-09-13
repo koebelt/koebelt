@@ -7,6 +7,8 @@
  * literal appears in any source file the design-system adherence lint reads.
  */
 
+import { STOP_COUNT } from '../geometry/targets'
+
 export const VERT = /* glsl */ `
   precision highp float;
 
@@ -35,6 +37,15 @@ export const VERT = /* glsl */ `
   uniform float uFocus;
   uniform float uFocusIndex;
   uniform float uClusterCount;
+  uniform float uStopsFrom;
+  uniform float uStopsTo;
+  uniform float uStrandFrom;
+  uniform float uStrandTo;
+  uniform float uStrandAngle;
+  uniform float uStrandLean;
+  uniform float uStopCount;
+  uniform float uStopPitch;
+  uniform float uStopAngle[${STOP_COUNT}];
 
   varying float vAlpha;
   varying float vAccent;
@@ -56,6 +67,48 @@ export const VERT = /* glsl */ `
     return 3.0 * v * v * u * 0.8 + 3.0 * v * u * u + u * u * u;
   }
 
+  // The projects scene: the same cube at each stop, scattered widest at the
+  // first stop and not at all at the last, every one turning on its own axis.
+  // Applied to whichever side of the morph is the projects shape, by amount,
+  // so the scatter and spin blend in on entry and out on exit instead of
+  // appearing or vanishing the frame the scene changes.
+  // The experience scene: the strand turns about its own axis, then leans.
+  // Blended by amount on either side of the morph, like stops().
+  vec3 strand(vec3 q, float amount) {
+    if (amount <= 0.0) return q;
+    float c = cos(uStrandAngle);
+    float s = sin(uStrandAngle);
+    vec3 r = vec3(q.x * c - q.z * s, q.y, q.x * s + q.z * c);
+    float lc = cos(uStrandLean);
+    float ls = sin(uStrandLean);
+    r = vec3(r.x * lc - r.y * ls, r.x * ls + r.y * lc, r.z);
+    return mix(q, r, amount);
+  }
+
+  vec3 stops(vec3 q, float amount) {
+    if (amount <= 0.0) return q;
+    float stop = min(floor(aIndex * uStopCount), uStopCount - 1.0);
+    vec3 centre = vec3((stop - (uStopCount - 1.0) * 0.5) * uStopPitch, 0.0, 0.0);
+    vec3 local = q - centre;
+
+    float loose = pow(1.0 - stop / (uStopCount - 1.0), 1.2);
+    vec3 h = fract(sin(vec3(aSeed * 127.1 + aIndex * 311.7,
+                            aSeed * 269.5 + aIndex * 183.3,
+                            aSeed * 419.2 + aIndex * 71.9)) * 43758.5453) - 0.5;
+    // A ball rather than the box h spans, and small enough that the first two
+    // stops do not merge into one cloud. The drift keeps the loose ones moving.
+    float r = sqrt(fract(dot(h, vec3(12.9898, 78.233, 37.719)) * 437.585));
+    vec3 drift = sin(uTime * vec3(0.5, 0.41, 0.46) + h * 40.0) * 0.03 * uBreathe;
+    local += (normalize(h + 1e-4) * r * 0.2 + drift) * loose;
+
+    float a = uStopAngle[int(stop)];
+    float c = cos(a);
+    float s = sin(a);
+    local.xz = vec2(local.x * c - local.z * s, local.x * s + local.z * c);
+
+    return mix(q, centre + local, amount);
+  }
+
   void main() {
     // Density: thin the cloud by dropping points whose seed is above the
     // threshold. Pushing them outside clip space costs less than a fragment
@@ -71,7 +124,11 @@ export const VERT = /* glsl */ `
     // Staggered morph: each point starts its transition slightly later than the
     // one before it, so the change sweeps across the form.
     float d = clamp((uMorph - aIndex * uStagger) / max(1.0 - uStagger, 1e-4), 0.0, 1.0);
-    vec3 p = mix(position, aTarget, bezier(d));
+    vec3 p = mix(
+      strand(stops(position, uStopsFrom), uStrandFrom),
+      strand(stops(aTarget, uStopsTo), uStrandTo),
+      bezier(d)
+    );
 
     // Idle breathing — the cloud is never perfectly still.
     p *= 1.0 + uBreathe * 0.006 * sin(uTime * 0.6 + aSeed * 6.2831853);
@@ -83,9 +140,9 @@ export const VERT = /* glsl */ `
       p += dir * uRippleAmp * wave * 0.16 * cos(aHome.y * 3.0 - uRippleT * 10.0);
     }
 
-    // Focus: tighten the addressed cluster toward its own centroid and let the
-    // others drift outward, so hovering a card visibly acts on the sphere.
-    if (uFocus > 0.0 && uClusterCount > 0.0) {
+    if (uStopsTo < 0.5 && uFocus > 0.0 && uClusterCount > 0.0) {
+      // Focus: tighten the addressed cluster toward its own centroid and let the
+      // others drift outward, so hovering a card visibly acts on the sphere.
       float cluster = floor(aIndex * uClusterCount);
       float mine = step(abs(cluster - uFocusIndex), 0.5);
       p *= 1.0 + uFocus * mix(0.05, -0.07, mine);

@@ -37,15 +37,24 @@ export interface RevealProps {
   as?: 'div' | 'section' | 'li'
   className?: string
   style?: CSSProperties
+  /** Hold the reveal until this is false, even once in view. */
+  wait?: boolean
 }
 
-export function Reveal({ children, order = 0, as: Tag = 'div', className, style }: RevealProps) {
+export function Reveal({
+  children,
+  order = 0,
+  as: Tag = 'div',
+  className,
+  style,
+  wait = false,
+}: RevealProps) {
   const ref = useRef<HTMLElement | null>(null)
   const reduced = usePrefersReducedMotion()
   const [shown, setShown] = useState(false)
 
   useEffect(() => {
-    if (reduced || shown) return
+    if (reduced || shown || wait) return
     const el = ref.current
     if (!el) return
     callbacks.set(el, () => setShown(true))
@@ -54,7 +63,7 @@ export function Reveal({ children, order = 0, as: Tag = 'div', className, style 
       callbacks.delete(el)
       getObserver().unobserve(el)
     }
-  }, [reduced, shown])
+  }, [reduced, shown, wait])
 
   const visible = reduced || shown
 

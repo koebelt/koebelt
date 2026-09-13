@@ -33,7 +33,7 @@ export default function ProjectDetail() {
     return registry.register('projects', el, slotRef.current)
   }, [valid, registry])
 
-  // Pin the sphere to this project's knot for as long as the page is open.
+  // Keep this project's stop spinning faster for as long as the page is open.
   useEffect(() => {
     if (!valid) return
     sphere?.setFocus(PROJECT_SLUGS.indexOf(slug))

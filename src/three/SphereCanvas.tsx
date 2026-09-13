@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 
-import { useSceneFrame } from '../scroll/SceneContext'
+import { splashPlays, whenSplashDone } from '../components/Splash'
+import { useSceneFrame, useSceneRegistry } from '../scroll/SceneContext'
 import { usePrefersReducedMotion } from '../scroll/usePrefersReducedMotion'
 import { SphereContext } from './SphereContext'
 import type { SphereEngine } from './SphereEngine'
@@ -17,6 +18,7 @@ export function SphereCanvas({ children }: { children: ReactNode }) {
   const engineRef = useRef<SphereEngine | null>(null)
   const [engine, setEngine] = useState<SphereEngine | null>(null)
   const reduced = usePrefersReducedMotion()
+  const registry = useSceneRegistry()
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current
@@ -36,6 +38,14 @@ export function SphereCanvas({ children }: { children: ReactNode }) {
         instance.resize(window.innerWidth, window.innerHeight, window.devicePixelRatio)
         instance.start()
         setEngine(instance)
+        // The scroll state for the page as loaded was published before the engine
+        // existed; without this the sphere sits full-bleed until the first scroll.
+        registry.invalidate()
+
+        // Gather in as the splash lifts. If the chunk arrives after that, this
+        // fires straight away; if the splash never played, it does not fire at all.
+        const gathering = instance
+        if (splashPlays) teardown.push(whenSplashDone(() => gathering.intro()))
 
         // Dev-only handle, so the sphere can be driven from the console or a
         // screenshot harness. Stripped from production builds.

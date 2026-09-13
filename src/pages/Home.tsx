@@ -1,6 +1,7 @@
 import { Marquee } from '@ds'
 
 import { skillNames } from '../content/site'
+import { useSectionSnap } from '../scroll/useSectionSnap'
 import { About } from '../sections/About'
 import { Contact } from '../sections/Contact'
 import { Education } from '../sections/Education'
@@ -10,6 +11,8 @@ import { Projects } from '../sections/Projects'
 import { Skills } from '../sections/Skills'
 
 export default function Home() {
+  useSectionSnap()
+
   return (
     <>
       <Hero />

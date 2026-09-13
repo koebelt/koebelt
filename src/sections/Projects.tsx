@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { SphereCaption } from '../components/SphereCaption'
 import { projectImages } from '../content/site'
 import { useCopy } from '../i18n/LocaleContext'
 import { PROJECT_SLUGS } from '../i18n/types'
@@ -17,7 +16,7 @@ export function Projects() {
   return (
     <Section
       id="projects"
-      // Four knots in a row need vertical room to read as objects.
+      // The four stops need vertical room for the loose ones to spread.
       slotMinHeight="calc(var(--space-15) * 1.3)"
       wide={
         <div
@@ -38,7 +37,7 @@ export function Projects() {
                   tags={project.tags}
                   image={projectImages[slug]}
                   href={`/work/${slug}`}
-                  // Hovering a card tightens that project's knot in the sphere.
+                  // Hovering a card spins that project's stop faster.
                   onMouseEnter={() => sphere?.setFocus(i)}
                   onMouseLeave={() => sphere?.setFocus(null)}
                   onClick={(e) => {
@@ -61,10 +60,6 @@ export function Projects() {
           description={projects.description}
         />
       </Reveal>
-
-      <div style={{ marginTop: 'var(--space-9)' }}>
-        <SphereCaption scene="projects" />
-      </div>
     </Section>
   )
 }

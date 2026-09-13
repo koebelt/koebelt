@@ -12,7 +12,16 @@ import {
 } from 'three'
 
 import { buildSphere, type SphereCloud } from './geometry/fibonacci'
-import { markerIndex, sceneClusters, sceneDensity, targetGenerators } from './geometry/targets'
+import {
+  markerIndex,
+  sceneClusters,
+  sceneDensity,
+  sceneStops,
+  sceneStrand,
+  STOP_COUNT,
+  STOP_PITCH,
+  targetGenerators,
+} from './geometry/targets'
 import { QUALITY_LADDER, detectQuality } from './quality'
 import { FRAG, VERT } from './shaders/points'
 import { cssColor, cssMs } from './tokens'
@@ -24,13 +33,19 @@ const PERSP_D = 2.6
  * Camera distance per scene. Larger is further away, so the sphere reads smaller
  * and more ambient; the hero sits back and the content scenes pull forward.
  */
+/** Radians per second each project stop turns on its own axis. */
+const STOP_SPIN = 0.35
+/** Radians per second the experience strand turns on its own axis. */
+const STRAND_SPIN = 0.5
+/** How far the strand leans off vertical, top to the right. */
+const STRAND_LEAN = (-22 * Math.PI) / 180
 const DOLLY_FAR = 2.75
 const DOLLY_NEAR = 2.7
 /**
  * How fast each scene spins.
  *
  * Round forms (the sphere, the globe, the orbits) read better rotating. Forms
- * that carry a layout — the row of project knots, the timeline column — would be
+ * that carry a layout — the row of project stops — would be
  * foreshortened into dashes by a full spin, so they hold still and rely on
  * pointer parallax for life instead.
  */
@@ -79,7 +94,8 @@ const SCENE_SPIN: Record<SceneId, number> = {
   about: 0.85,
   skills: 0.65,
   projects: 0,
-  experience: 0.12,
+  // Still: the strand turns on its own axis in the shader instead.
+  experience: 0,
   education: 0.2,
   contact: 1,
 }
@@ -158,6 +174,9 @@ export class SphereEngine {
   private morph = 1
   private morphFrom = 0
   private morphDurationMs: number
+  private baseMorphMs: number
+  /** True while the intro gathers: draw unclipped so points can fly in from off-slot. */
+  private unclipped = false
 
   private width = 0
   private height = 0
@@ -222,6 +241,7 @@ export class SphereEngine {
 
     this.cloud = buildSphere(this.quality.points)
     this.morphDurationMs = cssMs('--dur-reveal', 640)
+    this.baseMorphMs = this.morphDurationMs
 
     this.material = new ShaderMaterial({
       vertexShader: VERT,
@@ -249,6 +269,16 @@ export class SphereEngine {
         uFocus: { value: 0 },
         uFocusIndex: { value: 0 },
         uClusterCount: { value: 0 },
+        uStopsFrom: { value: 0 },
+        uStopsTo: { value: 0 },
+        uStrandFrom: { value: 0 },
+        uStrandTo: { value: 0 },
+        uStrandAngle: { value: 0 },
+        uStrandLean: { value: STRAND_LEAN },
+        uStopCount: { value: STOP_COUNT },
+        uStopPitch: { value: STOP_PITCH },
+        // Staggered starting angles, so the cubes never turn in step.
+        uStopAngle: { value: Array.from({ length: STOP_COUNT }, (_, s) => s * 1.55) },
         uColorBase: { value: cssColor('--text-primary') },
         uColorAccent: { value: cssColor('--accent') },
       },
@@ -256,7 +286,7 @@ export class SphereEngine {
 
     this.buildGeometry()
     this.points = new Points(this.geometry, this.material)
-    // The experience column is 2.2 units tall; culling against the original
+    // The experience strand is 2 units tall; culling against the original
     // sphere bounds would make it vanish mid-morph.
     this.points.frustumCulled = false
     this.scene.add(this.points)
@@ -310,12 +340,22 @@ export class SphereEngine {
   // ------------------------------------------------------------------- inputs
 
   setScene(id: SceneId, opts: { immediate?: boolean } = {}) {
-    if (id === this.currentScene && this.morph >= 1) return
+    // Same scene: nothing to change, and a morph in progress (the intro, say)
+    // should run on rather than restart.
+    if (id === this.currentScene) return
 
     // Bake whatever is visible right now into `position`, so an interrupted
     // morph continues from the exact shape on screen instead of popping back
     // to the shape it started from.
     if (this.morph < 1) this.bakeVisiblePositions()
+
+    // The outgoing shape's stop effect moves to the `position` side of the morph
+    // along with the shape itself; an interrupted morph was only part-way there.
+    const u = this.material.uniforms
+    u.uStopsFrom.value += (u.uStopsTo.value - u.uStopsFrom.value) * Math.min(1, this.morph)
+    u.uStopsTo.value = sceneStops[id] ? 1 : 0
+    u.uStrandFrom.value += (u.uStrandTo.value - u.uStrandFrom.value) * Math.min(1, this.morph)
+    u.uStrandTo.value = sceneStrand[id] ? 1 : 0
 
     this.currentScene = id
     const target = this.targets.get(id) ?? this.bakeTarget(id)
@@ -335,6 +375,31 @@ export class SphereEngine {
     this.morphFrom = performance.now()
     this.material.uniforms.uMorph.value = 0
     this.ripple(0.6)
+  }
+
+  /**
+   * The opening gather: every point starts scattered well outside the sphere and
+   * sweeps in to the current shape, over a longer morph than a scene change.
+   */
+  intro() {
+    if (this.reducedMotion) return
+    const pos = this.geometry.getAttribute('position') as BufferAttribute
+    const tgt = this.geometry.getAttribute('aTarget') as BufferAttribute
+    const a = pos.array as Float32Array
+    const b = tgt.array as Float32Array
+    const { seed, n } = this.cloud
+    for (let i = 0; i < n; i++) {
+      const spread = 1.8 + seed[i] * 2.4
+      a[i * 3] = b[i * 3] * spread
+      a[i * 3 + 1] = b[i * 3 + 1] * spread
+      a[i * 3 + 2] = b[i * 3 + 2] * spread
+    }
+    pos.needsUpdate = true
+    this.morphDurationMs = this.baseMorphMs * 2.5
+    this.unclipped = true
+    this.morph = 0
+    this.morphFrom = performance.now()
+    this.material.uniforms.uMorph.value = 0
   }
 
   setProgress(p: number) {
@@ -483,12 +548,16 @@ export class SphereEngine {
 
   private commitMorph() {
     this.morph = 1
+    this.morphDurationMs = this.baseMorphMs
+    this.unclipped = false
     this.bakeVisiblePositions()
     this.material.uniforms.uMorph.value = 0
     const pos = this.geometry.getAttribute('position') as BufferAttribute
     const tgt = this.geometry.getAttribute('aTarget') as BufferAttribute
     ;(tgt.array as Float32Array).set(pos.array as Float32Array)
     tgt.needsUpdate = true
+    this.material.uniforms.uStopsFrom.value = this.material.uniforms.uStopsTo.value
+    this.material.uniforms.uStrandFrom.value = this.material.uniforms.uStrandTo.value
   }
 
   private renderOnce() {
@@ -506,12 +575,26 @@ export class SphereEngine {
   private applyViewport() {
     const r = this.slotLerped
     if (!r) {
+      this.camera.clearViewOffset()
       this.renderer.setViewport(0, 0, this.width, this.height)
       this.renderer.setScissorTest(false)
       this.camera.aspect = this.width / Math.max(1, this.height)
       this.camera.updateProjectionMatrix()
       return
     }
+    if (this.unclipped) {
+      // Same framing as the slot, drawn across the whole canvas: the slot is the
+      // "full" view and the canvas a window offset around it, so the sphere sits
+      // exactly where the scissored render puts it and nothing moves when the
+      // scissor comes back. Only the scattered points outside the slot differ.
+      this.renderer.setViewport(0, 0, this.width, this.height)
+      this.renderer.setScissorTest(false)
+      this.camera.aspect = r.width / Math.max(1, r.height)
+      this.camera.setViewOffset(r.width, r.height, -r.x, -r.y, this.width, this.height)
+      return
+    }
+    this.camera.clearViewOffset()
+
     // WebGL measures y from the bottom of the drawing buffer; CSS rects measure
     // from the top.
     const y = this.height - r.y - r.height
@@ -552,13 +635,23 @@ export class SphereEngine {
     u.uAccentCut.value += (SCENE_ACCENT[this.currentScene] - u.uAccentCut.value) * 0.08
     u.uFocus.value += (this.focusTarget - u.uFocus.value) * 0.12
 
+    // Each project stop turns on its own axis; the hovered one turns faster.
+    // Integrated here rather than as uTime * speed in the shader, so a change
+    // of speed changes the rate instead of jumping the angle.
+    const angles = u.uStopAngle.value as number[]
+    for (let s = 0; s < STOP_COUNT; s++) {
+      const hovered = s === u.uFocusIndex.value ? u.uFocus.value : 0
+      angles[s] += STOP_SPIN * (1 + 2.5 * hovered) * (dt / 1000)
+    }
+    u.uStrandAngle.value += STRAND_SPIN * (dt / 1000)
+
     // Rotation: a slow base spin, plus scroll velocity, plus eased pointer parallax.
     this.scrollBoost *= 0.92
     const spin = SCENE_SPIN[this.currentScene]
     this.yaw += (0.0016 + this.scrollBoost) * spin
 
     // A scene that barely spins must SETTLE face-on, not freeze at whatever
-    // arbitrary angle it inherited — a row of knots seen edge-on collapses into
+    // arbitrary angle it inherited — a row of stops seen edge-on collapses into
     // one blob. Ease to the nearest whole turn, so the form turns to face the
     // reader as the section is entered.
     if (spin < 0.3) {

@@ -1,8 +1,10 @@
 import { Button, FooterBar, NavBar } from '@ds'
+import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { DevHud } from './components/DevHud'
 import { LocaleToggle } from './components/LocaleToggle'
+import { Splash } from './components/Splash'
 import { site } from './content/site'
 import { LocaleProvider, useCopy } from './i18n/LocaleContext'
 import { SceneProvider, useActiveScene } from './scroll/SceneContext'
@@ -26,6 +28,7 @@ export default function App() {
           </div>
           {/* Inside SphereCanvas: the HUD reads the engine off its context. */}
           <DevHud />
+          <Splash />
         </SphereCanvas>
       </SceneProvider>
     </LocaleProvider>
@@ -40,12 +43,31 @@ function Nav() {
   const onHome = pathname === '/'
   const narrow = useIsNarrow()
 
+  // Publish the sticky bar's height as --nav-height, so the hero can fill the
+  // screen below it rather than a full screen that runs past the fold. The
+  // design system's NavBar takes no ref and its height is not a token, so it is
+  // measured. It is the page's only <header>.
+  useEffect(() => {
+    const header = document.querySelector('header')
+    if (!header) return
+    const root = document.documentElement
+    const ro = new ResizeObserver(() => {
+      root.style.setProperty('--nav-height', `${header.offsetHeight}px`)
+    })
+    ro.observe(header)
+    return () => ro.disconnect()
+  }, [])
+
   const go = (id: string) => {
     if (!onHome) {
       navigate(`/#${id}`)
       return
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    // Aim at the section's scroll stop, not its top: landing on the padding above
+    // it would make the section snap settle a second time, a visible double move.
+    const section = document.getElementById(id)
+    const stop = section?.querySelector(':scope > .grid12') ?? section
+    stop?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   // NavBar renders items as their own labels, so the label IS the identity. Map

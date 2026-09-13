@@ -24,8 +24,8 @@ It is not decoration: it holds one scene per page section and morphs between the
 | `hero` | Fibonacci sphere | the rest pose |
 | `about` | **Earth, drawn as coastlines** | one marked point is Niort |
 | `skills` | four nested orbital shells | one per discipline; hovering a card picks one out, and any skill opens why he claims it |
-| `projects` | four knots in a row | one per project, sitting above its card |
-| `experience` | a column that swells once per role | five roles as five bulges |
+| `projects` | one cube five times, from a loose cloud to a crisp wireframe | what a project is — a vague idea made precise; each cube turns on itself, and hovering a card spins its stop faster |
+| `experience` | a strand of DNA, turning on its axis | five roles as five bright rungs |
 | `education` | two stacked strata | one layer per degree |
 | `contact` | the sphere again | a deliberate return to the opening form |
 

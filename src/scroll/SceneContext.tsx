@@ -33,6 +33,7 @@ export function useSceneRegistry() {
   return useMemo(
     () => ({
       register: (id: SceneId, el: HTMLElement, slot: HTMLElement | null) => c.register(id, el, slot),
+      invalidate: () => c.invalidate(),
     }),
     [c],
   )

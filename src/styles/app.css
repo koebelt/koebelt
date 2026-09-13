@@ -53,6 +53,67 @@
   --card-min-md: 280px;
 }
 
+/* The screen below the sticky nav (App.tsx measures it), not the full screen:
+   a full-height hero under the nav runs past the fold and sits low. The
+   fallback needs a unit — calc() rejects subtracting a bare 0 from a length. */
+.hero {
+  min-height: calc(100svh - var(--nav-height, 0px));
+}
+
+/* Hero sphere slot. The sphere fills ~94% of the slot's height, and the engine
+   scissors to the slot, so on desktop the height is also capped by viewport
+   width (~the column's width) to keep the sphere from clipping at its sides. */
+.hero-slot {
+  min-height: min(70svh, calc(var(--space-15) * 1.9));
+}
+
+@media (min-width: 900px) {
+  .hero-slot {
+    min-height: min(80svh, calc(var(--space-15) * 3), 42vw);
+  }
+}
+
+/* Skills: the skill cards on the left, the AI note beside them. The skill
+   column needs ~800px for three domain cards in a row, so the pair only sits
+   side by side on wide screens and stacks otherwise. */
+.skills-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--grid-gap);
+}
+
+.skills-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gap);
+}
+
+/* Grows so the domain cards' bottom edge lines up with the AI note beside them. */
+.skills-domains {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--grid-gap);
+}
+
+@media (min-width: 600px) {
+  .skills-domains {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .skills-layout {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  }
+  .skills-layout > .skills-stack {
+    grid-column: 1 / span 7;
+  }
+  .skills-layout > .skills-ai {
+    grid-column: 8 / span 5;
+  }
+}
+
 /* Page content sits above the fixed sphere canvas (z-index 0).
    Sections stay transparent so the sphere shows through; Card, NavBar and
    FooterBar are opaque and legitimately occlude it — the design system's
@@ -64,6 +125,25 @@
 
 .section {
   padding-block: var(--section-y);
+}
+
+/* Scroll: settle on each section, never in the empty space between them.
+   Proximity, not mandatory — a section taller than the screen (skills) still
+   scrolls freely, and snapping only engages when a stop is near. The stop is
+   the section's content row rather than the section itself, whose top is a
+   band of padding; scroll-padding keeps it clear of the sticky nav. */
+html {
+  scroll-snap-type: y proximity;
+  scroll-padding-top: var(--nav-height, 0px);
+}
+
+.hero,
+.section > .grid12 {
+  scroll-snap-align: start;
+}
+
+.section > .grid12 {
+  scroll-margin-top: var(--space-10);
 }
 
 @media (min-width: 900px) {
@@ -137,6 +217,34 @@
 @media (min-width: 900px) {
   .footer-bar {
     padding-inline: var(--gutter-inline-lg) !important;
+  }
+}
+
+/* Splash (components/Splash.tsx): the mark fades up, and a lime rule draws
+   out beneath it across the same beat. */
+.splash-mark {
+  animation: splash-mark var(--dur-reveal) var(--ease-out) both;
+}
+
+.splash-rule {
+  display: block;
+  width: var(--space-12);
+  height: var(--border-width);
+  background: var(--accent);
+  transform-origin: left;
+  animation: splash-rule var(--dur-reveal) var(--ease-standard) var(--dur-fast) both;
+}
+
+@keyframes splash-mark {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+}
+
+@keyframes splash-rule {
+  from {
+    transform: scaleX(0);
   }
 }
 

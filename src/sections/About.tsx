@@ -2,7 +2,6 @@ import { Divider, SectionHeading, Tag } from '@ds'
 
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { SphereCaption } from '../components/SphereCaption'
 import { useCopy } from '../i18n/LocaleContext'
 
 export function About() {
@@ -30,10 +29,6 @@ export function About() {
       <Reveal order={3} style={{ marginTop: 'var(--space-8)' }}>
         <TagGroup label={about.softSkillsLabel} items={about.softSkills} />
       </Reveal>
-
-      <div style={{ marginTop: 'var(--space-10)' }}>
-        <SphereCaption scene="about" />
-      </div>
     </Section>
   )
 }

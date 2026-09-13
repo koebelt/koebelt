@@ -17,7 +17,7 @@ const TAU = Math.PI * 2
 
 /** Number of clusters in the skills and projects scenes. */
 export const CLUSTER_COUNT = 4
-/** Number of gaussian bulges in the experience column. */
+/** Number of bright rungs on the experience strand. */
 export const ROLE_COUNT = 5
 /** Number of strata in the education scene. */
 export const DEGREE_COUNT = 2
@@ -160,45 +160,61 @@ const skillsTarget: TargetGenerator = ({ home, seed, index, n }) => {
 }
 
 /**
- * Scene 4 — four knots in a row, one per project.
+ * Scene 4 — idea to shipped: the same object five times, sharper left to right.
  *
- * Laid out horizontally rather than in a 2×2 block because the sphere's slot is
- * wide and short, and because a row of four maps one-to-one onto the four project
- * cards directly below it.
+ * Not a picture of any single project but of what a project is — something vague
+ * made precise. The target here is only the finished form, a wireframe cube at
+ * each stop; the scatter and each cube's spin are added in the shader (stops()),
+ * because a spin cannot be baked into a static target.
  *
- * Radius uses seed² so points bunch toward each knot's centre instead of filling
- * a uniform ball, which makes each knot read as a dense object.
+ * The first four stops follow PROJECT_SLUGS left to right, one per card.
  */
-const projectsTarget: TargetGenerator = ({ home, seed, index, n }) => {
+/**
+ * One more stop than there are projects: the extra one, on the right, is the
+ * finished form and has no card. The four projects hover the four before it.
+ */
+export const STOP_COUNT = CLUSTER_COUNT + 1
+export const STOP_PITCH = 0.66
+const CUBE_HALF = 0.18
+
+/** The twelve edges of a unit cube, as pairs of corner sign vectors. */
+const CUBE_EDGES: [number[], number[]][] = (() => {
+  const edges: [number[], number[]][] = []
+  for (let axis = 0; axis < 3; axis++) {
+    for (const a of [-1, 1]) {
+      for (const b of [-1, 1]) {
+        const from = [0, 0, 0]
+        const to = [0, 0, 0]
+        const [o1, o2] = [(axis + 1) % 3, (axis + 2) % 3]
+        from[axis] = -1
+        to[axis] = 1
+        from[o1] = to[o1] = a
+        from[o2] = to[o2] = b
+        edges.push([from, to])
+      }
+    }
+  }
+  return edges
+})()
+
+const projectsTarget: TargetGenerator = ({ index, n }) => {
   const out = new Float32Array(n * 3)
-  const pitch = 0.82
-  const tilt = (14 * Math.PI) / 180
+  // Turned off its faces so all three axes show; the scene itself does not spin.
+  const tiltX = (28 * Math.PI) / 180
+  const tiltY = (38 * Math.PI) / 180
 
   for (let i = 0; i < n; i++) {
-    const scaled = index[i] * CLUSTER_COUNT
-    const k = Math.min(CLUSTER_COUNT - 1, Math.floor(scaled))
-    const ax = (k - (CLUSTER_COUNT - 1) / 2) * pitch
-    // A slight alternating lift so the row is not a dead straight line.
-    const ay = (k % 2 === 0 ? 1 : -1) * 0.1
+    const k = Math.min(STOP_COUNT - 1, Math.floor(index[i] * STOP_COUNT))
+    const [from, to] = CUBE_EDGES[Math.floor(hash(i, 1) * CUBE_EDGES.length)]
+    const t = hash(i, 2)
 
-    // A contiguous band of `index` is a contiguous band of LATITUDE on the
-    // source sphere, so using home directly would make each knot a flat polar
-    // cap. Re-map the point's position within its band across a full latitude
-    // range instead, keeping its own azimuth — the cluster stays coherent and
-    // each knot is a ball rather than a disc.
-    const local = scaled - k
-    const ly = 1 - local * 2
-    const lr = Math.sqrt(Math.max(0, 1 - ly * ly))
-    const azimuth = Math.atan2(home[i * 3 + 2], home[i * 3])
+    let px = (from[0] + (to[0] - from[0]) * t) * CUBE_HALF
+    let py = (from[1] + (to[1] - from[1]) * t) * CUBE_HALF
+    let pz = (from[2] + (to[2] - from[2]) * t) * CUBE_HALF
+    ;[px, pz] = rotate(px, pz, tiltY)
+    ;[py, pz] = rotate(py, pz, tiltX)
 
-    const r = 0.13 + 0.24 * seed[i] * seed[i]
-
-    const px = ax + Math.cos(azimuth) * lr * r
-    let py = ay + ly * r
-    let pz = Math.sin(azimuth) * lr * r
-    ;[py, pz] = rotate(py, pz, tilt)
-
-    out[i * 3] = px
+    out[i * 3] = (k - (STOP_COUNT - 1) / 2) * STOP_PITCH + px
     out[i * 3 + 1] = py
     out[i * 3 + 2] = pz
   }
@@ -207,34 +223,80 @@ const projectsTarget: TargetGenerator = ({ home, seed, index, n }) => {
 }
 
 /**
- * Scene 5 — a vertical column that swells once per role.
- *
- * The bulge envelope is a sum of five gaussians at the five role positions, so
- * the column visibly beats as it rises.
+ * An independent uniform number per point. The point's own seed is not reused:
+ * the shader thins the cloud by dropping high seeds, which would carve the same
+ * edges out of every cube instead of thinning them evenly.
  */
-const experienceTarget: TargetGenerator = ({ home, seed, index, n }) => {
+function hash(i: number, salt: number): number {
+  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453
+  return x - Math.floor(x)
+}
+
+/**
+ * Scene 5 — a strand of DNA: two helices joined by rungs, one bright rung per role.
+ *
+ * Experience as what the work is made of rather than a list of dates. Every
+ * point's height comes straight from its index, so the five focus bands are five
+ * stretches of the strand and each bright rung sits in the middle of its own.
+ *
+ * The target is upright and still. The lean and the turn about the strand's own
+ * axis are applied in the shader (strand()), because spinning the whole scene
+ * would make a leaning strand wobble around the vertical instead of turning.
+ */
+const DNA_HEIGHT = 2.0
+const DNA_RADIUS = 0.4
+const DNA_TURNS = 2.25
+/** Rungs along the strand; a multiple of ROLE_COUNT so one lands on each role's centre. */
+const DNA_RUNGS_PER_ROLE = 3
+const DNA_RUNGS = ROLE_COUNT * DNA_RUNGS_PER_ROLE
+/** The second helix trails the first by less than half a turn, like DNA's major and minor grooves. */
+const DNA_GROOVE = Math.PI * 0.8
+/** Strands are drawn as round tubes; rungs as thinner bars. */
+const DNA_TUBE = 0.02
+const DNA_BAR = 0.008
+
+const experienceTarget: TargetGenerator = ({ index, n }) => {
   const out = new Float32Array(n * 3)
-  const height = 2.2
-  const sigma = 0.055
 
   for (let i = 0; i < n; i++) {
     const t = index[i]
-    const y = (t - 0.5) * height
+    const a = hash(i, 5)
 
-    let bulge = 1
-    for (let r = 0; r < ROLE_COUNT; r++) {
-      const centre = (r + 0.5) / ROLE_COUNT
-      const d = t - centre
-      bulge += 1.35 * Math.exp(-(d * d) / (2 * sigma * sigma))
+    const rung = Math.min(DNA_RUNGS - 1, Math.floor(t * DNA_RUNGS))
+    const roleRung = rung % DNA_RUNGS_PER_ROLE === (DNA_RUNGS_PER_ROLE - 1) / 2
+    const rungShare = roleRung ? 0.62 : 0.38
+
+    let cx: number
+    let cy: number
+    let cz: number
+    let thickness: number
+
+    if (a < rungShare) {
+      // A base pair: a straight bar across the axis between the two helices.
+      const rt = (rung + 0.5) / DNA_RUNGS
+      const angle = rt * DNA_TURNS * TAU
+      const s = hash(i, 6)
+      const ax = Math.cos(angle) * DNA_RADIUS
+      const az = Math.sin(angle) * DNA_RADIUS
+      cx = ax + (Math.cos(angle + DNA_GROOVE) * DNA_RADIUS - ax) * s
+      cy = (rt - 0.5) * DNA_HEIGHT
+      cz = az + (Math.sin(angle + DNA_GROOVE) * DNA_RADIUS - az) * s
+      thickness = roleRung ? DNA_BAR * 2.5 : DNA_BAR
+    } else {
+      const angle = t * DNA_TURNS * TAU + (hash(i, 7) < 0.5 ? 0 : DNA_GROOVE)
+      cx = Math.cos(angle) * DNA_RADIUS
+      cy = (t - 0.5) * DNA_HEIGHT
+      cz = Math.sin(angle) * DNA_RADIUS
+      thickness = DNA_TUBE
     }
 
-    // Reuse the point's own azimuth so the column keeps the sphere's winding.
-    const angle = Math.atan2(home[i * 3 + 2], home[i * 3])
-    const radius = (0.06 + 0.1 * seed[i]) * bulge
-
-    out[i * 3] = Math.cos(angle) * radius
-    out[i * 3 + 1] = y
-    out[i * 3 + 2] = Math.sin(angle) * radius
+    // Offset onto a small sphere around the centreline, which reads as a tube.
+    const u = hash(i, 8) * 2 - 1
+    const phi = hash(i, 9) * TAU
+    const ring = Math.sqrt(1 - u * u)
+    out[i * 3] = cx + Math.cos(phi) * ring * thickness
+    out[i * 3 + 1] = cy + u * thickness
+    out[i * 3 + 2] = cz + Math.sin(phi) * ring * thickness
   }
 
   return out
@@ -244,7 +306,7 @@ const experienceTarget: TargetGenerator = ({ home, seed, index, n }) => {
  * Scene 6 — two stacked strata, one per degree.
  *
  * Education is layers laid down over time, so the form is two flat discs rather
- * than anything vertical: distinct from the experience column beside it, and
+ * than anything vertical: distinct from the experience strand beside it, and
  * legible in a wide, short slot.
  */
 const educationTarget: TargetGenerator = ({ home, seed, index, n }) => {
@@ -289,8 +351,10 @@ export const sceneDensity: Record<SceneId, number> = {
   // The continents need every point they can get.
   about: 1,
   skills: 0.9,
-  projects: 0.55,
-  experience: 0.75,
+  // Thinning much further breaks the finished cube's edges into loose dots.
+  projects: 0.85,
+  // The tubes need the points to look solid.
+  experience: 0.9,
   education: 0.85,
   contact: 1,
 }
@@ -304,6 +368,34 @@ export const sceneClusters: Record<SceneId, number> = {
   experience: ROLE_COUNT,
   education: DEGREE_COUNT,
   contact: 0,
+}
+
+/**
+ * Scenes drawn as a leaning strand turning on its own axis (see strand() in the
+ * shader).
+ */
+export const sceneStrand: Record<SceneId, boolean> = {
+  hero: false,
+  about: false,
+  skills: false,
+  projects: false,
+  experience: true,
+  education: false,
+  contact: false,
+}
+
+/**
+ * Scenes drawn as spinning stops (see stops() in the shader). Hovering a card
+ * there spins its stop faster instead of tightening it.
+ */
+export const sceneStops: Record<SceneId, boolean> = {
+  hero: false,
+  about: false,
+  skills: false,
+  projects: true,
+  experience: false,
+  education: false,
+  contact: false,
 }
 
 /** The single point rendered as the location marker, in the about scene. */

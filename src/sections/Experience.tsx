@@ -2,7 +2,6 @@ import { SectionHeading, WorkRow } from '@ds'
 
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { SphereCaption } from '../components/SphereCaption'
 import { roles } from '../content/site'
 import { useCopy } from '../i18n/LocaleContext'
 import { useSphere } from '../three/SphereContext'
@@ -11,7 +10,12 @@ export function Experience() {
   const { experience } = useCopy()
 
   return (
-    <Section id="experience" wide={<Roles />}>
+    <Section
+      id="experience"
+      wide={<Roles />}
+      // The strand is tall and thin; the default slot would shrink it to a thread.
+      slotMinHeight="calc(var(--space-15) * 1.6)"
+    >
       <Reveal>
         <SectionHeading
           eyebrow={experience.eyebrow}
@@ -19,10 +23,6 @@ export function Experience() {
           description={experience.description}
         />
       </Reveal>
-
-      <div style={{ marginTop: 'var(--space-9)' }}>
-        <SphereCaption scene="experience" />
-      </div>
     </Section>
   )
 }

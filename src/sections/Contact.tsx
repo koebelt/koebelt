@@ -2,7 +2,6 @@ import { Button, Icon, SectionHeading } from '@ds'
 
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { SphereCaption } from '../components/SphereCaption'
 import { cvFiles, cvHref, site } from '../content/site'
 import { useCopy, useLocale } from '../i18n/LocaleContext'
 
@@ -88,10 +87,6 @@ export function Contact() {
           </Button>
         </div>
       </Reveal>
-
-      <div style={{ marginTop: 'var(--space-10)' }}>
-        <SphereCaption scene="contact" />
-      </div>
     </Section>
   )
 }

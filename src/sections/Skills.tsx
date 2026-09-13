@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { SphereCaption } from '../components/SphereCaption'
-import { skillGroups, type SkillEntry } from '../content/site'
+import { skillGroups, type SkillEntry, type SkillGroup } from '../content/site'
 import { useCopy } from '../i18n/LocaleContext'
 import { useSphere } from '../three/SphereContext'
 
@@ -24,38 +23,67 @@ export function Skills() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  const [foundation, ...domains] = skillGroups
+
+  // `index` is the group's orbital shell in the sphere; hovering the card focuses it.
+  const renderGroup = (group: SkillGroup, index: number, note?: string) => (
+    <Reveal key={group.id} order={index} style={{ height: '100%' }}>
+      <Card
+        onMouseEnter={() => sphere?.setFocus(index)}
+        onMouseLeave={() => sphere?.setFocus(null)}
+        style={{ height: '100%' }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+          <Divider label={skills.groupLabels[group.id]} />
+          {note ? (
+            <p style={{ font: 'var(--text-body-sm)', color: 'var(--text-faint)', margin: 0 }}>
+              {note}
+            </p>
+          ) : null}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
+            {group.items.map((skill) => (
+              <SkillButton key={skill.id} skill={skill} onOpen={() => setOpen(skill)} />
+            ))}
+          </div>
+        </div>
+      </Card>
+    </Reveal>
+  )
+
   return (
     <Section
       id="skills"
       wide={
-        // Four cards, not Tabs: tabs would hide three quarters of this at all times.
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(var(--card-min-sm), 1fr))',
-            gap: 'var(--grid-gap)',
-            marginTop: 'var(--space-10)',
-          }}
-        >
-          {skillGroups.map((group, i) => (
-            <Reveal key={group.id} order={i}>
-              {/* Each card is one orbital shell in the sphere; hovering focuses it. */}
-              <Card
-                onMouseEnter={() => sphere?.setFocus(i)}
-                onMouseLeave={() => sphere?.setFocus(null)}
-                style={{ height: '100%' }}
-              >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-                  <Divider label={skills.groupLabels[group.id]} />
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
-                    {group.items.map((skill) => (
-                      <SkillButton key={skill.id} skill={skill} onOpen={() => setOpen(skill)} />
-                    ))}
-                  </div>
-                </div>
-              </Card>
-            </Reveal>
-          ))}
+        // Cards, not Tabs: tabs would hide three quarters of this at all times.
+        <div className="skills-layout" style={{ marginTop: 'var(--space-10)' }}>
+          <div className="skills-stack">
+            {/* Languages are used by every domain, so they sit above all three. */}
+            {renderGroup(foundation, 0, skills.languagesNote)}
+            <div className="skills-domains">
+              {domains.map((group, i) => renderGroup(group, i + 1))}
+            </div>
+          </div>
+
+          <Reveal order={skillGroups.length} className="skills-ai">
+            <Card style={{ height: '100%' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+                <Divider label={skills.ai.label} />
+                {skills.ai.paragraphs.map((paragraph) => (
+                  <p
+                    key={paragraph}
+                    style={{
+                      font: 'var(--text-body-md)',
+                      color: 'var(--text-secondary)',
+                      maxWidth: 'var(--measure-prose)',
+                      margin: 0,
+                    }}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </Card>
+          </Reveal>
         </div>
       }
     >
@@ -66,10 +94,6 @@ export function Skills() {
           description={skills.description}
         />
       </Reveal>
-
-      <div style={{ marginTop: 'var(--space-9)' }}>
-        <SphereCaption scene="skills" />
-      </div>
 
       <Dialog open={open !== null} title={open?.name} onClose={() => setOpen(null)} width={560}>
         {open ? (

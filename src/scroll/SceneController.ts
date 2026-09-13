@@ -98,6 +98,16 @@ export class SceneController {
     return () => this.listeners.delete(fn)
   }
 
+  /**
+   * Publish the current state on the next frame even if nothing has moved.
+   * State is only sent when something changes, so a listener that becomes ready
+   * late (the engine loads as its own chunk) would otherwise see nothing until
+   * the first scroll.
+   */
+  invalidate() {
+    this.dirty = true
+  }
+
   getScene(): SceneId {
     return this.scene
   }

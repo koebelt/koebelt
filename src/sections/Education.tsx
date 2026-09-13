@@ -2,7 +2,6 @@ import { SectionHeading, WorkRow } from '@ds'
 
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { SphereCaption } from '../components/SphereCaption'
 import { degrees } from '../content/site'
 import { useCopy } from '../i18n/LocaleContext'
 import { useSphere } from '../three/SphereContext'
@@ -20,10 +19,6 @@ export function Education() {
           description={education.description}
         />
       </Reveal>
-
-      <div style={{ marginTop: 'var(--space-9)' }}>
-        <SphereCaption scene="education" />
-      </div>
     </Section>
   )
 }

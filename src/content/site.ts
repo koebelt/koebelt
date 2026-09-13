@@ -29,9 +29,6 @@ export function cvHref(locale: string): string | undefined {
   return file ? '/' + encodeURIComponent(file) : undefined
 }
 
-/** Hero caption dwell time, in ms. The fade itself uses --dur-slow. */
-export const CAPTION_INTERVAL_MS = 3600
-
 export interface Role {
   /** Stable key into copy.experience.roles. */
   id: string
@@ -43,11 +40,11 @@ export interface Role {
 
 /** Five roles — one gaussian bulge each in the experience scene. */
 export const roles: Role[] = [
-  { id: 'cbienla', index: '01', org: 'Cbienlà.fr', year: '2025—', href: 'https://cbienla.fr' },
-  { id: 'nagarro', index: '02', org: 'Nagarro', year: '2024—25' },
-  { id: 'facix', index: '03', org: 'Facix', year: '2023—25' },
+  { id: 'cbienla', index: '01', org: 'Cbienlà.fr', year: '2025–', href: 'https://cbienla.fr' },
+  { id: 'nagarro', index: '02', org: 'Nagarro', year: '2024–25' },
+  { id: 'facix', index: '03', org: 'Facix', year: '2023–25' },
   { id: 'epitech', index: '04', org: 'EPITECH Strasbourg', year: '2023' },
-  { id: 'ale', index: '05', org: 'ALE Enterprise', year: '2021—22' },
+  { id: 'ale', index: '05', org: 'ALE Enterprise', year: '2021–22' },
 ]
 
 export interface Degree {
@@ -60,8 +57,8 @@ export interface Degree {
 
 /** Two degrees — one stratum each in the education scene. */
 export const degrees: Degree[] = [
-  { id: 'epitech', index: '01', org: 'EPITECH Strasbourg', year: '2020—2025' },
-  { id: 'hft', index: '02', org: 'HFT Stuttgart', year: '2023—2024' },
+  { id: 'epitech', index: '01', org: 'EPITECH Strasbourg', year: '2020–2025' },
+  { id: 'hft', index: '02', org: 'HFT Stuttgart', year: '2023–2024' },
 ]
 
 /** Technology stacks are not translated. Keyed by project slug. */
@@ -103,7 +100,11 @@ export interface SkillGroup {
   items: SkillEntry[]
 }
 
-/** Four groups — one orbital shell each in the skills scene. */
+/**
+ * Four groups — one orbital shell each in the skills scene. Languages come first
+ * on purpose: they are shared by every domain, and index 0 is the innermost,
+ * untilted shell the other three orbit.
+ */
 export const skillGroups: SkillGroup[] = [
   {
     id: 'languages',
@@ -111,6 +112,8 @@ export const skillGroups: SkillGroup[] = [
       { id: 'c', name: 'C / C++' },
       { id: 'ts', name: 'JavaScript / TypeScript' },
       { id: 'python', name: 'Python' },
+      { id: 'bash', name: 'Bash' },
+      { id: 'sql', name: 'SQL' },
       { id: 'dart', name: 'Dart' },
       { id: 'haskell', name: 'Haskell' },
       { id: 'rust', name: 'Rust' },

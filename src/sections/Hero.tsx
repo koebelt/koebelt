@@ -1,8 +1,10 @@
 import { Badge, Button, Icon } from '@ds'
 import { useEffect, useRef } from 'react'
 
-import { SphereCaption } from '../components/SphereCaption'
-import { useCopy } from '../i18n/LocaleContext'
+import { Reveal } from '../components/Reveal'
+import { useSplashDone } from '../components/Splash'
+import { cvFiles, cvHref } from '../content/site'
+import { useCopy, useLocale } from '../i18n/LocaleContext'
 import { useSceneRegistry } from '../scroll/SceneContext'
 
 /**
@@ -12,7 +14,11 @@ import { useSceneRegistry } from '../scroll/SceneContext'
  */
 export function Hero() {
   const registry = useSceneRegistry()
-  const { hero } = useCopy()
+  const { hero, contact } = useCopy()
+  const { locale } = useLocale()
+  const cv = cvHref(locale)
+  // The hero copy is the second half of the splash: it rises as the screen lifts.
+  const splashDone = useSplashDone()
   const ref = useRef<HTMLElement | null>(null)
   const slotRef = useRef<HTMLDivElement | null>(null)
 
@@ -26,50 +32,42 @@ export function Hero() {
     <section
       ref={ref}
       id="hero"
-      className="container"
+      className="container hero"
       style={{
         position: 'relative',
-        minHeight: '100svh',
         display: 'flex',
         alignItems: 'center',
-        paddingBlock: 'var(--space-13) var(--space-11)',
+        // Equal above and below, so the content sits on the middle of the screen.
+        paddingBlock: 'var(--space-12)',
       }}
     >
       <div className="grid12" style={{ width: '100%' }}>
         <div
           className="col-1-6"
-          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}
+          // The sphere slot is taller than the copy, and the sphere is drawn centred
+          // in it. Centring the copy in the same row puts both on one axis; left at
+          // the top of the row, the copy sat well above the sphere's middle.
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--space-6)',
+            alignSelf: 'center',
+          }}
         >
-          <Badge tone="accent">{hero.badge}</Badge>
+          <Reveal order={0} wait={!splashDone}>
+            <Badge tone="accent">{hero.badge}</Badge>
+          </Reveal>
 
           {/* The design system has no hero-type component — SectionHeading is for
-              sections. Display type is composed from tokens directly. */}
-          <h1
-            style={{
-              font: 'var(--text-display-xl)',
-              fontSize: 'clamp(var(--fs-heading-lg), 7vw, var(--fs-display-xl))',
-              letterSpacing: 'var(--tr-display)',
-              lineHeight: 'var(--lh-display)',
-              color: 'var(--text-primary)',
-              margin: 0,
-            }}
-          >
-            {hero.name}
-          </h1>
+              sections. Display type is composed from tokens directly. Name and role
+              share one style and sit tight together, reading as a single two-line mark. */}
+          <Reveal order={1} wait={!splashDone}>
+            <h1 style={displayStyle}>{hero.name}</h1>
+            {/* Same size as the name, stepped back in colour so the two lines don't compete. */}
+            <p style={{ ...displayStyle, color: 'var(--text-secondary)' }}>{hero.statement}</p>
+          </Reveal>
 
-          <p
-            style={{
-              font: 'var(--text-heading-sm)',
-              fontSize: 'clamp(var(--fs-heading-xs), 2.2vw, var(--fs-heading-sm))',
-              letterSpacing: 'var(--tr-heading)',
-              color: 'var(--text-primary)',
-              margin: 0,
-              maxWidth: '24ch',
-            }}
-          >
-            {hero.statement}
-          </p>
-
+          <Reveal order={2} wait={!splashDone}>
           <p
             className="prose"
             style={{
@@ -80,28 +78,48 @@ export function Hero() {
           >
             {hero.lede}
           </p>
+          </Reveal>
 
-          <SphereCaption scene="hero" />
-
-          <div style={{ display: 'flex', gap: 'var(--space-4)', marginTop: 'var(--space-3)' }}>
+          <Reveal order={3} wait={!splashDone}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'var(--space-4)',
+              marginTop: 'var(--space-3)',
+            }}
+          >
             <Button
               as="a"
               href="#projects"
-              variant="secondary"
+              variant="primary"
               size="lg"
               iconRight={<Icon name="arrow-right" size={18} />}
             >
               {hero.cta}
             </Button>
+            {/* Same résumé and same locale rule as the contact section. */}
+            {cv ? (
+              <Button
+                as="a"
+                href={cv}
+                download={cvFiles[locale]}
+                variant="secondary"
+                size="lg"
+                iconLeft={<Icon name="download" size={18} />}
+              >
+                {contact.downloadCv}
+              </Button>
+            ) : null}
           </div>
+          </Reveal>
         </div>
 
         <div
           ref={slotRef}
-          className="col-7-12"
+          className="col-7-12 hero-slot"
           aria-hidden="true"
           data-sphere-slot="hero"
-          style={{ minHeight: 'min(70svh, calc(var(--space-15) * 1.9))' }}
         />
       </div>
 
@@ -109,6 +127,15 @@ export function Hero() {
     </section>
   )
 }
+
+const displayStyle = {
+  font: 'var(--text-display-lg)',
+  fontSize: 'clamp(var(--fs-heading-md), 5vw, var(--fs-display-lg))',
+  letterSpacing: 'var(--tr-display)',
+  lineHeight: 'var(--lh-display)',
+  color: 'var(--text-primary)',
+  margin: 0,
+} as const
 
 function ScrollHint({ label }: { label: string }) {
   return (

@@ -6,11 +6,12 @@ export const LOCALES: readonly Locale[] = ['en', 'fr']
 
 export type ProjectSlug = 'quadcopter' | 'cbienla' | 'drone-controller' | 'robotic-arm'
 
-/** Ordered; also the order of the knots in the projects scene. */
+/** Ordered; also the order of the stops in the projects scene. */
 export const PROJECT_SLUGS: readonly ProjectSlug[] = [
+  // Most recent first.
+  'cbienla',
   'quadcopter',
   'drone-controller',
-  'cbienla',
   'robotic-arm',
 ]
 
@@ -63,6 +64,13 @@ export interface Copy {
     why: Record<string, string>
     levelLabel: string
     close: string
+    /** Under the languages card: they are shared by every domain, not one of them. */
+    languagesNote: string
+    /** How he works with AI tools. One string per paragraph. */
+    ai: {
+      label: string
+      paragraphs: string[]
+    }
   }
 
   projects: {
@@ -100,8 +108,6 @@ export interface Copy {
     description: string
     downloadCv: string
   }
-
-  captions: Record<SceneId, string[]>
 
   footerNote: string
   notFound: { eyebrow: string; title: string; back: string }
