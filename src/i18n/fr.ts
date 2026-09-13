@@ -17,7 +17,7 @@ export const fr: Copy = {
     badge: "Disponible pour un nouveau poste",
     name: 'Thomas Koebel',
     statement: 'Ingénieur logiciel',
-    lede: "Web et mobile, de bout en bout : Flutter et React côté interface, Node.js et Firebase derrière. Diplômé d’un master en ingénierie logicielle d’EPITECH Strasbourg, installé à Niort. J’ai cofondé Facix puis Cbienlà, et je construis mon propre matériel à côté.",
+    lede: "Ingénieur full-stack web et mobile, de l’interface aux services qui la font tourner. Diplômé d’un master en ingénierie logicielle d’EPITECH Strasbourg, installé à Niort. J’ai cofondé Facix puis Cbienlà, et je construis mon propre matériel à côté.",
     cta: 'Voir les projets',
     scroll: 'Défiler',
   },

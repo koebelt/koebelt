@@ -17,7 +17,7 @@ export const en: Copy = {
     badge: "Open to new roles",
     name: 'Thomas Koebel',
     statement: 'Software engineer',
-    lede: "Full-stack web and mobile: Flutter and React on the front, Node.js and Firebase behind. Master's in software engineering from EPITECH Strasbourg, based in Niort, France. I co-founded Facix and then Cbienlà, and build my own hardware on the side.",
+    lede: "Full-stack engineer for web and mobile, from the interface to the services behind it. Master's in software engineering from EPITECH Strasbourg, based in Niort, France. I co-founded Facix and then Cbienlà, and build my own hardware on the side.",
     cta: 'View work',
     scroll: 'Scroll',
   },
