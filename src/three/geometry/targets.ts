@@ -1,4 +1,5 @@
 import { site } from '../../content/site'
+import { PROJECT_SLUGS } from '../../i18n/types'
 import type { SceneId } from '../types'
 import type { SphereCloud } from './fibonacci'
 import { LAND_HEIGHT, LAND_WIDTH, isLand, landMask } from './landmask'
@@ -15,8 +16,10 @@ export type TargetGenerator = (cloud: SphereCloud) => Float32Array
 
 const TAU = Math.PI * 2
 
-/** Number of clusters in the skills and projects scenes. */
+/** Number of clusters in the skills scene. */
 export const CLUSTER_COUNT = 4
+/** Number of project stops with a card. */
+export const PROJECT_COUNT = PROJECT_SLUGS.length
 /** Number of bright rungs on the experience strand. */
 export const ROLE_COUNT = 5
 /** Number of strata in the education scene. */
@@ -167,15 +170,20 @@ const skillsTarget: TargetGenerator = ({ home, seed, index, n }) => {
  * each stop; the scatter and each cube's spin are added in the shader (stops()),
  * because a spin cannot be baked into a static target.
  *
- * The first four stops follow PROJECT_SLUGS left to right, one per card.
+ * The first stops follow PROJECT_SLUGS left to right, one per card.
  */
 /**
  * One more stop than there are projects: the extra one, on the right, is the
- * finished form and has no card. The four projects hover the four before it.
+ * finished form and has no card. Each project hovers one of the stops before it.
+ *
+ * The row keeps the width it was tuned at with four projects (four pitches of
+ * 0.66), and the pitch and cubes shrink to fit however many projects there are,
+ * so adding one never pushes the row out of its slot.
  */
-export const STOP_COUNT = CLUSTER_COUNT + 1
-export const STOP_PITCH = 0.66
-const CUBE_HALF = 0.18
+export const STOP_COUNT = PROJECT_COUNT + 1
+const ROW_WIDTH = 4 * 0.66
+export const STOP_PITCH = ROW_WIDTH / (STOP_COUNT - 1)
+const CUBE_HALF = 0.18 * (STOP_PITCH / 0.66)
 
 /** The twelve edges of a unit cube, as pairs of corner sign vectors. */
 const CUBE_EDGES: [number[], number[]][] = (() => {
@@ -364,7 +372,7 @@ export const sceneClusters: Record<SceneId, number> = {
   hero: 0,
   about: 0,
   skills: CLUSTER_COUNT,
-  projects: CLUSTER_COUNT,
+  projects: PROJECT_COUNT,
   experience: ROLE_COUNT,
   education: DEGREE_COUNT,
   contact: 0,

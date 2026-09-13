@@ -57,6 +57,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   // document is actually in.
   useEffect(() => {
     document.documentElement.lang = locale
+    document.title = DICTIONARIES[locale].documentTitle
   }, [locale])
 
   const value = useMemo(

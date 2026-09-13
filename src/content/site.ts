@@ -64,21 +64,25 @@ export const degrees: Degree[] = [
 /** Technology stacks are not translated. Keyed by project slug. */
 export const projectStacks: Record<string, string[]> = {
   quadcopter: ['C', 'C++', 'KiCad', 'STM32', 'IMU sensor fusion'],
-  'drone-controller': ['C++', 'CAD', 'FDM 3D printing', 'nRF24 radio', 'Embedded firmware'],
+  'drone-controller': ['C++', 'CAD', 'FDM 3D printing', 'nRF24L01', 'LCD telemetry'],
   cbienla: ['Flutter', 'Dart', 'Nuxt.js', 'Vue', 'Firebase', 'Cloud Functions'],
-  'robotic-arm': ['C++', 'Microcontroller firmware', 'Bluetooth', 'Mobile client'],
+  facix: ['Flutter', 'Dart', 'flutter_stripe', 'AWS Lambda', 'Cognito', 'DynamoDB', 'S3'],
+  portfolio: ['React', 'TypeScript', 'Three.js', 'GLSL', 'Vite'],
+  'robotic-arm': ['C++', 'Servo control', 'Inverse kinematics', 'Bluetooth', 'Flutter'],
 }
 
 /**
  * Project illustrations, keyed by slug.
  *
- * Prepared by scripts/build-project-images.py from public/_originals: cropped to
+ * Prepared by scripts/build-project-images.py from originals/: cropped to
  * the card's 4:3 frame and written as greyscale, which is what they already are.
  */
 export const projectImages: Record<string, string> = {
   quadcopter: '/projects/quadcopter.png',
   'drone-controller': '/projects/drone-controller.png',
   cbienla: '/projects/cbienla.png',
+  facix: '/projects/facix.png',
+  portfolio: '/projects/portfolio.png',
   'robotic-arm': '/projects/robotic-arm.png',
 }
 

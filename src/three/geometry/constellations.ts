@@ -21,6 +21,47 @@ interface Constellation {
 }
 
 const CONSTELLATIONS: Record<ProjectSlug, Constellation> = {
+  // The Window: a frame of four corners with a bright star turning inside it,
+  // tied to the frame by a single line — a screen and the thing moving on it.
+  portfolio: {
+    stars: [
+      [-0.3, 0.3, 0.06, 0.9],
+      [0.3, 0.3, -0.06, 0.9],
+      [0.3, -0.3, 0.08, 0.9],
+      [-0.3, -0.3, -0.08, 0.9],
+      [0.02, 0.0, 0.12, 1.6],
+      [0.14, 0.12, 0.0, 0.4],
+    ],
+    edges: [
+      [0, 1],
+      [1, 2],
+      [2, 3],
+      [3, 0],
+      [4, 5],
+    ],
+  },
+
+  // The Circle: six stars joined hand to hand around an empty middle, one of
+  // them brighter than the rest — a group gathered, and whoever organised it.
+  facix: {
+    stars: [
+      [0.0, 0.33, 0.04, 1.4],
+      [0.29, 0.16, -0.06, 0.9],
+      [0.29, -0.17, 0.08, 0.8],
+      [0.0, -0.34, -0.04, 0.9],
+      [-0.29, -0.17, 0.1, 0.8],
+      [-0.29, 0.16, -0.08, 0.9],
+    ],
+    edges: [
+      [0, 1],
+      [1, 2],
+      [2, 3],
+      [3, 4],
+      [4, 5],
+      [5, 0],
+    ],
+  },
+
   // The House: a roofline and walls, a chimney star on the right slope, and the
   // brightest star of the four charts sitting unconnected inside — the one lived in.
   cbienla: {

@@ -1,0 +1,12 @@
+// Cloudflare Workers deployment: a static-assets-only Worker serving the Vite build.
+{
+  "name": "koebelt",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Client-side routes (/work/:slug) have no file of their own; serve index.html
+    // for them so a direct hit or refresh on a case study reaches the app, which
+    // renders its own 404 for anything it does not know.
+    "not_found_handling": "single-page-application"
+  }
+}

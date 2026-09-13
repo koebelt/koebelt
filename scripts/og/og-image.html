@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- Source of public/og-image.png, the link-preview card. Rendered at 1200x630
+     by scripts/build-og-image.sh; re-run it after editing. -->
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=JetBrains+Mono:wght@500&display=block" />
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0d0c0c; }
+  .sphere { position: absolute; right: -360px; top: -60px; width: 1000px; height: 750px; background: url(sphere.png) center / cover; }
+  /* Fades the sphere out under the text so the name never sits on bright dots. */
+  .fade { position: absolute; inset: 0; background: linear-gradient(90deg, #0d0c0c 0%, #0d0c0c 48%, rgba(13, 12, 12, 0.55) 68%, rgba(13, 12, 12, 0) 85%); }
+  .text { position: absolute; left: 88px; top: 50%; transform: translateY(-50%); color: #f2f0ed; font-family: Archivo, sans-serif; }
+  .badge { font: 500 18px 'JetBrains Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #d4ff3a; margin-bottom: 28px; }
+  .badge::before { content: ''; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: currentColor; margin-right: 12px; vertical-align: 2px; }
+  h1 { font-weight: 700; font-size: 92px; line-height: 0.98; letter-spacing: -0.03em; margin: 0; }
+  h1 span { color: #9a958f; }
+  p { font-weight: 500; font-size: 26px; color: #b9b4ae; margin: 30px 0 0; }
+  .url { position: absolute; left: 88px; bottom: 52px; font: 500 18px 'JetBrains Mono', monospace; letter-spacing: 0.1em; color: #7a756f; }
+</style>
+</head>
+<body>
+  <div class="sphere"></div>
+  <div class="fade"></div>
+  <div class="text">
+    <div class="badge">Open to new roles</div>
+    <h1>Thomas Koebel<br /><span>Software engineer</span></h1>
+    <p>Full-stack web &amp; mobile · Flutter, React, Node.js</p>
+  </div>
+  <div class="url">KOEBELT.COM</div>
+</body>
+</html>

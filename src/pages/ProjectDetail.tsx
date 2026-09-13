@@ -153,11 +153,13 @@ export default function ProjectDetail() {
             </Block>
           </Reveal>
 
-          <Reveal>
-            <Block title={copy.projects.retrospectiveLabel}>
-              <p style={body}>{project.retrospective}</p>
-            </Block>
-          </Reveal>
+          {project.retrospective ? (
+            <Reveal>
+              <Block title={copy.projects.retrospectiveLabel}>
+                <p style={body}>{project.retrospective}</p>
+              </Block>
+            </Reveal>
+          ) : null}
 
           {links.length > 0 ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)' }}>

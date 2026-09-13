@@ -13,7 +13,7 @@ differently: it is transparent and very wide, so object-fit: cover would crop it
 to nothing, and it is instead centred on a brand-ink field at the same ratio.
 
 Run with: npm run build:images
-Sources public/_originals/*.png; writes public/projects/*.png
+Sources originals/*.png; writes public/projects/*.png
 """
 
 import pathlib
@@ -23,7 +23,8 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import pnglib  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC = ROOT / "public/_originals"
+# Kept outside public/, so the full-size sources are never deployed.
+SRC = ROOT / "originals"
 OUT = ROOT / "public/projects"
 
 # The cards render at ~380px wide; 1000px covers a 2x display with room to spare.
@@ -40,6 +41,10 @@ JOBS = [
     ("controller.png", "drone-controller.png", "cover"),
     ("robotarm.png", "robotic-arm.png", "cover"),
     ("cbienla.png", "cbienla.png", "contain"),
+    # Composed from two Facix screens in the design file, already at the card ratio.
+    ("facix.png", "facix.png", "cover"),
+    # A capture of this site's own hero.
+    ("portfolio.png", "portfolio.png", "cover"),
 ]
 
 

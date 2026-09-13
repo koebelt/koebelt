@@ -141,7 +141,7 @@ From the design system's brand rules, and enforced rather than assumed:
 
 ## Images
 
-Project art lives in `public/_originals/` and is prepared by
+Project art lives in `originals/` and is prepared by
 `npm run build:images` into `public/projects/`. The originals are ~1 MB each;
 they are line art on black, which means they are greyscale in everything but the
 file header, so cropping them to the card's 4:3 frame and writing a single
@@ -149,11 +149,25 @@ greyscale plane takes the set from **3,076 kB to 417 kB (87% smaller)**. The
 Cbienlà wordmark is transparent and very wide, so `object-fit: cover` would crop
 it to nothing; it is centred on a brand-ink field at the same ratio instead.
 
+## Deploying
+
+Hosted on **Cloudflare Workers** as a static-assets-only Worker (static requests
+are free and unmetered), at `koebelt.com`. Configuration is in `wrangler.jsonc`.
+
+- Workers Builds, connected to this repository: build command `npm run build`,
+  deploy command `npx wrangler deploy`. The production branch is set under
+  Settings → Build → Branch control.
+- Routing: the app uses client-side routes (`/work/:slug`).
+  `not_found_handling: "single-page-application"` serves `index.html` for any
+  path with no file, so a direct hit or refresh on a case study works; unknown
+  paths are handled by the app's own 404 page.
+- Link previews use `public/og-image.png`, rendered from `scripts/og/og-image.html`
+  by `npm run build:og`. The `og:image` and `og:url` tags in `index.html`, and
+  `public/sitemap.xml`, hard-code `https://koebelt.com`; update them if the
+  domain changes, and add a line to the sitemap when a project is added.
+
 ## Known gaps
 
-- Project deep-dive prose (`problem`, `constraints`, `decisions`, `retrospective`
-  in `src/i18n/{en,fr}.ts`) is drafted in both languages and needs Thomas's
-  real numbers — especially the drone controller, whose build details are inferred.
 - Several design-system components have no responsive behaviour of their own and
   are overridden from `src/styles/app.css` rather than edited in place: `WorkRow`
   (352px of fixed grid track), `FooterBar` (56px display email and 56px side

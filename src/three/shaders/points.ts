@@ -99,7 +99,7 @@ export const VERT = /* glsl */ `
     // stops do not merge into one cloud. The drift keeps the loose ones moving.
     float r = sqrt(fract(dot(h, vec3(12.9898, 78.233, 37.719)) * 437.585));
     vec3 drift = sin(uTime * vec3(0.5, 0.41, 0.46) + h * 40.0) * 0.03 * uBreathe;
-    local += (normalize(h + 1e-4) * r * 0.2 + drift) * loose;
+    local += (normalize(h + 1e-4) * r * 0.3 * uStopPitch + drift) * loose;
 
     float a = uStopAngle[int(stop)];
     float c = cos(a);

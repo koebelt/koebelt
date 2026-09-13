@@ -4,12 +4,20 @@ export type Locale = 'en' | 'fr'
 
 export const LOCALES: readonly Locale[] = ['en', 'fr']
 
-export type ProjectSlug = 'quadcopter' | 'cbienla' | 'drone-controller' | 'robotic-arm'
+export type ProjectSlug =
+  | 'portfolio'
+  | 'cbienla'
+  | 'facix'
+  | 'quadcopter'
+  | 'drone-controller'
+  | 'robotic-arm'
 
 /** Ordered; also the order of the stops in the projects scene. */
 export const PROJECT_SLUGS: readonly ProjectSlug[] = [
   // Most recent first.
+  'portfolio',
   'cbienla',
+  'facix',
   'quadcopter',
   'drone-controller',
   'robotic-arm',
@@ -25,11 +33,14 @@ export interface ProjectCopy {
   /** Bullet facts. Numbers over adjectives. */
   constraints: string[]
   decisions: { title: string; body: string }[]
-  retrospective: string
+  /** Omitted for work still in progress, where hindsight is not yet due. */
+  retrospective?: string
 }
 
 export interface Copy {
   localeName: string
+  /** The browser tab title for the home page. */
+  documentTitle: string
   nav: Record<Exclude<SceneId, 'hero'>, string>
 
   hero: {
@@ -93,6 +104,8 @@ export interface Copy {
     description: string
     /** Keyed by the role's stable id in content/experience.ts. */
     roles: Record<string, string>
+    /** Keyed like roles: what the job actually involved. Two sentences at most. */
+    details: Record<string, string>
   }
 
   education: {
@@ -100,6 +113,8 @@ export interface Copy {
     title: string
     description: string
     degrees: Record<string, string>
+    /** Keyed like degrees: what the programme covered. Two sentences at most. */
+    details: Record<string, string>
   }
 
   contact: {

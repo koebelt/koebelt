@@ -42,6 +42,7 @@ function Degrees() {
             onMouseLeave={() => sphere?.setFocus(null)}
             onClick={(e) => e.preventDefault()}
           />
+          <p className="work-row-detail prose">{education.details[degree.id]}</p>
         </Reveal>
       ))}
     </div>

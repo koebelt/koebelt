@@ -52,6 +52,7 @@ function Roles() {
               if (!role.href) e.preventDefault()
             }}
           />
+          <p className="work-row-detail prose">{experience.details[role.id]}</p>
         </Reveal>
       ))}
     </div>
