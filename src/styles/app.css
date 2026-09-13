@@ -63,8 +63,10 @@
 /* Hero sphere slot. The sphere fills ~94% of the slot's height, and the engine
    scissors to the slot, so on desktop the height is also capped by viewport
    width (~the column's width) to keep the sphere from clipping at its sides. */
+/* On a phone the width is the tighter bound: the slot is as wide as the screen
+   there, so capping its height at the screen width keeps the sphere inside it. */
 .hero-slot {
-  min-height: min(70svh, calc(var(--space-15) * 1.9));
+  min-height: min(70svh, calc(var(--space-15) * 1.9), 100vw);
 }
 
 @media (min-width: 900px) {

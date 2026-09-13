@@ -18,4 +18,5 @@ export function useMediaQuery(query: string): boolean {
 
 /** Matches the breakpoint where the 12-column grid collapses to one column. */
 // adherence-ignore: media-query conditions are parsed outside CSS; var() does not resolve
-export const useIsNarrow = () => useMediaQuery('(max-width: 899px)')
+export const NARROW_QUERY = '(max-width: 899px)'
+export const useIsNarrow = () => useMediaQuery(NARROW_QUERY)

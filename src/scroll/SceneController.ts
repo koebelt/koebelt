@@ -1,4 +1,5 @@
 import type { SceneId, ViewportRect } from '../three/types'
+import { NARROW_QUERY } from './useMediaQuery'
 
 interface Entry {
   id: SceneId
@@ -157,6 +158,15 @@ export class SceneController {
         y: active.slotRect.top - y,
         width: active.slotRect.width,
         height: active.slotRect.height,
+      }
+      // Once the grid collapses to one column the slot has a row to itself, with
+      // no copy beside it, but it still stops at the page gutters, and the engine
+      // scissors to it: a sphere wider than the column was cut off at the padding.
+      // Widen the clip to the screen edges. The slot is centred, so the framing
+      // does not move, and its height (which sets the sphere's size) is unchanged.
+      if (window.matchMedia(NARROW_QUERY).matches) {
+        slot.x = 0
+        slot.width = document.documentElement.clientWidth
       }
     }
 
