@@ -89,7 +89,7 @@ export const en: Copy = {
       python: "Deployed to production at Nagarro and at ALE Enterprise, so this is not just my scripting language. I have had Python running as part of a real system, with the operational questions that come with it. It remains what I reach for when something has to exist by the end of the afternoon.",
       bash: "Came with the Unix side of the EPITECH cursus and has stayed with me on every Arch and Debian machine since. It is the glue around everything else: build and deploy scripts, Docker entrypoints, and the small automations that save me from typing the same five commands twice.",
       sql: "Learned at HFT Stuttgart, then the backbone of several projects at Nagarro, where the data model was the part everything else depended on. My more recent products run on Firestore, and knowing what a relational database guarantees is exactly what tells me what a document store does not.",
-      dart: "Came with the mobile work at Facix and is now the language of the Cbienlà app, which I have been building alongside my main work since 2025. Sound null safety and the isolate model are the parts I have had to think hardest about.",
+      dart: "Came with the mobile work at Facix and is now the language of the Cbienlà app, which I have been building since 2025. Sound null safety and the isolate model are the parts I have had to think hardest about.",
       haskell: 'Studied at EPITECH rather than shipped. I keep it on the list because what it taught me about types, totality and pure functions shows up in the TypeScript I write every day, not because I would claim to be a Haskell engineer.',
       rust: 'Personal projects and reading rather than production. The ownership model changed how I think about lifetimes in C++, which is honestly most of the value I have got from it so far.',
       java: "Learned during my Erasmus exchange at HFT Stuttgart and used since. Comfortable reading and extending a Java codebase; I would want a ramp-up before designing one from scratch.",
@@ -260,7 +260,7 @@ export const en: Copy = {
         problem:
           'A listing platform needs two front ends that never disagree: a mobile app people browse on, and a public web surface search engines can read. Both describe the same properties, so the hard part is one source of truth rather than two codebases drifting.',
         constraints: [
-          'Two co-founders, so build cost had to stay near zero at launch',
+          'Five co-founders and no revenue before launch, so build cost had to stay near zero at launch',
           'Listings must be indexable, since a client-only app would be invisible to search',
           'Same data model serving app and site',
         ],
@@ -322,7 +322,7 @@ export const en: Copy = {
       ale: 'QA developer, internship',
     },
     details: {
-      cbienla: "A real-estate listing and property management platform, built alongside my main work. I designed the architecture and built both the Flutter app and the Nuxt.js site, with Firebase for auth, data and cloud functions.",
+      cbienla: "A real-estate listing and property management platform, launched by five co-founders. I designed the architecture and built both the Flutter app and the Nuxt.js site, with Firebase for auth, data and cloud functions.",
       nagarro: "Built custom Node.js systems for industrial and enterprise clients. For Phoenix Contact, software on an industrial PC that collects, stores and displays electrical data from more than 300 PLCs for the teams on site; before that, a live race-analysis dashboard fed by Gran Turismo 7 telemetry, and several client applications on SAP's cloud platform.",
       facix: "Co-founded, alongside my studies, an activity booking platform for French associations: they publish sports and cultural activities, and the public books and pays in the app. Led the design and development of the Flutter app with a small mobile team, on a serverless AWS backend, through to a beta with pilot associations.",
       epitech: "Six-month internship mentoring a class of under thirty first-year students in web development. I structured their learning path, followed their projects and helped them get unstuck on their own rather than handing them the answer.",

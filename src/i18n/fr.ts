@@ -25,7 +25,7 @@ export const fr: Copy = {
   about: {
     eyebrow: '01 / Profil',
     title: 'Profil',
-    body: "Ingénieur full-stack, je travaille surtout sur le web et le mobile : applications Flutter, interfaces React et Nuxt, et les services Node.js, Firebase ou AWS qui les font tourner. J’ai cofondé deux produits, livré des systèmes pour des clients comme consultant chez Nagarro et accompagné des étudiants de première année à EPITECH : j’ai vu le logiciel depuis la place de celui qui le conçoit, de celui qui le construit et de celui qui le relit. En dehors du travail, je construis du matériel, du contrôleur de vol au bras robotisé, et c’est de là que vient mon attention à ce qui tourne sous le capot. Ce qui compte pour moi : comprendre le problème avant de choisir l’outil, et garder un système assez simple pour que la personne suivante puisse encore le faire évoluer.",
+    body: "Ingénieur full-stack, je travaille sur le web et le mobile : applications Flutter, interfaces React et Nuxt, et les services Node.js, Firebase ou AWS qui les font tourner. J’ai cofondé deux produits, livré des systèmes pour des clients comme consultant chez Nagarro et accompagné des étudiants de première année à EPITECH : j’ai vu le logiciel depuis la place de celui qui le conçoit, de celui qui le construit et de celui qui le relit. En dehors du travail, je construis du matériel, du contrôleur de vol au bras robotisé, et c’est de là que vient mon attention à ce qui tourne sous le capot. Ce qui compte pour moi : comprendre le problème avant de choisir l’outil, et garder un système assez simple pour que la personne suivante puisse encore le faire évoluer.",
     languagesLabel: 'Langues',
     softSkillsLabel: 'Qualités',
     languages: ['Français (langue maternelle)', 'Anglais (TOEIC 860)', 'Allemand (A2)'],
@@ -89,7 +89,7 @@ export const fr: Copy = {
       python: "Mis en production chez Nagarro et chez ALE Enterprise : au-delà du script, je l’ai fait tourner au sein d’un vrai système, avec les questions de déploiement et d’exploitation que cela suppose. Il reste mon premier réflexe quand un outil doit exister avant la fin de la journée.",
       bash: "Découvert avec la partie Unix du cursus EPITECH, utilisé depuis sur toutes mes machines Arch et Debian. Il relie tout le reste : scripts de build et de déploiement, entrypoints Docker, et ces petites automatisations qui évitent de retaper sans cesse les mêmes commandes.",
       sql: "Appris à la HFT Stuttgart, puis au centre de plusieurs projets chez Nagarro, où tout reposait sur le modèle de données. Mes produits récents tournent sur Firestore, et c’est justement parce que je sais ce que garantit une base relationnelle que je sais ce qu’une base documentaire ne garantit pas.",
-      dart: "Adopté avec le mobile chez Facix, c’est aujourd’hui le langage de l’application Cbienlà, que je développe en parallèle de mon activité principale depuis 2025. La null safety et le modèle d’isolates sont les aspects qui m’ont demandé le plus de réflexion.",
+      dart: "Adopté avec le mobile chez Facix, c’est aujourd’hui le langage de l’application Cbienlà, que je développe depuis 2025. La null safety et le modèle d’isolates sont les aspects qui m’ont demandé le plus de réflexion.",
       haskell: "Étudié à EPITECH, jamais mis en production. Je le garde dans la liste pour ce qu’il m’a appris sur les types, les fonctions totales et la pureté, que je retrouve chaque jour dans mon TypeScript, et non pour me présenter comme développeur Haskell.",
       rust: "Projets personnels et lectures, sans mise en production. Son modèle d’ownership a changé ma manière de raisonner sur la durée de vie des objets en C++, et c’est pour l’instant l’essentiel de ce qu’il m’a apporté.",
       java: "Appris pendant mon échange Erasmus à la HFT Stuttgart, pratiqué depuis. Je lis et fais évoluer une base de code Java sans difficulté ; pour en concevoir une de zéro, il me faudrait un temps de remise à niveau.",
@@ -260,7 +260,7 @@ export const fr: Copy = {
         problem:
           "Une plateforme d’annonces a besoin de deux interfaces qui ne se contredisent jamais : une application mobile pour parcourir, et un site public que les moteurs de recherche peuvent lire. Les deux décrivent les mêmes biens ; la difficulté est d’avoir une seule source de vérité plutôt que deux bases de code qui divergent.",
         constraints: [
-          'Deux cofondateurs : le coût de construction devait rester proche de zéro au lancement',
+          'Cinq cofondateurs et aucun revenu avant le lancement : le coût de construction devait rester proche de zéro au lancement',
           "Les annonces doivent être indexables : une application seule serait invisible pour la recherche",
           'Un même modèle de données pour le site et l’application',
         ],
@@ -322,7 +322,7 @@ export const fr: Copy = {
       ale: 'Développeur QA, stage',
     },
     details: {
-      cbienla: "Plateforme d’annonces immobilières et de gestion de biens, développée en parallèle de mon activité principale. J’en ai conçu l’architecture et développé aussi bien l’application Flutter que le site Nuxt.js, avec Firebase pour l’authentification, les données et les fonctions cloud.",
+      cbienla: "Plateforme d’annonces immobilières et de gestion de biens, lancée à cinq cofondateurs. J’en ai conçu l’architecture et développé aussi bien l’application Flutter que le site Nuxt.js, avec Firebase pour l’authentification, les données et les fonctions cloud.",
       nagarro: "J’ai conçu des systèmes Node.js sur mesure pour des clients industriels et grands comptes. Pour Phoenix Contact, un logiciel sur PC industriel qui collecte, stocke et affiche les données électriques de plus de 300 automates pour les équipes sur site ; auparavant, un tableau de bord d’analyse de course en temps réel alimenté par la télémétrie de Gran Turismo 7, et plusieurs applications client sur la plateforme cloud de SAP.",
       facix: "J’ai cofondé, pendant mes études, une plateforme de réservation d’activités pour les associations françaises : elles publient leurs activités sportives et culturelles, le public réserve et paie dans l’application. J’ai dirigé la conception et le développement de l’application Flutter avec une petite équipe mobile, sur un backend AWS serverless, jusqu’à une bêta avec des associations pilotes.",
       epitech: "Stage de six mois auprès d’une classe de moins de trente étudiants de première année en développement web. J’ai structuré leur progression, suivi leurs projets et les ai aidés à se débloquer par eux-mêmes plutôt qu’en leur donnant la réponse.",
