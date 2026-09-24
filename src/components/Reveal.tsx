@@ -71,7 +71,8 @@ export function Reveal({
     <Tag
       // One ref callback for three possible tags; the union is wider than any one of them.
       ref={ref as React.Ref<never>}
-      className={className}
+      // `reveal` lets the no-JavaScript fallback in index.html force it visible.
+      className={className ? `reveal ${className}` : 'reveal'}
       style={{
         opacity: visible ? 1 : 0,
         // --space-5 is exactly the 16px rise the design system specifies,

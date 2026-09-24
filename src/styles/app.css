@@ -56,7 +56,8 @@
 /* The screen below the sticky nav (App.tsx measures it), not the full screen:
    a full-height hero under the nav runs past the fold and sits low. The
    fallback needs a unit — calc() rejects subtracting a bare 0 from a length. */
-.hero {
+.hero,
+.not-found {
   min-height: calc(100svh - var(--nav-height, 0px));
 }
 
@@ -238,6 +239,15 @@ html {
 
 /* Splash (components/Splash.tsx): the mark fades up, and a lime rule draws
    out beneath it across the same beat. */
+/* The splash is in the prerendered markup, so it is up from first paint. It
+   never plays under reduced motion; hidden here so it cannot flash before the
+   script removes it. */
+@media (prefers-reduced-motion: reduce) {
+  .splash {
+    display: none !important;
+  }
+}
+
 .splash-mark {
   animation: splash-mark var(--dur-reveal) var(--ease-out) both;
 }
@@ -276,4 +286,83 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Not-found page (pages/NotFound.tsx): hero proportions, with the numeral as
+   the display line and the sentence under it as the real heading. */
+.not-found {
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-12);
+}
+
+.eyebrow {
+  font: var(--text-label-sm);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--text-accent);
+}
+
+/* Outlined rather than filled: at this size a solid numeral would outweigh
+   everything else on the page, including the way out. */
+.not-found-code {
+  margin: 0;
+  font: var(--text-display-2xl);
+  font-size: clamp(var(--fs-display-lg), 16vw, calc(var(--fs-display-2xl) * 1.6));
+  letter-spacing: var(--tr-display);
+  line-height: var(--lh-display);
+  color: transparent;
+  -webkit-text-stroke: var(--border-width) var(--text-secondary);
+}
+
+.not-found-title {
+  margin: var(--space-5) 0 0;
+  font: var(--text-heading-lg);
+  letter-spacing: var(--tr-heading);
+  color: var(--text-primary);
+}
+
+.not-found-body {
+  margin: 0;
+  font: var(--text-body-lg);
+  color: var(--text-muted);
+}
+
+.not-found-path {
+  font: var(--text-label-md);
+  color: var(--text-primary);
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--border-hairline);
+  border-radius: var(--radius-control);
+  background: var(--surface-sunken);
+  overflow-wrap: anywhere;
+  /* A long path wraps as chips on each line, not one chip torn in half. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.not-found-globe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.not-found-caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
+  margin: 0;
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--border-hairline);
+  font: var(--text-label-sm);
+  /* Label type is set solid (1); the caption wraps on a phone and needs air. */
+  line-height: var(--lh-body);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.not-found-coords {
+  color: var(--text-faint);
 }

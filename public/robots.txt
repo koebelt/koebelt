@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://koebelt.com/sitemap.xml
+
+# The full portfolio as plain Markdown, for AI agents: https://koebelt.com/llms.txt

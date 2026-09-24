@@ -7,9 +7,8 @@ const QUERY = '(prefers-reduced-motion: reduce)'
  * open must stop the sphere, not wait for a reload.
  */
 export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(QUERY).matches,
-  )
+  // False on the first render, as on the prerendered page, so hydration matches.
+  const [reduced, setReduced] = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia(QUERY)

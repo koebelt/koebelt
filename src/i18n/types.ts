@@ -125,5 +125,17 @@ export interface Copy {
   }
 
   footerNote: string
-  notFound: { eyebrow: string; title: string; back: string }
+  notFound: {
+    eyebrow: string
+    title: string
+    /** `{path}` is replaced by the address that was asked for, set in mono. */
+    body: string
+    /** Stands in for the path until it is known (the page is prerendered). */
+    pathFallback: string
+    back: string
+    email: string
+    /** Beside the globe, which marks where Thomas is. */
+    caption: string
+    suggestions: string
+  }
 }

@@ -354,8 +354,13 @@ export const en: Copy = {
   footerNote: 'Designed & built by Thomas Koebel',
 
   notFound: {
-    eyebrow: '404',
+    eyebrow: 'Error 404',
     title: 'That page does not exist.',
+    body: 'Nothing is published at {path}. The link may be out of date, or the address mistyped.',
+    pathFallback: 'this address',
     back: 'Back to the portfolio',
+    email: 'Email me',
+    caption: 'The page is missing. I am in Niort.',
+    suggestions: 'Case studies',
   },
 }

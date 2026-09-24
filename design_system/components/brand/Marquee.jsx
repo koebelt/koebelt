@@ -2,7 +2,8 @@ import React from "react";
 
 export function Marquee({items=[],speed=28,separator="/",style,...rest}){
   const run=[...items,...items];
-  const id=React.useMemo(()=>"kb-mq-"+Math.random().toString(36).slice(2,7),[]);
+  // useId, not Math.random: the name must match between a prerendered page and hydration.
+  const id="kb-mq-"+React.useId().replace(/[^a-zA-Z0-9]/g,"");
   return <div {...rest} style={{overflow:"hidden",borderTop:"var(--border-width) solid var(--border-hairline)",
     borderBottom:"var(--border-width) solid var(--border-hairline)",padding:"var(--space-5) 0",...style}}>
     <style>{"@keyframes "+id+"{from{transform:translateX(0)}to{transform:translateX(-50%)}}"}</style>

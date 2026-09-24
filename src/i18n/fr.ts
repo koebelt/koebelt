@@ -354,8 +354,13 @@ export const fr: Copy = {
   footerNote: 'Design & développement par Thomas Koebel',
 
   notFound: {
-    eyebrow: '404',
+    eyebrow: 'Erreur 404',
     title: "Cette page n’existe pas.",
+    body: "Rien n’est publié à l’adresse {path}. Le lien est peut-être ancien, ou l’adresse mal saisie.",
+    pathFallback: 'demandée',
     back: 'Retour au portfolio',
+    email: 'M’écrire',
+    caption: 'La page est introuvable. Moi, je suis à Niort.',
+    suggestions: 'Études de cas',
   },
 }

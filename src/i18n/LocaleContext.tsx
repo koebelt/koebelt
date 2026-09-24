@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
 
 import { en } from './en'
 import { fr } from './fr'
@@ -16,9 +16,7 @@ function isLocale(value: unknown): value is Locale {
  * and English is the fallback. Storage can throw in a private window, so every
  * access is guarded.
  */
-function initialLocale(): Locale {
-  if (typeof window === 'undefined') return 'en'
-
+function detectLocale(): Locale {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY)
     if (isLocale(stored)) return stored
@@ -37,12 +35,19 @@ interface LocaleValue {
   locale: Locale
   copy: Copy
   setLocale: (next: Locale) => void
+  setTitle: (title: string | null) => void
 }
 
 const LocaleContext = createContext<LocaleValue | null>(null)
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(initialLocale)
+  // Pages are prerendered in English, so the first render must be English too or
+  // hydration would not match. The visitor's own locale is applied before paint.
+  const [locale, setLocaleState] = useState<Locale>('en')
+
+  useLayoutEffect(() => {
+    setLocaleState(detectLocale())
+  }, [])
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next)
@@ -53,15 +58,19 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  // A page can replace the home title (useDocumentTitle). Held here, because this
+  // provider's effect runs after its children's and would overwrite theirs.
+  const [title, setTitle] = useState<string | null>(null)
+
   // Assistive technology and the browser both need to know what language the
   // document is actually in.
   useEffect(() => {
     document.documentElement.lang = locale
-    document.title = DICTIONARIES[locale].documentTitle
-  }, [locale])
+    document.title = title ?? DICTIONARIES[locale].documentTitle
+  }, [locale, title])
 
   const value = useMemo(
-    () => ({ locale, copy: DICTIONARIES[locale], setLocale }),
+    () => ({ locale, copy: DICTIONARIES[locale], setLocale, setTitle }),
     [locale, setLocale],
   )
 
@@ -82,4 +91,13 @@ export function useCopy(): Copy {
 export function useLocale(): Pick<LocaleValue, 'locale' | 'setLocale'> {
   const { locale, setLocale } = useLocaleValue()
   return { locale, setLocale }
+}
+
+/** Replaces the tab title while the calling page is mounted. */
+export function useDocumentTitle(title: string) {
+  const { setTitle } = useLocaleValue()
+  useEffect(() => {
+    setTitle(title)
+    return () => setTitle(null)
+  }, [title, setTitle])
 }

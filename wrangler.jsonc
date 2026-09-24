@@ -4,9 +4,9 @@
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./dist",
-    // Client-side routes (/work/:slug) have no file of their own; serve index.html
-    // for them so a direct hit or refresh on a case study reaches the app, which
-    // renders its own 404 for anything it does not know.
-    "not_found_handling": "single-page-application"
+    // Every real route is prerendered to its own file (scripts/prerender.mjs), so
+    // /work/:slug is served as work/:slug.html. Anything else gets the prerendered
+    // not-found page with a real 404 status, rather than the home page with a 200.
+    "not_found_handling": "404-page"
   }
 }

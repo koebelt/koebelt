@@ -58,12 +58,14 @@ const HOLD_STEPS = 2
  * elements are the second half of the animation rather than a separate one.
  */
 export function Splash() {
-  const isDone = useSplashDone()
-  const [phase, setPhase] = useState<'in' | 'out' | 'gone'>(isDone ? 'gone' : 'in')
+  // Always 'in' on the first render: the prerendered page carries the splash, so
+  // it covers the content from first paint (CSS hides it under reduced motion and
+  // without JavaScript). When it is not meant to play, it is dropped on mount.
+  const [phase, setPhase] = useState<'in' | 'out' | 'gone'>('in')
 
   // No scrolling the page away underneath while the screen covers it.
   useEffect(() => {
-    if (phase !== 'in') return
+    if (phase !== 'in' || !splashPlays) return
     const root = document.documentElement
     const previous = root.style.overflow
     root.style.overflow = 'hidden'
@@ -74,6 +76,10 @@ export function Splash() {
 
   useEffect(() => {
     if (phase !== 'in') return
+    if (!splashPlays) {
+      setPhase('gone')
+      return
+    }
     const slow = durMs('--dur-slow', 380)
     const toOut = setTimeout(() => {
       setPhase('out')

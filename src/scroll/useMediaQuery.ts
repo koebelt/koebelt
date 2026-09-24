@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
-  )
+  // False on the first render, as on the prerendered page, so hydration matches;
+  // the effect below applies the real value straight after.
+  const [matches, setMatches] = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia(query)
