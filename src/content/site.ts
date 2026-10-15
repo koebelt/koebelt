@@ -63,6 +63,7 @@ export const degrees: Degree[] = [
 
 /** Technology stacks are not translated. Keyed by project slug. */
 export const projectStacks: Record<string, string[]> = {
+  'koebelt-dash': ['Flutter', 'Dart', 'C++ (Arduino)', 'Python', 'Rust', 'ROS 2', 'MAVLink', 'Bluetooth LE', 'GitHub Actions'],
   quadcopter: ['C', 'C++', 'KiCad', 'STM32', 'IMU sensor fusion'],
   'drone-controller': ['C++', 'CAD', 'FDM 3D printing', 'nRF24L01', 'LCD telemetry'],
   cbienla: ['Flutter', 'Dart', 'Nuxt.js', 'Vue', 'Firebase', 'Cloud Functions'],
@@ -78,6 +79,7 @@ export const projectStacks: Record<string, string[]> = {
  * the card's 4:3 frame and written as greyscale, which is what they already are.
  */
 export const projectImages: Record<string, string> = {
+  'koebelt-dash': '/projects/koebelt-dash.png',
   quadcopter: '/projects/quadcopter.png',
   'drone-controller': '/projects/drone-controller.png',
   cbienla: '/projects/cbienla.png',
@@ -86,8 +88,75 @@ export const projectImages: Record<string, string> = {
   'robotic-arm': '/projects/robotic-arm.png',
 }
 
+export interface ProjectImage {
+  /** Stable key into the project's copy.captions, which is also the alt text. */
+  id: string
+  src: string
+  /** The image's own width / height, so a screen keeps its shape. */
+  ratio: string
+  /** A desktop or tablet screen takes half a row, a phone a quarter. */
+  shape: 'wide' | 'tall'
+}
+
+/**
+ * Case-study galleries, keyed by slug. Prepared by scripts/build-project-images.py
+ * from originals/<slug>/, at their own size, written grey like the cards.
+ */
+export const projectGallery: Record<string, ProjectImage[]> = {
+  'koebelt-dash': [
+    { id: 'wall', src: '/projects/koebelt-dash/wall.png', ratio: '1180/820', shape: 'wide' },
+    { id: 'arm-control', src: '/projects/koebelt-dash/arm-control.png', ratio: '1440/900', shape: 'wide' },
+    { id: 'sequences', src: '/projects/koebelt-dash/sequences.png', ratio: '1440/900', shape: 'wide' },
+    { id: 'replay', src: '/projects/koebelt-dash/replay.png', ratio: '1440/900', shape: 'wide' },
+    { id: 'phone-live', src: '/projects/koebelt-dash/phone-live.png', ratio: '780/1688', shape: 'tall' },
+    { id: 'phone-control', src: '/projects/koebelt-dash/phone-control.png', ratio: '780/1688', shape: 'tall' },
+    { id: 'phone-sequences', src: '/projects/koebelt-dash/phone-sequences.png', ratio: '780/1688', shape: 'tall' },
+    { id: 'phone-bench', src: '/projects/koebelt-dash/phone-bench.png', ratio: '780/1688', shape: 'tall' },
+  ],
+}
+
+export interface ProjectDownload {
+  /** Platform names read the same in every language. */
+  platform: string
+  /** File type and what it runs on, e.g. ".dmg · macOS 12+". */
+  detail: string
+  href: string
+}
+
+export interface ProjectRelease {
+  version: string
+  /** ISO date, formatted for the reader's language. */
+  date: string
+  notes: string
+  downloads: ProjectDownload[]
+}
+
+/**
+ * Downloadable releases, keyed by slug. The file names carry the version, so
+ * this is updated with each release.
+ */
+const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.0.0/koebelt-dash-1.0.0'
+export const projectReleases: Record<string, ProjectRelease> = {
+  'koebelt-dash': {
+    version: '1.0.0',
+    date: '2026-10-15',
+    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.0.0',
+    downloads: [
+      { platform: 'macOS', detail: '.dmg · macOS 12+', href: `${dashRelease}-macos.dmg` },
+      { platform: 'Windows', detail: '.exe · Windows 10+, x64', href: `${dashRelease}-windows-x64-setup.exe` },
+      { platform: 'Linux', detail: '.tar.gz · x64, GTK 3', href: `${dashRelease}-linux-x64.tar.gz` },
+      { platform: 'Android', detail: '.apk · Android 7+', href: `${dashRelease}-android.apk` },
+    ],
+  },
+}
+
 /** Optional outbound links per project. */
 export const projectLinks: Record<string, { label: string; href: string }[]> = {
+  'koebelt-dash': [
+    { label: 'github.com/koebelt/koebelt_dash', href: 'https://github.com/koebelt/koebelt_dash' },
+    { label: 'pypi.org/project/koebelt-link', href: 'https://pypi.org/project/koebelt-link/' },
+    { label: 'crates.io/crates/koebelt-link', href: 'https://crates.io/crates/koebelt-link' },
+  ],
   cbienla: [{ label: 'cbienla.fr', href: 'https://cbienla.fr' }],
 }
 

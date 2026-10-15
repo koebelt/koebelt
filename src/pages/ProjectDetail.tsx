@@ -2,9 +2,10 @@ import { Button, Card, Divider, Icon, MediaFrame, SectionHeading, Tag } from '@d
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { Gallery } from '../components/Gallery'
 import { Reveal } from '../components/Reveal'
-import { projectImages, projectLinks, projectStacks } from '../content/site'
-import { useCopy } from '../i18n/LocaleContext'
+import { projectGallery, projectImages, projectLinks, projectReleases, projectStacks, type ProjectRelease } from '../content/site'
+import { useCopy, useLocale } from '../i18n/LocaleContext'
 import { PROJECT_SLUGS, type ProjectSlug } from '../i18n/types'
 import { useSceneRegistry } from '../scroll/SceneContext'
 import { useSphere } from '../three/SphereContext'
@@ -46,6 +47,8 @@ export default function ProjectDetail() {
   const project = copy.projects.entries[slug]
   const stack = projectStacks[slug] ?? []
   const links = projectLinks[slug] ?? []
+  const gallery = projectGallery[slug] ?? []
+  const release = projectReleases[slug]
 
   return (
     <article ref={articleRef} className="container section">
@@ -102,6 +105,11 @@ export default function ProjectDetail() {
               <Meta label={copy.projects.stackLabel} value={stack.join(' · ')} />
             </Card>
           </Reveal>
+          {release ? (
+            <Reveal order={2}>
+              <Downloads release={release} note={project.downloadNote} />
+            </Reveal>
+          ) : null}
           {/* The sphere's home on this route, still in columns 7—12 so it never
               draws across the case study. */}
           <div
@@ -162,24 +170,36 @@ export default function ProjectDetail() {
           ) : null}
 
           {links.length > 0 ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
-              {links.map((l) => (
-                <Button
-                  key={l.href}
-                  as="a"
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="secondary"
-                  iconRight={<Icon name="arrow-up-right" size={16} />}
-                >
-                  {l.label}
-                </Button>
-              ))}
-            </div>
+            <Reveal>
+              <Block title={copy.projects.linksLabel}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+                  {links.map((l) => (
+                    <Button
+                      key={l.href}
+                      as="a"
+                      href={l.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      variant="secondary"
+                      iconLeft={l.href.includes('github.com') ? <Icon name="github" size={16} /> : undefined}
+                      iconRight={<Icon name="arrow-up-right" size={16} />}
+                    >
+                      {l.label}
+                    </Button>
+                  ))}
+                </div>
+              </Block>
+            </Reveal>
           ) : null}
         </div>
       </div>
+
+      {gallery.length > 0 ? (
+        <section style={{ marginTop: 'var(--space-12)', display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+          <Divider label={copy.projects.galleryLabel} />
+          <Gallery images={gallery} captions={project.captions ?? {}} />
+        </section>
+      ) : null}
     </article>
   )
 }
@@ -222,5 +242,39 @@ function Meta({ label, value }: { label: string; value: string }) {
       </span>
       <span style={{ font: 'var(--text-body-md)', color: 'var(--text-secondary)' }}>{value}</span>
     </div>
+  )
+}
+
+function Downloads({ release, note }: { release: ProjectRelease; note?: string }) {
+  const { projects } = useCopy()
+  const { locale } = useLocale()
+  const date = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(release.date))
+  return (
+    <Card>
+      <Meta label={projects.downloadLabel} value={`${projects.versionLabel} ${release.version} · ${date}`} />
+      <div className="downloads">
+        {release.downloads.map((d) => (
+          <div key={d.href}>
+            <Button as="a" href={d.href} variant="secondary" fullWidth iconLeft={<Icon name="download" size={16} />}>
+              {d.platform}
+            </Button>
+            <span className="download-detail">{d.detail}</span>
+          </div>
+        ))}
+      </div>
+      {note ? <p style={{ font: 'var(--text-body-sm)', color: 'var(--text-secondary)', margin: 'var(--space-6) 0 0' }}>{note}</p> : null}
+      <Button
+        as="a"
+        href={release.notes}
+        target="_blank"
+        rel="noreferrer"
+        variant="ghost"
+        size="sm"
+        iconRight={<Icon name="arrow-up-right" size={16} />}
+        style={{ marginTop: 'var(--space-4)', paddingInline: 0 }}
+      >
+        {projects.releaseNotes}
+      </Button>
+    </Card>
   )
 }

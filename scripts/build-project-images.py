@@ -45,6 +45,13 @@ JOBS = [
     ("facix.png", "facix.png", "cover"),
     # A capture of this site's own hero.
     ("portfolio.png", "portfolio.png", "cover"),
+    # A capture of the app's Live screen, which is in colour: written grey like the rest.
+    ("koebelt-dash.png", "koebelt-dash.png", "cover-grey"),
+    # Case-study galleries: whole screens at their own size and ratio, written grey.
+    *[
+        (f"koebelt-dash/{n}.png", f"koebelt-dash/{n}.png", "native-grey")
+        for n in ("wall", "arm-control", "sequences", "replay", "phone-live", "phone-control", "phone-sequences", "phone-bench")
+    ],
 ]
 
 
@@ -92,12 +99,18 @@ def contain(src, sw, sh, tw, th):
     return out
 
 
+def desaturate(px):
+    """Rec. 709 luma into all three channels, in place."""
+    for i in range(0, len(px), 4):
+        y = round(0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2])
+        px[i] = px[i + 1] = px[i + 2] = y
+
+
 def main():
     if not SRC.is_dir():
         sys.exit(f"no originals at {SRC.relative_to(ROOT)} — move the source PNGs there first")
     OUT.mkdir(parents=True, exist_ok=True)
 
-    tw, th = TARGET_W, round(TARGET_W / RATIO)
     total_before = total_after = 0
 
     for src_name, out_name, fit in JOBS:
@@ -108,7 +121,14 @@ def main():
 
         before = path.stat().st_size
         sw, sh, pixels = pnglib.read_rgba(path)
-        framed = (cover if fit == "cover" else contain)(pixels, sw, sh, tw, th)
+        if fit == "native-grey":
+            tw, th, framed = sw, sh, bytearray(pixels)
+        else:
+            tw, th = TARGET_W, round(TARGET_W / RATIO)
+            framed = (contain if fit == "contain" else cover)(pixels, sw, sh, tw, th)
+        if fit.endswith("-grey"):
+            desaturate(framed)
+        (OUT / out_name).parent.mkdir(parents=True, exist_ok=True)
 
         grey = pnglib.is_greyscale(framed, tw * th)
         after = pnglib.write(OUT / out_name, tw, th, framed, greyscale=grey)
@@ -117,8 +137,8 @@ def main():
         total_after += after
         kind = "greyscale" if grey else "colour"
         print(
-            f"  {src_name:<16} {sw}x{sh} {before // 1024:>5} kB"
-            f"  ->  projects/{out_name:<20} {tw}x{th} {after // 1024:>4} kB  ({fit}, {kind})"
+            f"  {src_name:<32} {sw}x{sh} {before // 1024:>5} kB"
+            f"  ->  projects/{out_name:<32} {tw}x{th} {after // 1024:>4} kB  ({fit}, {kind})"
         )
 
     if total_before:

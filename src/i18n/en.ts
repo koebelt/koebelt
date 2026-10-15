@@ -112,7 +112,7 @@ export const en: Copy = {
   projects: {
     eyebrow: '03 / Selected work',
     title: 'Projects',
-    description: "Six projects: two products I co-founded, this site, and three hardware builds taken from part selection to firmware. Each case study covers the problem, the constraints, the decisions that mattered and what I would do differently.",
+    description: "Seven projects: an open-source app and library for hardware builders, two products I co-founded, this site, and three hardware builds taken from part selection to firmware. Each case study covers the problem, the constraints, the decisions that mattered and what I would do differently.",
     back: 'All projects',
     roleLabel: 'Role',
     stackLabel: 'Stack',
@@ -120,7 +120,60 @@ export const en: Copy = {
     constraintsLabel: 'Constraints',
     decisionsLabel: 'Decisions',
     retrospectiveLabel: "What I'd change",
+    galleryLabel: 'Screens',
+    downloadLabel: 'Download',
+    linksLabel: 'Links',
+    versionLabel: 'Version',
+    releaseNotes: 'Release notes',
+    viewer: { open: 'Open full size', close: 'Close', previous: 'Previous image', next: 'Next image' },
     entries: {
+      'koebelt-dash': {
+        title: 'koebelt/dash',
+        summary:
+          "An open-source app for drones, rovers, robot arms and test benches, and the library that connects a board to it, released on desktop and Android.",
+        tags: ['Personal project', 'Open source', 'Flutter', 'Embedded systems'],
+        captions: {
+          wall: 'The sensor wall on a tablet: one tile per channel the drone sends, with the 3D view, the map and the camera.',
+          'arm-control': 'Jogging a robot arm joint by joint, with the gripper, the home pose and a speed limit.',
+          sequences: 'A survey square for the drone, drawn as a plan from its waypoints, stored on the device when it runs.',
+          replay: 'A recorded flight replayed with its point cloud and charts, ready to export as CSV or video.',
+          'phone-live': 'The live view on a phone: readouts over the 3D scene.',
+          'phone-control': 'Flying from the phone with virtual sticks; sliders and phone tilt are one tap away.',
+          'phone-sequences': 'Sequences on a phone, edited step by step.',
+          'phone-bench': 'A thrust bench: thrust, RPM, power and temperature live.',
+        },
+        downloadNote:
+          "Free and open source. The Windows installer is not code-signed yet, so SmartScreen asks once; iPhone and iPad are in a TestFlight beta, and Google Play comes later.",
+        role: 'Sole designer and engineer',
+        problem:
+          "My quadcopter, its controller and the robotic arm each needed their own way to send telemetry, take commands and stop safely, and each time I wrote it again. koebelt/dash does it once: a small library on the device describes what it is and what it measures, and one app builds the screens, the controls and the safety around it, for whatever the board turns out to be.",
+        constraints: [
+          'One protocol over Wi-Fi, Bluetooth LE, USB serial and long-range radios, including LoRa links that only carry telemetry',
+          'The same library for Arduino boards (C++), Python, Rust with no_std, and ROS 2, checked against one set of shared test vectors',
+          'The device stays safe without the app: it holds, returns or lands on its own after 1.8 s without a control packet',
+          'One Flutter codebase for iOS, Android, macOS, Windows and Linux, with up to 8 devices connected at once',
+          'Flight controllers that cannot run the library (ArduPilot, PX4, Betaflight) connect as they are, over MAVLink and MSP',
+        ],
+        decisions: [
+          {
+            title: 'Put the failsafe on the device',
+            body: "A phone can crash, sleep or walk out of range, so the app is never what keeps a machine safe. It sends the sticks as a steady heartbeat; the device switches to its own safe mode when the heartbeat stops, and STOP is sent three times so one lost packet cannot cancel it. A test in the app withholds the heartbeat on purpose, so the failsafe is checked before it is needed.",
+          },
+          {
+            title: 'Let the device describe itself',
+            body: "On connection the device says what it is, which sensors it has, which parameters it exposes and where its camera streams are. The app shows tiles only for the channels that arrive and builds the tuning screen from the firmware's own table, so adding a sensor is one line in the firmware and no app update.",
+          },
+          {
+            title: 'Store sequences on the device',
+            body: "A mission run step by step from the phone stops the moment the link drops. The app uploads the sequence instead, and the device runs it through the same handlers it uses for live control, checking its own telemetry between steps. It keeps going without the link, and the app picks up the progress when it reconnects.",
+          },
+          {
+            title: 'Test against the real thing',
+            body: "Every snippet in the in-app guides is compiled against the libraries in CI, the real ArduPilot and PX4 autopilots fly sequences in simulation, and the simulated devices in the app speak the same protocol as hardware. That is how a clash between the Arduino examples and a newer ESP32 core was caught before the first release instead of by the first user.",
+          },
+        ],
+      },
+
       portfolio: {
         title: "This portfolio",
         summary:

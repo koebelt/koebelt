@@ -6,7 +6,7 @@
  * (the per-skill notes in the skills dialog) and the French copy, which has no
  * URL of its own. Written to dist/ by scripts/prerender.mjs.
  */
-import { cvHref, degrees, projectImages, projectLinks, projectStacks, roles, site, skillGroups } from './content/site'
+import { cvHref, degrees, projectImages, projectLinks, projectReleases, projectStacks, roles, site, skillGroups } from './content/site'
 import { en } from './i18n/en'
 import { fr } from './i18n/fr'
 import { PROJECT_SLUGS, type Copy, type Locale } from './i18n/types'
@@ -109,6 +109,9 @@ export function llmsTxt(locale: Locale): string {
         `- ${c.projects.roleLabel}${l.colon}${p.role}`,
         `- ${c.projects.stackLabel}${l.colon}${(projectStacks[slug] ?? []).join(', ')}`,
         links.length ? `- ${l.links}${l.colon}${links.map((link) => link.href).join(', ')}` : null,
+        projectReleases[slug]
+          ? `- ${c.projects.downloadLabel} (${c.projects.versionLabel} ${projectReleases[slug].version})${l.colon}${projectReleases[slug].downloads.map((d) => `${d.platform} ${d.href}`).join(', ')}`
+          : null,
       ]
         .filter(Boolean)
         .join('\n'),

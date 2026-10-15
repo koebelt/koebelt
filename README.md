@@ -149,6 +149,24 @@ greyscale plane takes the set from **3,076 kB to 417 kB (87% smaller)**. The
 Cbienlà wordmark is transparent and very wide, so `object-fit: cover` would crop
 it to nothing; it is centred on a brand-ink field at the same ratio instead.
 
+### Case-study extras
+
+A case study can carry more than its card image, all optional and keyed by slug
+in `src/content/site.ts`:
+
+- `projectGallery`: screens shown under the write-up, desktop shots half a row
+  wide and phones a quarter, each opening full size (arrows and Escape work).
+  Captions, which are also the alt text, live in the project's `captions` in
+  `src/i18n/{en,fr}.ts`. Sources go in `originals/<slug>/` and get a
+  `native-grey` job in `scripts/build-project-images.py`.
+- `projectReleases`: a Download card under Role and Stack, with a version, a
+  date formatted per language, one button per platform and a link to the
+  release notes; the project's `downloadNote` goes under the buttons. File
+  names carry the version, so update it with each release.
+- `projectLinks`: outbound buttons under a Links heading (GitHub links get its icon).
+
+Releases and links also appear in `llms.txt`.
+
 ## Deploying
 
 Hosted on **Cloudflare Workers** as a static-assets-only Worker (static requests

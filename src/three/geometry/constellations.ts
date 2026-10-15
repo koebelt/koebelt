@@ -21,6 +21,26 @@ interface Constellation {
 }
 
 const CONSTELLATIONS: Record<ProjectSlug, Constellation> = {
+  // The Hub: one bright star with a line out to each of five fainter ones, near
+  // and far — one app and the machines linked to it.
+  'koebelt-dash': {
+    stars: [
+      [0.0, 0.0, 0.1, 1.7],
+      [0.0, 0.34, -0.06, 0.9],
+      [0.3, 0.12, 0.06, 0.7],
+      [0.2, -0.3, -0.08, 1.0],
+      [-0.22, -0.26, 0.08, 0.6],
+      [-0.31, 0.15, -0.04, 0.8],
+    ],
+    edges: [
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [0, 4],
+      [0, 5],
+    ],
+  },
+
   // The Window: a frame of four corners with a bright star turning inside it,
   // tied to the frame by a single line — a screen and the thing moving on it.
   portfolio: {

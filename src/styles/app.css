@@ -366,3 +366,69 @@ html {
 .not-found-coords {
   color: var(--text-faint);
 }
+
+/* Case-study gallery: desktop screens half a row wide, phones a quarter, on the
+   same twelve columns as the page; two columns on a phone, where a desktop
+   screen takes both and phones sit side by side. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--space-9) var(--grid-gap);
+  align-items: start;
+}
+.gallery-wide {
+  grid-column: span 6;
+}
+.gallery-tall {
+  grid-column: span 3;
+}
+@media (max-width: 899px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8) var(--space-5);
+  }
+  .gallery-wide {
+    grid-column: span 2;
+  }
+  .gallery-tall {
+    grid-column: span 1;
+  }
+}
+
+.gallery-thumb {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  border-radius: var(--radius-media);
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+.gallery-thumb:hover {
+  opacity: 0.85;
+}
+.gallery-thumb:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+.gallery-caption {
+  margin: var(--space-4) 0 0;
+  font: var(--text-body-sm);
+  color: var(--text-secondary);
+  max-width: var(--measure-prose);
+}
+
+/* Download buttons: two to a row, each with its file type under it. */
+.downloads {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+.download-detail {
+  display: block;
+  margin-top: var(--space-2);
+  font: var(--text-label-sm);
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+}

@@ -112,7 +112,7 @@ export const fr: Copy = {
   projects: {
     eyebrow: '03 / Projets',
     title: 'Projets',
-    description: "Six projets : deux produits cofondés, ce site, et trois réalisations matérielles menées du choix des composants au firmware. Chaque étude de cas détaille le problème, les contraintes, les décisions qui ont compté et ce que je ferais autrement.",
+    description: "Sept projets : une application et une bibliothèque open source pour les projets matériels, deux produits cofondés, ce site, et trois réalisations matérielles menées du choix des composants au firmware. Chaque étude de cas détaille le problème, les contraintes, les décisions qui ont compté et ce que je ferais autrement.",
     back: 'Tous les projets',
     roleLabel: 'Rôle',
     stackLabel: 'Technologies',
@@ -120,7 +120,60 @@ export const fr: Copy = {
     constraintsLabel: 'Contraintes',
     decisionsLabel: 'Décisions',
     retrospectiveLabel: 'Ce que je changerais',
+    galleryLabel: 'Écrans',
+    downloadLabel: 'Télécharger',
+    linksLabel: 'Liens',
+    versionLabel: 'Version',
+    releaseNotes: 'Notes de version',
+    viewer: { open: 'Afficher en grand', close: 'Fermer', previous: 'Image précédente', next: 'Image suivante' },
     entries: {
+      'koebelt-dash': {
+        title: 'koebelt/dash',
+        summary:
+          "Une application open source pour drones, rovers, bras robotisés et bancs d’essai, et la bibliothèque qui y connecte une carte, publiées sur ordinateur et Android.",
+        tags: ['Projet personnel', 'Open source', 'Flutter', 'Systèmes embarqués'],
+        captions: {
+          wall: 'Le mur de capteurs sur tablette : une tuile par donnée envoyée par le drone, avec la vue 3D, la carte et la caméra.',
+          'arm-control': 'Un bras robotisé piloté articulation par articulation, avec la pince, la position de repos et une limite de vitesse.',
+          sequences: 'Un carré de relevé pour le drone, dessiné en plan à partir de ses points de passage, stocké sur l’appareil à l’exécution.',
+          replay: 'Un vol enregistré rejoué avec son nuage de points et ses courbes, prêt à exporter en CSV ou en vidéo.',
+          'phone-live': 'La vue en direct sur téléphone : les mesures par-dessus la scène 3D.',
+          'phone-control': 'Piloter depuis le téléphone avec des manches virtuels ; curseurs et inclinaison du téléphone sont à un geste.',
+          'phone-sequences': 'Les séquences sur téléphone, éditées étape par étape.',
+          'phone-bench': 'Un banc de poussée : poussée, tours par minute, puissance et température en direct.',
+        },
+        downloadNote:
+          "Gratuit et open source. L’installeur Windows n’est pas encore signé, SmartScreen demande donc une confirmation la première fois ; iPhone et iPad sont en bêta TestFlight, et Google Play viendra ensuite.",
+        role: 'Conception et réalisation en solo',
+        problem:
+          "Mon quadricoptère, sa radiocommande et le bras robotisé avaient chacun besoin d’envoyer leur télémétrie, de recevoir des commandes et de s’arrêter en sécurité, et je l’ai réécrit à chaque fois. koebelt/dash le fait une seule fois : une petite bibliothèque sur l’appareil décrit ce qu’il est et ce qu’il mesure, et une seule application construit les écrans, les commandes et la sécurité autour, quelle que soit la carte.",
+        constraints: [
+          'Un seul protocole en Wi-Fi, Bluetooth LE, série USB et radios longue portée, y compris des liaisons LoRa qui ne transportent que la télémétrie',
+          'La même bibliothèque pour les cartes Arduino (C++), Python, Rust en no_std et ROS 2, vérifiée sur un même jeu de vecteurs de test',
+          'L’appareil reste sûr sans l’application : il se met en attente, rentre ou se pose de lui-même après 1,8 s sans paquet de commande',
+          'Une seule base Flutter pour iOS, Android, macOS, Windows et Linux, avec jusqu’à 8 appareils connectés à la fois',
+          'Les contrôleurs de vol qui ne peuvent pas embarquer la bibliothèque (ArduPilot, PX4, Betaflight) se connectent tels quels, en MAVLink et MSP',
+        ],
+        decisions: [
+          {
+            title: 'Mettre le failsafe sur l’appareil',
+            body: "Un téléphone peut planter, se mettre en veille ou sortir de portée : l’application n’est donc jamais ce qui garde une machine en sécurité. Elle envoie les manches comme un battement régulier ; l’appareil passe de lui-même en mode sûr quand le battement s’arrête, et STOP part trois fois pour qu’un paquet perdu ne l’annule pas. Un test dans l’application retient volontairement le battement, pour vérifier le failsafe avant d’en avoir besoin.",
+          },
+          {
+            title: 'Laisser l’appareil se décrire',
+            body: "À la connexion, l’appareil dit ce qu’il est, quels capteurs il a, quels paramètres il expose et où sont ses flux vidéo. L’application n’affiche des tuiles que pour les données qui arrivent et construit l’écran de réglage à partir de la table du firmware : ajouter un capteur, c’est une ligne dans le firmware et aucune mise à jour de l’application.",
+          },
+          {
+            title: 'Stocker les séquences sur l’appareil',
+            body: "Une mission exécutée pas à pas depuis le téléphone s’arrête dès que la liaison tombe. L’application envoie donc la séquence à l’appareil, qui l’exécute avec les mêmes fonctions que le pilotage en direct, en vérifiant sa propre télémétrie entre les étapes. Elle continue sans liaison, et l’application reprend la progression à la reconnexion.",
+          },
+          {
+            title: 'Tester contre le vrai matériel, simulé',
+            body: "Chaque extrait de code des guides intégrés est compilé contre les bibliothèques en CI, les vrais autopilotes ArduPilot et PX4 volent des séquences en simulation, et les appareils simulés de l’application parlent le même protocole que le matériel. C’est ainsi qu’un conflit entre les exemples Arduino et un cœur ESP32 plus récent a été repéré avant la première version, et non par le premier utilisateur.",
+          },
+        ],
+      },
+
       portfolio: {
         title: "Ce portfolio",
         summary:

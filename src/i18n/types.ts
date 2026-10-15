@@ -5,6 +5,7 @@ export type Locale = 'en' | 'fr'
 export const LOCALES: readonly Locale[] = ['en', 'fr']
 
 export type ProjectSlug =
+  | 'koebelt-dash'
   | 'portfolio'
   | 'cbienla'
   | 'facix'
@@ -15,6 +16,7 @@ export type ProjectSlug =
 /** Ordered; also the order of the stops in the projects scene. */
 export const PROJECT_SLUGS: readonly ProjectSlug[] = [
   // Most recent first.
+  'koebelt-dash',
   'portfolio',
   'cbienla',
   'facix',
@@ -35,6 +37,10 @@ export interface ProjectCopy {
   decisions: { title: string; body: string }[]
   /** Omitted for work still in progress, where hindsight is not yet due. */
   retrospective?: string
+  /** Gallery captions, keyed by the image ids in projectGallery (site.ts). Also the alt text. */
+  captions?: Record<string, string>
+  /** One or two sentences under the download buttons, when the project has a release. */
+  downloadNote?: string
 }
 
 export interface Copy {
@@ -95,6 +101,14 @@ export interface Copy {
     constraintsLabel: string
     decisionsLabel: string
     retrospectiveLabel: string
+    galleryLabel: string
+    downloadLabel: string
+    linksLabel: string
+    /** Precedes the version number: "Version 1.0.0". */
+    versionLabel: string
+    releaseNotes: string
+    /** The full-screen image viewer. */
+    viewer: { open: string; close: string; previous: string; next: string }
     entries: Record<ProjectSlug, ProjectCopy>
   }
 
