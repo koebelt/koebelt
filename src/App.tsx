@@ -1,4 +1,4 @@
-import { Button, FooterBar, NavBar } from '@ds'
+import { Button, Logo, NavBar } from '@ds'
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
@@ -112,7 +112,6 @@ function Nav() {
 function Footer() {
   const copy = useCopy()
   const navigate = useNavigate()
-  // FooterBar has no slot for links, so the legal pages sit just under it.
   const link = (to: string, label: string) => (
     <a
       href={to}
@@ -126,23 +125,36 @@ function Footer() {
     </a>
   )
 
+  // The design system's FooterBar, with the same structure and tokens, plus the
+  // privacy and terms links in its bottom row: FooterBar has no slot for links,
+  // and the design system is not edited here. Its socials are left out: they
+  // render as IconButtons with no href, and the real links live in the contact
+  // section. The email is set at --text-display-md (56px) with display tracking,
+  // which overflows any phone, so .footer-bar clamps it and narrows the padding.
   return (
-    <>
-      <FooterBar
-        email={site.email}
-        // FooterBar renders socials as IconButtons with no href, so they would be
-        // unclickable. The real links live in the contact section.
-        socials={[]}
-        note={copy.footerNote}
-        // The email is set at --text-display-md (56px) with display tracking, which
-        // overflows any phone. Clamped down, and the inline padding drops to the
-        // normal gutter so the bar stops pushing the page wider than the viewport.
-        className="footer-bar"
-      />
-      <nav className="legal-links" aria-label={`${copy.legal.privacy.title}, ${copy.legal.terms.title}`}>
-        {link('/privacy', copy.legal.privacy.title)}
-        {link('/terms', copy.legal.terms.title)}
-      </nav>
-    </>
+    <footer
+      className="footer-bar"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-9)',
+        borderTop: 'var(--border-width) solid var(--border-hairline)',
+        padding: 'var(--space-10) var(--gutter-inline-lg) var(--space-8)',
+        background: 'var(--surface-sunken)',
+      }}
+    >
+      <a href={`mailto:${site.email}`} style={{ font: 'var(--text-display-md)', letterSpacing: 'var(--tr-display)', border: 0, color: 'var(--text-primary)' }}>
+        {site.email}
+      </a>
+      <div className="footer-row">
+        <Logo size={24} assetBase="/assets/" />
+        <span>{copy.footerNote}</span>
+        <nav className="footer-legal" aria-label={`${copy.legal.privacy.title}, ${copy.legal.terms.title}`}>
+          {link('/privacy', copy.legal.privacy.title)}
+          {link('/terms', copy.legal.terms.title)}
+        </nav>
+        <span>{`© ${new Date().getFullYear()}`}</span>
+      </div>
+    </footer>
   )
 }

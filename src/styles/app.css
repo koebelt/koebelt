@@ -574,21 +574,31 @@ html {
   margin-top: var(--space-3);
 }
 
-/* Footer links to the legal pages, under the design system's FooterBar. */
-.legal-links {
+/* The footer's bottom row (App.tsx Footer): FooterBar's own styles, with the
+   legal links between the byline and the year. */
+.footer-row {
   display: flex;
-  gap: var(--space-7);
-  justify-content: center;
-  padding: 0 var(--gutter-inline) var(--space-8);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5) var(--space-7);
+  flex-wrap: wrap;
+  border-top: var(--border-width) solid var(--border-hairline);
+  padding-top: var(--space-6);
   font: var(--text-label-sm);
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
+  color: var(--text-faint);
 }
-.legal-links a {
+.footer-legal {
+  display: flex;
+  gap: var(--space-6);
+}
+.footer-legal a {
   color: var(--text-faint);
   text-decoration: none;
+  border: 0;
 }
-.legal-links a:hover,
-.legal-links a:focus-visible {
+.footer-legal a:hover,
+.footer-legal a:focus-visible {
   color: var(--text-primary);
 }
