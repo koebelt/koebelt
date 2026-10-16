@@ -150,7 +150,7 @@ html:has(.hero) {
 }
 
 html:has(.hero) .hero,
-html:has(.hero) .section > .grid12 {
+html:has(.hero) .section:not([data-snap='free']) > .grid12 {
   scroll-snap-align: start;
 }
 

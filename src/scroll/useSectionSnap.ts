@@ -18,6 +18,8 @@ interface Span {
   top: number
   /** Scroll position that puts its content's end at the bottom; equals top when it fits. */
   bottom: number
+  /** A section marked data-snap="free" (Section snap={false}): never a stop. */
+  free?: boolean
 }
 
 /**
@@ -60,11 +62,18 @@ export function useSectionSnap() {
           section.getBoundingClientRect().bottom + y - px(getComputedStyle(section).paddingBottom)
         const bottom = Math.max(top, contentEnd + margin - vh)
 
-        out.push({ top, bottom })
+        out.push({ top, bottom, free: section.dataset.snap === 'free' })
       }
 
       const max = document.documentElement.scrollHeight - vh
       out.push({ top: max, bottom: max })
+      // A free section is no stop, and the gaps on either side of it are free
+      // too, so scrolling into it or out of it is never pulled to a neighbour:
+      // it spans from the end of the section before to the start of the next.
+      for (let i = 1; i < out.length - 1; i++) {
+        if (!out[i].free) continue
+        out[i] = { top: Math.min(out[i].top, out[i - 1].bottom), bottom: Math.max(out[i].bottom, out[i + 1].top), free: true }
+      }
       return out.filter((s) => s.top <= max + 1)
     }
 

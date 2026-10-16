@@ -16,6 +16,8 @@ export function Projects() {
   return (
     <Section
       id="projects"
+      // Browsing the cards should not be pulled to a section edge.
+      snap={false}
       // The four stops need vertical room for the loose ones to spread.
       slotMinHeight="calc(var(--space-15) * 1.3)"
       wide={

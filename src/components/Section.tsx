@@ -11,6 +11,8 @@ export interface SectionProps {
   wide?: ReactNode
   /** Height of the sphere's slot. Taller for scenes whose form is vertical. */
   slotMinHeight?: string
+  /** False: scrolling through this section never snaps (useSectionSnap, app.css). */
+  snap?: boolean
 }
 
 /**
@@ -22,7 +24,7 @@ export interface SectionProps {
  * keeps the sphere structurally incapable of drawing over body copy: the engine
  * scissors to this element's rect, so anything outside it is never rasterised.
  */
-export function Section({ id, children, wide, slotMinHeight = 'var(--space-15)' }: SectionProps) {
+export function Section({ id, children, wide, slotMinHeight = 'var(--space-15)', snap = true }: SectionProps) {
   const registry = useSceneRegistry()
   const sectionRef = useRef<HTMLElement | null>(null)
   const slotRef = useRef<HTMLDivElement | null>(null)
@@ -34,7 +36,7 @@ export function Section({ id, children, wide, slotMinHeight = 'var(--space-15)' 
   }, [id, registry])
 
   return (
-    <section ref={sectionRef} id={id} className="section container">
+    <section ref={sectionRef} id={id} className="section container" data-snap={snap ? undefined : 'free'}>
       <div className="grid12">
         <div className="col-1-6">{children}</div>
         <div
