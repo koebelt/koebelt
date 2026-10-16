@@ -30,7 +30,11 @@ export default function Legal({ page }: { page: 'notice' | 'privacy' | 'terms' }
     return registry.register('contact', el, slotRef.current)
   }, [registry])
 
-  useEffect(() => window.scrollTo(0, 0), [page])
+  // A block, not `() => window.scrollTo(0, 0)`: recent browsers make scrollTo
+  // return a promise, and React would call it as this effect's cleanup.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [page])
 
   const date = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(legalUpdated))
 
