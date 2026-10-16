@@ -158,7 +158,8 @@ in `src/content/site.ts`:
   wide and phones a quarter, each opening full size (arrows and Escape work).
   Captions, which are also the alt text, live in the project's `captions` in
   `src/i18n/{en,fr}.ts`. Sources go in `originals/<slug>/` and get a
-  `native-grey` job in `scripts/build-project-images.py`.
+  `native` job in `scripts/build-project-images.py` (kept in colour; only
+  the card image is grey).
 - `projectReleases`: a Download card under Role and Stack, with a version, a
   date formatted per language, one button per platform and a link to the
   release notes; the project's `downloadNote` goes under the buttons. File

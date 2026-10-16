@@ -47,9 +47,9 @@ JOBS = [
     ("portfolio.png", "portfolio.png", "cover"),
     # A capture of the app's Live screen, which is in colour: written grey like the rest.
     ("koebelt-dash.png", "koebelt-dash.png", "cover-grey"),
-    # Case-study galleries: whole screens at their own size and ratio, written grey.
+    # Case-study galleries: whole screens at their own size, ratio and colours.
     *[
-        (f"koebelt-dash/{n}.png", f"koebelt-dash/{n}.png", "native-grey")
+        (f"koebelt-dash/{n}.png", f"koebelt-dash/{n}.png", "native")
         for n in ("wall", "arm-control", "sequences", "replay", "phone-live", "phone-control", "phone-sequences", "phone-bench")
     ],
 ]
@@ -121,7 +121,7 @@ def main():
 
         before = path.stat().st_size
         sw, sh, pixels = pnglib.read_rgba(path)
-        if fit == "native-grey":
+        if fit == "native":
             tw, th, framed = sw, sh, bytearray(pixels)
         else:
             tw, th = TARGET_W, round(TARGET_W / RATIO)

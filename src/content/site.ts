@@ -100,7 +100,7 @@ export interface ProjectImage {
 
 /**
  * Case-study galleries, keyed by slug. Prepared by scripts/build-project-images.py
- * from originals/<slug>/, at their own size, written grey like the cards.
+ * from originals/<slug>/, at their own size and in colour; only card images are grey.
  */
 export const projectGallery: Record<string, ProjectImage[]> = {
   'koebelt-dash': [
