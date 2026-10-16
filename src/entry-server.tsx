@@ -9,7 +9,7 @@ import { routes } from './routes'
 export { jsonLd, llmsTxt, LLMS_FILES } from './machine-readable'
 
 /** Every URL that gets its own prerendered file. Not-found is rendered separately. */
-export const paths = ['/', ...PROJECT_SLUGS.map((slug) => `/work/${slug}`)]
+export const paths = ['/', ...PROJECT_SLUGS.map((slug) => `/work/${slug}`), '/privacy', '/terms']
 
 export interface Head {
   title: string
@@ -25,6 +25,10 @@ export function head(path: string): Head {
   const project = slug ? en.projects.entries[slug as keyof typeof en.projects.entries] : null
   if (project) {
     return { title: `${project.title} | Thomas Koebel`, description: project.summary }
+  }
+  if (path === '/privacy' || path === '/terms') {
+    const page = en.legal[path === '/privacy' ? 'privacy' : 'terms']
+    return { title: `${page.title} | Thomas Koebel`, description: page.intro }
   }
   return { title: en.documentTitle, description: '' }
 }

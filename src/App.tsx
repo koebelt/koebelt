@@ -111,18 +111,38 @@ function Nav() {
 
 function Footer() {
   const copy = useCopy()
+  const navigate = useNavigate()
+  // FooterBar has no slot for links, so the legal pages sit just under it.
+  const link = (to: string, label: string) => (
+    <a
+      href={to}
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+        e.preventDefault()
+        navigate(to)
+      }}
+    >
+      {label}
+    </a>
+  )
 
   return (
-    <FooterBar
-      email={site.email}
-      // FooterBar renders socials as IconButtons with no href, so they would be
-      // unclickable. The real links live in the contact section.
-      socials={[]}
-      note={copy.footerNote}
-      // The email is set at --text-display-md (56px) with display tracking, which
-      // overflows any phone. Clamped down, and the inline padding drops to the
-      // normal gutter so the bar stops pushing the page wider than the viewport.
-      className="footer-bar"
-    />
+    <>
+      <FooterBar
+        email={site.email}
+        // FooterBar renders socials as IconButtons with no href, so they would be
+        // unclickable. The real links live in the contact section.
+        socials={[]}
+        note={copy.footerNote}
+        // The email is set at --text-display-md (56px) with display tracking, which
+        // overflows any phone. Clamped down, and the inline padding drops to the
+        // normal gutter so the bar stops pushing the page wider than the viewport.
+        className="footer-bar"
+      />
+      <nav className="legal-links" aria-label={`${copy.legal.privacy.title}, ${copy.legal.terms.title}`}>
+        {link('/privacy', copy.legal.privacy.title)}
+        {link('/terms', copy.legal.terms.title)}
+      </nav>
+    </>
   )
 }

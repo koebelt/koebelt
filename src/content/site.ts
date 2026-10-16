@@ -3,6 +3,9 @@
  * coordinates read the same in both languages. Translated copy lives in src/i18n.
  */
 
+/** When the privacy policy and terms (src/i18n, legal) last changed. */
+export const legalUpdated = '2026-10-16'
+
 export const site = {
   name: 'Thomas Koebel',
   email: 'contact@koebelt.com',

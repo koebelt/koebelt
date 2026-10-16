@@ -145,6 +145,12 @@ export interface Copy {
   }
 
   footerNote: string
+  legal: {
+    /** "Last updated", before the date. */
+    updatedLabel: string
+    privacy: LegalPage
+    terms: LegalPage
+  }
   notFound: {
     eyebrow: string
     title: string
@@ -158,4 +164,13 @@ export interface Copy {
     caption: string
     suggestions: string
   }
+}
+
+/** A legal page (/privacy, /terms): short sections of plain paragraphs and lists. */
+export interface LegalPage {
+  /** Also the footer link. */
+  title: string
+  /** Under the title: what the page covers, in one or two sentences. */
+  intro: string
+  sections: { title: string; paragraphs?: string[]; list?: string[] }[]
 }

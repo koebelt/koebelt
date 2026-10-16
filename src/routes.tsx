@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom'
 
 import App from './App'
 import Home from './pages/Home'
+import Legal from './pages/Legal'
 import NotFound from './pages/NotFound'
 import ProjectDetail from './pages/ProjectDetail'
 
@@ -15,6 +16,8 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <Home /> },
       { path: 'work/:slug', element: <ProjectDetail /> },
+      { path: 'privacy', element: <Legal page="privacy" /> },
+      { path: 'terms', element: <Legal page="terms" /> },
       { path: '*', element: <NotFound /> },
     ],
   },
