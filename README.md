@@ -164,6 +164,12 @@ in `src/content/site.ts`:
   date formatted per language, one button per platform and a link to the
   release notes; the project's `downloadNote` goes under the buttons. File
   names carry the version, so update it with each release.
+- `projectDiagrams`: "How it works" drawings above the gallery. Each is an
+  inline SVG component in `src/components/diagrams/`, registered as
+  `<slug>/<id>`, drawn with the design system's lines, type and colours
+  (classes `dg-*` in `app.css`); its title, caption (also the accessible
+  name) and the labels inside it live in the project's `diagrams` copy. They
+  are drawn for `--diagram-min` and scroll sideways on narrower screens.
 - `projectLinks`: outbound buttons under a Links heading (GitHub links get its icon).
 
 Releases and links also appear in `llms.txt`.

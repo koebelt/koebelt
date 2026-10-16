@@ -123,6 +123,7 @@ export function llmsTxt(locale: Locale): string {
       ...p.decisions.map((d) => `**${d.title}.** ${d.body}`),
     )
     if (p.retrospective) out.push(`#### ${c.projects.retrospectiveLabel}`, p.retrospective)
+    if (p.diagrams) out.push(`#### ${c.projects.howLabel}`, ...Object.values(p.diagrams).map((d) => `**${d.title}.** ${d.caption}`))
   }
 
   section(c.experience.title, c.experience.description)

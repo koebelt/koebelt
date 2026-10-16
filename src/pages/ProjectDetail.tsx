@@ -2,9 +2,10 @@ import { Button, Card, Divider, Icon, MediaFrame, SectionHeading, Tag } from '@d
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { DIAGRAMS } from '../components/diagrams'
 import { Gallery } from '../components/Gallery'
 import { Reveal } from '../components/Reveal'
-import { projectGallery, projectImages, projectLinks, projectReleases, projectStacks, type ProjectRelease } from '../content/site'
+import { projectDiagrams, projectGallery, projectImages, projectLinks, projectReleases, projectStacks, type ProjectRelease } from '../content/site'
 import { useCopy, useLocale } from '../i18n/LocaleContext'
 import { PROJECT_SLUGS, type ProjectSlug } from '../i18n/types'
 import { useSceneRegistry } from '../scroll/SceneContext'
@@ -48,6 +49,7 @@ export default function ProjectDetail() {
   const stack = projectStacks[slug] ?? []
   const links = projectLinks[slug] ?? []
   const gallery = projectGallery[slug] ?? []
+  const diagrams = (projectDiagrams[slug] ?? []).filter((id) => DIAGRAMS[`${slug}/${id}`] && project.diagrams?.[id])
   const release = projectReleases[slug]
 
   return (
@@ -193,6 +195,21 @@ export default function ProjectDetail() {
           ) : null}
         </div>
       </div>
+
+      {diagrams.length > 0 ? (
+        <section style={{ marginTop: 'var(--space-12)', display: 'flex', flexDirection: 'column', gap: 'var(--space-10)' }}>
+          <Divider label={copy.projects.howLabel} />
+          {diagrams.map((id) => {
+            const Drawing = DIAGRAMS[`${slug}/${id}`]
+            const d = project.diagrams![id]
+            return (
+              <Reveal key={id}>
+                <Drawing title={d.title} caption={d.caption} t={d.labels} />
+              </Reveal>
+            )
+          })}
+        </section>
+      ) : null}
 
       {gallery.length > 0 ? (
         <section style={{ marginTop: 'var(--space-12)', display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>

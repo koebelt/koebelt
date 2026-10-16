@@ -115,6 +115,14 @@ export const projectGallery: Record<string, ProjectImage[]> = {
   ],
 }
 
+/**
+ * Explanatory diagrams per case study, in order: ids into the project's
+ * copy.diagrams and into DIAGRAMS (src/components/diagrams) as "<slug>/<id>".
+ */
+export const projectDiagrams: Record<string, string[]> = {
+  'koebelt-dash': ['architecture', 'describe', 'link-loss'],
+}
+
 export interface ProjectDownload {
   /** Platform names read the same in every language. */
   platform: string

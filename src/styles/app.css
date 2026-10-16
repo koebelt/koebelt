@@ -51,6 +51,9 @@
 :root {
   --card-min-sm: 240px;
   --card-min-md: 280px;
+  /* Diagrams are drawn for this width and scroll sideways below it, so their
+     labels never shrink past reading size. */
+  --diagram-min: 760px;
 }
 
 /* The screen below the sticky nav (App.tsx measures it), not the full screen:
@@ -431,4 +434,110 @@ html {
   font: var(--text-label-sm);
   letter-spacing: var(--tr-label);
   color: var(--text-faint);
+}
+
+/* Case-study diagrams: inline SVG drawn with the design system's lines, type
+   and colours. Lime marks the one thing each diagram is about. */
+.diagram {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.diagram-scroll {
+  overflow-x: auto;
+  padding: var(--space-6);
+  background: var(--surface-sunken);
+  border-radius: var(--radius-media);
+  box-shadow: var(--shadow-inset-hairline);
+}
+.diagram-scroll svg {
+  display: block;
+  width: 100%;
+  min-width: var(--diagram-min);
+  height: auto;
+}
+.diagram-title {
+  margin: 0;
+  font: var(--text-heading-xs);
+  letter-spacing: var(--tr-heading);
+  color: var(--text-primary);
+}
+.diagram-caption {
+  margin: 0;
+  font: var(--text-body-sm);
+  color: var(--text-secondary);
+  max-width: var(--measure-prose);
+}
+.dg-box {
+  fill: var(--surface-raised);
+  stroke: var(--border-subtle);
+}
+.dg-box-accent {
+  fill: var(--surface-raised);
+  stroke: var(--accent);
+}
+.dg-box-faint {
+  fill: none;
+  stroke: var(--border-subtle);
+  stroke-dasharray: 4 4;
+}
+.dg-band {
+  fill: var(--surface-raised);
+}
+.dg-line {
+  fill: none;
+  stroke: var(--text-faint);
+}
+.dg-line-accent {
+  fill: none;
+  stroke: var(--accent);
+}
+.dg-tick {
+  stroke: var(--text-secondary);
+}
+.dg-arrow {
+  fill: var(--text-faint);
+}
+.dg-arrow-accent {
+  fill: var(--accent);
+}
+.dg-title {
+  font: var(--text-heading-xs);
+  letter-spacing: var(--tr-heading);
+  fill: var(--text-primary);
+}
+.dg-text {
+  font: var(--text-body-sm);
+  fill: var(--text-secondary);
+}
+.dg-label {
+  font: var(--text-label-sm);
+  letter-spacing: var(--tr-label);
+  fill: var(--text-faint);
+}
+.dg-label-accent {
+  font: var(--text-label-sm);
+  letter-spacing: var(--tr-label);
+  fill: var(--text-accent);
+}
+.dg-code {
+  font: var(--text-label-md);
+  fill: var(--text-secondary);
+}
+.dg-code-key {
+  font: var(--text-label-md);
+  fill: var(--text-accent);
+}
+/* Only where the diagram is wider than its frame (--diagram-min plus padding). */
+.diagram-hint {
+  display: none;
+  font: var(--text-label-sm);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+@media (max-width: 899px) {
+  .diagram-hint {
+    display: block;
+  }
 }

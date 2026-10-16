@@ -41,6 +41,9 @@ export interface ProjectCopy {
   captions?: Record<string, string>
   /** One or two sentences under the download buttons, when the project has a release. */
   downloadNote?: string
+  /** Diagrams listed in projectDiagrams (site.ts): a title, a caption that says what
+      the drawing shows (also its accessible name), and the labels drawn in it. */
+  diagrams?: Record<string, { title: string; caption: string; labels: Record<string, string> }>
 }
 
 export interface Copy {
@@ -101,6 +104,9 @@ export interface Copy {
     constraintsLabel: string
     decisionsLabel: string
     retrospectiveLabel: string
+    howLabel: string
+    /** Under a diagram that is wider than the screen. */
+    swipeHint: string
     galleryLabel: string
     downloadLabel: string
     linksLabel: string
