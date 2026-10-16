@@ -210,7 +210,7 @@ export const fr: Copy = {
           },
         },
         downloadNote:
-          "Gratuit et open source. L’installeur Windows n’est pas encore signé, SmartScreen demande donc une confirmation la première fois ; iPhone et iPad sont en bêta TestFlight, et Google Play viendra ensuite.",
+          "Gratuit et open source, et se met ensuite à jour en un clic. L’installeur Windows n’est pas encore signé, SmartScreen demande donc une confirmation la première fois ; iPhone et iPad sont en bêta TestFlight, et Google Play viendra ensuite.",
         role: 'Conception et réalisation en solo',
         problem:
           "Mon quadricoptère, sa radiocommande et le bras robotisé avaient chacun besoin d’envoyer leur télémétrie, de recevoir des commandes et de s’arrêter en sécurité, et je l’ai réécrit à chaque fois. koebelt/dash le fait une seule fois : une petite bibliothèque sur l’appareil décrit ce qu’il est et ce qu’il mesure, et une seule application construit les écrans, les commandes et la sécurité autour, quelle que soit la carte.",

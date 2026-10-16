@@ -210,7 +210,7 @@ export const en: Copy = {
           },
         },
         downloadNote:
-          "Free and open source. The Windows installer is not code-signed yet, so SmartScreen asks once; iPhone and iPad are in a TestFlight beta, and Google Play comes later.",
+          "Free and open source, and it updates itself in one click from then on. The Windows installer is not code-signed yet, so SmartScreen asks once; iPhone and iPad are in a TestFlight beta, and Google Play comes later.",
         role: 'Sole designer and engineer',
         problem:
           "My quadcopter, its controller and the robotic arm each needed their own way to send telemetry, take commands and stop safely, and each time I wrote it again. koebelt/dash does it once: a small library on the device describes what it is and what it measures, and one app builds the screens, the controls and the safety around it, for whatever the board turns out to be.",
