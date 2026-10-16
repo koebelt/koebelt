@@ -133,18 +133,24 @@
   padding-block: var(--section-y);
 }
 
-/* Scroll: settle on each section, never in the empty space between them.
+/* Scroll (landing page): settle on each section, never in the empty space between them.
    Proximity, not mandatory — a section taller than the screen (skills) still
    scrolls freely, and snapping only engages when a stop is near. The stop is
    the section's content row rather than the section itself, whose top is a
    band of padding; scroll-padding keeps it clear of the sticky nav. */
 html {
-  scroll-snap-type: y proximity;
   scroll-padding-top: var(--nav-height, 0px);
 }
 
-.hero,
-.section > .grid12 {
+/* Only on the landing page, the one page with a hero (useSectionSnap there
+   handles the rest). Case studies and the legal pages share .section >
+   .grid12, and should scroll freely. */
+html:has(.hero) {
+  scroll-snap-type: y proximity;
+}
+
+html:has(.hero) .hero,
+html:has(.hero) .section > .grid12 {
   scroll-snap-align: start;
 }
 
