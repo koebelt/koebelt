@@ -1,4 +1,5 @@
 import type { Copy } from './types'
+import { legalFr } from './legal.fr'
 
 export const fr: Copy = {
   localeName: 'Français',
@@ -472,130 +473,7 @@ export const fr: Copy = {
   },
 
   footerNote: 'Design & développement par Thomas Koebel',
-  legal: {
-    updatedLabel: 'Mise à jour le',
-    privacy: {
-      title: 'Confidentialité',
-      intro:
-        "Cette page concerne l’application koebelt dash, les bibliothèques koebelt/link et ce site. En bref : aucun d’eux ne collecte de données personnelles, et il n’y a ni compte, ni statistiques, ni publicité, ni pistage.",
-      sections: [
-        {
-          title: 'Responsable',
-          paragraphs: [
-            'Thomas Koebel, qui développe koebelt dash, koebelt/link et ce site. Pour toute question sur vos données : contact@koebelt.com.',
-          ],
-        },
-        {
-          title: 'L’application koebelt dash',
-          paragraphs: ['Rien de ce que vous faites dans l’application ne m’est envoyé. Elle n’a ni compte ni statistiques.'],
-          list: [
-            'Uniquement sur votre téléphone ou votre ordinateur : vos réglages, les appareils appairés et leurs clés d’appairage, les séquences, les dispositions d’écran, les enregistrements et les tuiles de carte déjà affichées. Désinstaller l’application les supprime sur iPhone, iPad et Android ; sur ordinateur, ils restent dans le dossier de l’application jusqu’à ce que vous le supprimiez.',
-            'Vos appareils : l’application échange avec les machines que vous connectez, en Wi-Fi, Bluetooth, USB ou radio. Ces échanges restent entre l’application et elles, sans passer par moi.',
-            'Cartes : pour afficher la carte, l’application télécharge des tuiles auprès du fournisseur choisi dans les Réglages, OpenStreetMap ou OpenTopoMap par défaut, ou le vôtre. Comme pour tout site web, ce serveur voit votre adresse IP et la zone demandée, selon sa propre politique de confidentialité. Choisir Aucune dans les Réglages désactive ces téléchargements.',
-            'Mises à jour : les versions téléchargées sur GitHub demandent à GitHub la dernière version au lancement et une fois par jour ; GitHub voit donc votre adresse IP, selon sa déclaration de confidentialité. Vous pouvez le désactiver dans Réglages > Mises à jour. Les versions App Store et TestFlight ne le font pas : Apple les met à jour.',
-            'Exports et partages : enregistrements, journaux et vidéos ne quittent l’application que lorsque vous les exportez ou les partagez, vers la destination de votre choix.',
-            'Autorisations : le Bluetooth et le réseau local servent à trouver et connecter vos appareils, les capteurs de mouvement au pilotage par inclinaison si vous le choisissez, et les fichiers aux imports et exports. Rien d’autre.',
-          ],
-        },
-        {
-          title: 'Apple et Google',
-          paragraphs: [
-            'Si vous installez l’application depuis l’App Store, TestFlight ou plus tard Google Play, ils gèrent le téléchargement selon leurs propres règles. Si vous avez autorisé votre téléphone à partager des statistiques avec les développeurs, Apple m’envoie des rapports de plantage et des comptages d’utilisation anonymes ; je ne m’en sers que pour corriger des problèmes.',
-          ],
-        },
-        {
-          title: 'Les bibliothèques koebelt/link',
-          paragraphs: [
-            'Les bibliothèques fonctionnent sur votre propre matériel et n’envoient de données qu’à l’application à laquelle elles sont connectées. Elles ne contactent aucun serveur.',
-          ],
-        },
-        {
-          title: 'Ce site',
-          paragraphs: [
-            'koebelt.com n’utilise ni cookies ni statistiques. Votre choix de langue est conservé dans le stockage local de votre navigateur. Le site est hébergé par Cloudflare, qui traite des données techniques comme votre adresse IP pour servir les pages et les protéger, selon sa politique de confidentialité.',
-            'Si vous m’écrivez, j’utilise votre adresse uniquement pour vous répondre, et la conserve le temps de l’échange.',
-          ],
-        },
-        {
-          title: 'Vos droits',
-          paragraphs: [
-            'Selon le RGPD, vous pouvez demander à consulter, corriger ou supprimer les données personnelles que je détiens sur vous, ou vous opposer à leur utilisation, en écrivant à contact@koebelt.com. Vous pouvez aussi saisir la CNIL (cnil.fr).',
-          ],
-        },
-        {
-          title: 'Modifications',
-          paragraphs: ['Si cette page change, la date en haut change avec elle.'],
-        },
-      ],
-    },
-    terms: {
-      title: 'Conditions d’utilisation',
-      intro:
-        "Ces conditions s’appliquent à l’application koebelt dash, aux bibliothèques koebelt/link et à ce site. Les utiliser vaut acceptation.",
-      sections: [
-        {
-          title: 'Éditeur',
-          paragraphs: ['Thomas Koebel, contact@koebelt.com.'],
-        },
-        {
-          title: 'De quoi il s’agit',
-          paragraphs: [
-            'koebelt dash et koebelt/link sont des outils gratuits et open source pour suivre et piloter les drones, rovers, bras robotisés, fusées et bancs d’essai que vous construisez vous-même.',
-          ],
-        },
-        {
-          title: 'Licence',
-          paragraphs: [
-            'Le logiciel est publié sous licence MIT : vous pouvez l’utiliser, le copier, le modifier et le partager, y compris dans vos propres projets, à condition de conserver la mention de licence. Le code source et la licence complète sont sur GitHub (github.com/koebelt/koebelt_dash).',
-          ],
-        },
-        {
-          title: 'Vos machines, votre responsabilité',
-          paragraphs: ['Vous êtes responsable des machines que vous construisez et utilisez, et de l’usage que vous faites du logiciel avec elles.'],
-          list: [
-            'Faites vos essais hélices retirées, ou moteurs débranchés, avant toute chose.',
-            'Gardez un moyen d’arrêter la machine qui ne dépende pas de l’application : son propre failsafe, une radiocommande ou un coupe-circuit.',
-            'Respectez les règles du lieu où vous opérez. En France et dans l’UE, les drones relèvent des règles de la DGAC et de l’EASA (enregistrement, formation, zones et hauteurs de vol).',
-            'Respectez la sécurité et la vie privée des autres, y compris avec une caméra embarquée.',
-          ],
-        },
-        {
-          title: 'Pas pour un usage critique',
-          paragraphs: [
-            'koebelt dash est un outil pour makers. Il n’est ni conçu, ni testé, ni certifié pour des systèmes critiques, l’aviation commerciale, ou tout usage où une défaillance pourrait mettre des personnes en danger. STOP et le failsafe dépendent de votre firmware, de votre matériel et de la liaison, et peuvent échouer si l’un d’eux échoue.',
-          ],
-        },
-        {
-          title: 'Absence de garantie',
-          paragraphs: [
-            'Comme le prévoit la licence MIT, le logiciel est fourni « tel quel », sans garantie d’aucune sorte. Dans la mesure permise par la loi, je ne suis pas responsable des dommages, blessures ou pertes résultant de son utilisation. Cela ne limite aucun droit que la loi vous accorde et qui ne peut être exclu.',
-          ],
-        },
-        {
-          title: 'Autres services',
-          paragraphs: [
-            'Les tuiles de carte proviennent d’OpenStreetMap ou d’OpenTopoMap selon leurs propres conditions, qui autorisent un usage personnel modéré ; pour un usage plus intensif, indiquez votre propre fournisseur dans les Réglages. Les téléchargements depuis GitHub, l’App Store ou Google Play sont aussi soumis à leurs conditions.',
-          ],
-        },
-        {
-          title: 'Nom et logo',
-          paragraphs: [
-            'Le nom et le logo koebelt identifient le projet officiel. La licence MIT couvre le code, pas eux : une version modifiée que vous diffusez doit porter un autre nom.',
-          ],
-        },
-        {
-          title: 'Ce site',
-          paragraphs: ['Les textes et images de koebelt.com sont © Thomas Koebel. Vous pouvez les citer avec un lien vers le site.'],
-        },
-        {
-          title: 'Modifications et droit applicable',
-          paragraphs: [
-            'Ces conditions peuvent évoluer ; la date en haut indique la version en vigueur. Elles sont régies par le droit français, sans préjudice des protections accordées aux consommateurs par leur pays de résidence. En cas de problème, écrivez d’abord à contact@koebelt.com ; je chercherai une solution avec vous.',
-          ],
-        },
-      ],
-    },
-  },
+  legal: legalFr,
 
   notFound: {
     eyebrow: 'Erreur 404',

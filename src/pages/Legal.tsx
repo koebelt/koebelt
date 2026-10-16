@@ -4,13 +4,15 @@ import { useEffect, useRef } from 'react'
 import { Reveal } from '../components/Reveal'
 import { legalUpdated, site } from '../content/site'
 import { useCopy, useDocumentTitle, useLocale } from '../i18n/LocaleContext'
+import type { LegalSection } from '../i18n/types'
 import { useSceneRegistry } from '../scroll/SceneContext'
 
 /**
- * /privacy and /terms. Copy in columns 1—7 at prose width; the sphere keeps
- * its contact form in 7—12, like the other text-only pages.
+ * /legal, /privacy and /terms. Copy in columns 1—7 at prose width; the sphere
+ * keeps its contact form in 8—12. What applies to every koebelt project comes
+ * first, then each project's own sections.
  */
-export default function Legal({ page }: { page: 'privacy' | 'terms' }) {
+export default function Legal({ page }: { page: 'notice' | 'privacy' | 'terms' }) {
   const { legal } = useCopy()
   const { locale } = useLocale()
   const registry = useSceneRegistry()
@@ -40,27 +42,48 @@ export default function Legal({ page }: { page: 'privacy' | 'terms' }) {
             <SectionHeading eyebrow={`${legal.updatedLabel} ${date}`} title={copy.title} description={copy.intro} />
           </Reveal>
           {copy.sections.map((s) => (
-            <Reveal key={s.title}>
-              <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-                <Divider label={s.title} />
-                {s.paragraphs?.map((p) => (
-                  <p key={p} className="legal-text">
-                    {p}
-                  </p>
-                ))}
-                {s.list ? (
-                  <ul className="legal-text legal-list">
-                    {s.list.map((li) => (
-                      <li key={li}>{li}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </section>
+            <Section key={s.title} s={s} />
+          ))}
+          {copy.products?.length ? (
+            <Reveal>
+              <h2 className="legal-group">{legal.productsLabel}</h2>
             </Reveal>
+          ) : null}
+          {copy.products?.map((product) => (
+            <div key={product.name} className="legal-product">
+              <Reveal>
+                <h3 className="legal-product-name">{product.name}</h3>
+              </Reveal>
+              {product.sections.map((s) => (
+                <Section key={s.title} s={s} />
+              ))}
+            </div>
           ))}
         </div>
         <div ref={slotRef} aria-hidden="true" data-sphere-slot="contact" className="legal-slot" />
       </div>
     </article>
+  )
+}
+
+function Section({ s }: { s: LegalSection }) {
+  return (
+    <Reveal>
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+        <Divider label={s.title} />
+        {s.paragraphs?.map((p) => (
+          <p key={p} className="legal-text">
+            {p}
+          </p>
+        ))}
+        {s.list ? (
+          <ul className="legal-text legal-list">
+            {s.list.map((li) => (
+              <li key={li}>{li}</li>
+            ))}
+          </ul>
+        ) : null}
+      </section>
+    </Reveal>
   )
 }

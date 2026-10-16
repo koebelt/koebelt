@@ -149,7 +149,8 @@ function Footer() {
       <div className="footer-row">
         <Logo size={24} assetBase="/assets/" />
         <span>{copy.footerNote}</span>
-        <nav className="footer-legal" aria-label={`${copy.legal.privacy.title}, ${copy.legal.terms.title}`}>
+        <nav className="footer-legal" aria-label={`${copy.legal.notice.title}, ${copy.legal.privacy.title}, ${copy.legal.terms.title}`}>
+          {link('/legal', copy.legal.notice.title)}
           {link('/privacy', copy.legal.privacy.title)}
           {link('/terms', copy.legal.terms.title)}
         </nav>

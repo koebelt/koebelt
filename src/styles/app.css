@@ -573,6 +573,23 @@ html {
 .legal-list li + li {
   margin-top: var(--space-3);
 }
+.legal-group {
+  margin: var(--space-6) 0 0;
+  font: var(--text-heading-md);
+  letter-spacing: var(--tr-heading);
+  color: var(--text-primary);
+}
+.legal-product {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.legal-product-name {
+  margin: 0;
+  font: var(--text-heading-sm);
+  letter-spacing: var(--tr-heading);
+  color: var(--text-primary);
+}
 
 /* The footer's bottom row (App.tsx Footer): FooterBar's own styles, with the
    legal links between the byline and the year. */

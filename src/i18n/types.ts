@@ -148,6 +148,9 @@ export interface Copy {
   legal: {
     /** "Last updated", before the date. */
     updatedLabel: string
+    /** Heading over the per-project sections. */
+    productsLabel: string
+    notice: LegalPage
     privacy: LegalPage
     terms: LegalPage
   }
@@ -166,11 +169,21 @@ export interface Copy {
   }
 }
 
-/** A legal page (/privacy, /terms): short sections of plain paragraphs and lists. */
+export interface LegalSection {
+  title: string
+  paragraphs?: string[]
+  list?: string[]
+}
+
+/**
+ * A legal page (/legal, /privacy, /terms): what applies to every koebelt
+ * project, then what each project adds.
+ */
 export interface LegalPage {
   /** Also the footer link. */
   title: string
-  /** Under the title: what the page covers, in one or two sentences. */
+  /** Under the title: what the page covers. */
   intro: string
-  sections: { title: string; paragraphs?: string[]; list?: string[] }[]
+  sections: LegalSection[]
+  products?: { name: string; sections: LegalSection[] }[]
 }
