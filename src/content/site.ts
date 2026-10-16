@@ -146,12 +146,12 @@ export interface ProjectRelease {
  * Downloadable releases, keyed by slug. The file names carry the version, so
  * this is updated with each release.
  */
-const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.2.1/koebelt-dash-1.2.1'
+const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.2.2/koebelt-dash-1.2.2'
 export const projectReleases: Record<string, ProjectRelease> = {
   'koebelt-dash': {
-    version: '1.2.1',
+    version: '1.2.2',
     date: '2026-10-16',
-    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.2.1',
+    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.2.2',
     downloads: [
       { platform: 'macOS', detail: '.dmg · macOS 12+', href: `${dashRelease}-macos.dmg` },
       { platform: 'Windows', detail: '.exe · Windows 10+, x64', href: `${dashRelease}-windows-x64-setup.exe` },
