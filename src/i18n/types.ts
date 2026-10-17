@@ -1,3 +1,4 @@
+import type { FigureCopy } from '../figures/AnatomyFigure'
 import type { SceneId } from '../three/types'
 
 export type Locale = 'en' | 'fr'
@@ -44,6 +45,9 @@ export interface ProjectCopy {
   /** Diagrams listed in projectDiagrams (site.ts): a title, a caption that says what
       the drawing shows (also its accessible name), and the labels drawn in it. */
   diagrams?: Record<string, { title: string; caption: string; labels: Record<string, string> }>
+  /** The anatomy figure at the top of the case study, for projects that have one
+      (src/figures). Its drawing is also the project card's picture. */
+  figure?: FigureCopy
 }
 
 export interface Copy {

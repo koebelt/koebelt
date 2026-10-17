@@ -82,13 +82,13 @@ export const projectStacks: Record<string, string[]> = {
  * the card's 4:3 frame and written as greyscale, which is what they already are.
  */
 export const projectImages: Record<string, string> = {
-  'koebelt-dash': '/projects/koebelt-dash.png',
-  quadcopter: '/projects/quadcopter.png',
-  'drone-controller': '/projects/drone-controller.png',
-  cbienla: '/projects/cbienla.png',
-  facix: '/projects/facix.png',
-  portfolio: '/projects/portfolio.png',
-  'robotic-arm': '/projects/robotic-arm.png',
+  'koebelt-dash': '/projects/koebelt-dash.svg',
+  quadcopter: '/projects/quadcopter.svg',
+  'drone-controller': '/projects/drone-controller.svg',
+  cbienla: '/projects/cbienla.svg',
+  facix: '/projects/facix.svg',
+  portfolio: '/projects/portfolio.svg',
+  'robotic-arm': '/projects/robotic-arm.svg',
 }
 
 export interface ProjectImage {

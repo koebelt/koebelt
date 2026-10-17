@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { renderToString } from 'react-dom/server'
+import { prerender } from 'react-dom/static'
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom'
 
 import { en } from './i18n/en'
@@ -40,10 +40,18 @@ export async function render(path: string): Promise<string> {
   if (context instanceof Response) throw new Error(`Unexpected redirect rendering ${path}`)
   const router = createStaticRouter(handler.dataRoutes, context)
 
-  return renderToString(
+  const app = (
     <StrictMode>
       {/* No loaders, so there is no data to hand the browser router. */}
       <StaticRouterProvider router={router} context={context} hydrate={false} />
-    </StrictMode>,
+    </StrictMode>
   )
+  // prerender, not renderToString: it waits for lazy chunks (the anatomy
+  // figures). React moves any Suspense boundary bigger than its progressive
+  // chunk size (about 12 kB) out of line, into a hidden div swapped in by an
+  // inline script, and a drawing is a few hundred kB. A static page gains
+  // nothing from that, so the limit is lifted and the drawing is written in
+  // place, readable with or without JavaScript.
+  const { prelude } = await prerender(app, { progressiveChunkSize: Number.POSITIVE_INFINITY })
+  return new Response(prelude).text()
 }

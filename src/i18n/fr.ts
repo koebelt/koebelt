@@ -213,6 +213,19 @@ export const fr: Copy = {
         downloadNote:
           "Gratuit et open source, et se met ensuite à jour en un clic. L’installeur Windows n’est pas encore signé, SmartScreen demande donc une confirmation la première fois ; iPhone et iPad sont en bêta TestFlight, et Google Play viendra ensuite.",
         role: 'Conception et réalisation en solo',
+        figure: {
+          title: 'koebelt/dash sur trois écrans',
+          hint: 'Cliquez pour les écrans suivants',
+          rest: 'ordinateur : relecture',
+          readout: 'ordinateur : {state}',
+          states: { replay: 'relecture', sequences: 'séquences', 'arm-control': 'pilotage du bras' },
+          keys: [
+            { mark: 'lit', label: 'Une seule base de code Flutter : ordinateur, tablette et téléphone' },
+            { mark: 'raised', label: 'Relecture, séquences, bras robotique, mur de capteurs et vues téléphone' },
+          ],
+          caption:
+            "La même appli sur ordinateur, tablette et téléphone, issue d’une seule base de code Flutter : un vol enregistré rejoué avec son nuage de points, une séquence de relevé, un bras robotique piloté articulation par articulation, le mur de capteurs, et sur téléphone la vue en direct, les commandes et le banc d’essai.",
+        },
         problem:
           "Mon quadricoptère, sa radiocommande et le bras robotisé avaient chacun besoin d’envoyer leur télémétrie, de recevoir des commandes et de s’arrêter en sécurité, et je l’ai réécrit à chaque fois. koebelt/dash le fait une seule fois : une petite bibliothèque sur l’appareil décrit ce qu’il est et ce qu’il mesure, et une seule application construit les écrans, les commandes et la sécurité autour, quelle que soit la carte.",
         constraints: [
@@ -248,6 +261,19 @@ export const fr: Copy = {
           "Ce site : une interface React et un moteur de particules WebGL écrit à la main, qui change de forme à chaque section.",
         tags: ["Projet personnel", "Web", "WebGL", "Développement créatif"],
         role: "Conception et réalisation en solo",
+        figure: {
+          title: 'Ce site, sur ordinateur et téléphone',
+          hint: 'Cliquez pour les pages suivantes',
+          rest: 'ordinateur : accueil',
+          readout: 'ordinateur : {state}',
+          states: { hero: 'accueil', projects: 'projets', case: 'une étude de cas' },
+          keys: [
+            { mark: 'lit', label: 'La sphère de particules : un seul appel WebGL derrière chaque section' },
+            { mark: 'raised', label: 'L’accueil, les projets et une étude de cas, sur ordinateur et sur téléphone' },
+          ],
+          caption:
+            "Ce site sur ordinateur et téléphone : l’accueil et sa sphère de particules, les projets, une étude de cas, et les mêmes pages sur téléphone, où la sphère passe à 3 000 points.",
+        },
         problem:
           "Un portfolio doit en dire beaucoup à quelqu’un qui lui accordera une minute. Je voulais que la page montre elle-même le travail : un nuage de points qui devient un globe, des orbites, une rangée de projets et une frise au fil du défilement, sans gêner la lecture, sans ralentir un téléphone, et sans rien casser pour qui préfère moins d’animations.",
         constraints: [
@@ -278,6 +304,19 @@ export const fr: Copy = {
           "Une application de réservation d’activités pour les associations françaises, menée jusqu’à une bêta avec des associations pilotes : Flutter, paiement intégré et backend AWS serverless.",
         tags: ["Entrepreneuriat", "Flutter", "AWS", "Paiement"],
         role: "Cofondateur et responsable de l’équipe mobile",
+        figure: {
+          title: 'Facix, sur ordinateur et deux téléphones',
+          hint: 'Cliquez pour les écrans suivants',
+          rest: 'ordinateur : activités',
+          readout: 'ordinateur : {state}',
+          states: { 'web-home': 'activités', 'web-details': 'une activité', 'web-success': 'réservation confirmée' },
+          keys: [
+            { mark: 'lit', label: 'Le parcours de réservation : trouver une activité, inscrire les participants, payer dans l’application' },
+            { mark: 'raised', label: 'Le même parcours de réservation sur mobile et sur le web' },
+          ],
+          caption:
+            "Parcourir les activités, rechercher et le détail d’une activité sur un téléphone ; confirmer les participants, payer avec une carte enregistrée et la confirmation sur l’autre ; et la version web sur l’ordinateur.",
+        },
         problem:
           "Les associations proposent des activités sportives et culturelles, mais gèrent les inscriptions par formulaires, appels téléphoniques et paiement en espèces sur place. Facix leur donnait un seul endroit pour publier une activité, et au public un seul endroit pour la trouver, choisir une date, inscrire chaque participant et payer, sur mobile comme sur le web. Il fallait donc manipuler de l’argent pour des structures qui n’avaient jamais encaissé en ligne.",
         constraints: [
@@ -310,6 +349,18 @@ export const fr: Copy = {
           "Un quadricoptère conçu de bout en bout, du choix des composants et du PCB au firmware de vol, qui tient une attitude stable en vol manuel.",
         tags: ['Projet personnel', 'Systèmes embarqués', 'Conception PCB'],
         role: 'Conception et réalisation en solo',
+        figure: {
+          title: 'Quadricoptère stabilisé',
+          hint: 'Pointez : inclinaison · clic : rafale',
+          rest: 'à plat · en vol stationnaire',
+          readout: 'roulis {roll}° · tangage {pitch}° · moteurs {motors} %',
+          keys: [
+            { mark: 'lit', label: 'Hélices : chacune accélère ou ralentit à la demande de la boucle' },
+            { mark: 'raised', label: 'Contrôleur de vol : IMU et STM32 sur une carte câblée à la main' },
+          ],
+          caption:
+            "La boucle d’attitude tourne 1 000 fois par seconde : elle fusionne gyroscope et accéléromètre en une seule estimation, la compare à l’inclinaison demandée et accélère les hélices du côté qui doit remonter. Une rafale fait basculer le châssis ; la boucle le ramène où vous l’avez demandé en un tiers de seconde environ.",
+        },
         problem:
           "Un quadricoptère est instable par construction : quatre actionneurs, six degrés de liberté, et aucune tendance naturelle à rester à plat. Le maintenir en vol, c’est fermer une boucle d’asservissement plus vite que la machine ne peut en sortir.",
         constraints: [
@@ -342,6 +393,18 @@ export const fr: Copy = {
           "Une radiocommande pour le quadricoptère, conçue et imprimée en 3D, qui affiche en direct la télémétrie de l’appareil sur son propre écran.",
         tags: ['Projet personnel', 'Design industriel', 'Impression 3D', 'Systèmes embarqués'],
         role: 'Conception et réalisation en solo',
+        figure: {
+          title: 'Radiocommande du drone',
+          hint: 'Pointez un manche · cliquez un bouton',
+          rest: 'TX 50 Hz · liaison active',
+          readout: 'TX 50 Hz · n°{count} · manches immobiles {idle} s',
+          keys: [
+            { mark: 'lit', label: 'Écran LCD : ce que l’appareil renvoie' },
+            { mark: 'raised', label: 'Manches : lus et envoyés 50 fois par seconde, qu’ils bougent ou non' },
+          ],
+          caption:
+            "Les positions des manches partent sur le nRF24L01 à 50 Hz fixes : le compteur continue de monter quand les manches sont immobiles, un paquet perdu n’est qu’une mise à jour manquée, et le silence signifie que la liaison est coupée. L’appareil répond sur la même radio avec son état d’armement, son mode de vol, sa batterie et son attitude, affichés sur l’écran LCD 20×4. Les boutons de gauche l’arment, ceux de droite changent de mode.",
+        },
         problem:
           "Il fallait de quoi piloter le quadricoptère. Une radiocommande reste en main pendant tout le vol : la difficulté n’est pas la liaison radio, mais la forme, la sensation des manches et leur disposition, qui décident si l’appareil est réellement pilotable.",
         constraints: [
@@ -378,6 +441,19 @@ export const fr: Copy = {
         summary: "Plateforme d’annonces immobilières cofondée en 2025 et désormais en ligne : une application Flutter et un site Nuxt.js, adossés à Firebase.",
         tags: ['Entrepreneuriat', 'Flutter', 'Firebase', 'Nuxt.js'],
         role: 'Cofondateur et ingénieur logiciel',
+        figure: {
+          title: 'Cbienlà, sur ordinateur et téléphone',
+          hint: 'Cliquez pour les pages suivantes',
+          rest: 'ordinateur : accueil',
+          readout: 'ordinateur : {state}',
+          states: { home: 'accueil et recherche', listing: 'une annonce', region: 'annonces par région', 'home-scroll': 'annonces à la une' },
+          keys: [
+            { mark: 'lit', label: 'cbienla.fr, rendu côté serveur par Nuxt pour que chaque annonce soit indexée' },
+            { mark: 'raised', label: 'Les mêmes pages sur ordinateur et sur téléphone' },
+          ],
+          caption:
+            "cbienla.fr : l’accueil et sa recherche, une annonce avec ses photos et son prix, les annonces par région, et le même site sur téléphone. Chaque page est rendue côté serveur : les moteurs de recherche lisent les annonces telles qu’elles sont.",
+        },
         problem:
           "Une plateforme d’annonces a besoin de deux interfaces qui ne se contredisent jamais : une application mobile pour parcourir, et un site public que les moteurs de recherche peuvent lire. Les deux décrivent les mêmes biens ; la difficulté est d’avoir une seule source de vérité plutôt que deux bases de code qui divergent.",
         constraints: [
@@ -408,6 +484,19 @@ export const fr: Copy = {
         summary: "Un bras robotisé piloté sans fil depuis une application mobile : le téléphone fixe la destination, le firmware calcule le mouvement.",
         tags: ['Projet personnel', 'Robotique'],
         role: 'Conception et réalisation en solo',
+        figure: {
+          title: 'Bras robotique',
+          hint: 'Pointez : destination · clic : couper la liaison',
+          rest: 'liaison active · au-dessus du plot',
+          readout: 'vers x {x} z {z} mm · {state}',
+          states: { moving: 'en mouvement', there: 'arrivé', holding: 'liaison perdue : maintien' },
+          keys: [
+            { mark: 'lit', label: 'La liaison : la LED Bluetooth et la destination qu’elle transmet' },
+            { mark: 'raised', label: 'Trois articulations à servomoteur et une pince à deux mors' },
+          ],
+          caption:
+            "Le téléphone n’envoie que l’endroit où doivent aller les mors. Le firmware calcule les angles des articulations pour ce point et s’y rend à son rythme, 140 mm par seconde au plus : un paquet en retard retarde un mouvement au lieu de le fausser. Coupez la liaison et le bras s’arrête où il est : un bras qui tient quelque chose ne doit pas le lâcher.",
+        },
         problem:
           "Piloter un bras à plusieurs articulations depuis un téléphone, c’est faire partir une commande d’un écran tactile pour qu’elle arrive en mouvement coordonné sur plusieurs moteurs, via une liaison ni assez rapide ni assez fiable pour qu’on lui confie les détails.",
         constraints: [

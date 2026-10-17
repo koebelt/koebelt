@@ -52,7 +52,9 @@ function* files(dir) {
   for (const name of readdirSync(dir)) {
     const path = join(dir, name)
     if (statSync(path).isDirectory()) yield* files(path)
-    else if (/\.(ts|tsx)$/.test(path)) yield path
+    // Generated drawings (figures/*/build.mjs output) are path data, not
+    // authored styles; their colours come from tokens in src/figures/palette.css.
+    else if (/\.(ts|tsx)$/.test(path) && !/\.generated\.ts$/.test(path)) yield path
   }
 }
 

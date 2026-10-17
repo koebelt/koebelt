@@ -1,0 +1,88 @@
+/* The anatomy kit's dark tokens, retuned to the site's ink ramp and lime accent.
+   Paper is --surface-sunken, the colour every figure sits on (MediaFrame and the
+   figure plate), so fills hide what is behind them without showing as patches.
+   Shades step about 3% apart, as the kit asks. Values are literal because the
+   card still is an <img> that cannot read the site's custom properties; they
+   mirror design_system/tokens/colors.css. */
+.iso {
+  --anatomy-page: #161415;
+  --anatomy-card: #0d0c0c;
+  --anatomy-paper: #0d0c0c;
+  --anatomy-text: #b8b3b1;
+  --anatomy-strong: #e8e5e4;
+  --anatomy-muted: #8c8685;
+  --anatomy-face: #1d1a1b;
+  --anatomy-top: #1b1819;
+  --anatomy-shade-0: #100e0f;
+  --anatomy-shade-1: #131112;
+  --anatomy-shade-2: #161415;
+  --anatomy-shade-3: #191718;
+  --anatomy-lit-top: #262324;
+  --anatomy-lit-shade: #1d1a1b;
+  --anatomy-hi: #e8e5e4;
+  --anatomy-mid: #6e6869;
+  --anatomy-lo: #433e3f;
+  --anatomy-faint: #2a2627;
+  --anatomy-lit: #dcfb47;
+  --anatomy-halo: #000000;
+  --anatomy-halo-opacity: 0.9;
+  --anatomy-dot: #e8e5e4;
+}
+
+/* Prop discs: the blur of spinning blades. The live code sets each one's
+   opacity from its motor's throttle. */
+.q-disc {
+  fill: var(--anatomy-lit);
+  opacity: 0.04;
+}
+.q-rim,
+.q-blade {
+  fill: none;
+  stroke: var(--anatomy-lit);
+  stroke-width: var(--anatomy-weight);
+  vector-effect: non-scaling-stroke;
+  opacity: 0.4;
+}
+
+/* Drone controller: the LCD's dark glass, its backlight, and the stick shafts. */
+.c-window {
+  fill: var(--anatomy-shade-0);
+}
+.c-glass {
+  fill: var(--anatomy-lit);
+  opacity: 0.07;
+}
+.c-lcd text {
+  font-family: var(--anatomy-mono);
+  fill: var(--anatomy-lit);
+  white-space: pre;
+}
+.c-shaft {
+  fill: none;
+  stroke: var(--anatomy-mid);
+  stroke-linecap: round;
+}
+
+/* Robotic arm: the Bluetooth module's link LED, lit while the phone is connected,
+   and the destination the phone sent, marked on the bench. */
+.a-led {
+  fill: var(--anatomy-lit);
+}
+.a-led[data-off] {
+  fill: var(--anatomy-lo);
+}
+.a-target {
+  fill: none;
+  stroke: var(--anatomy-lit);
+  stroke-width: var(--anatomy-weight);
+  vector-effect: non-scaling-stroke;
+}
+
+/* App figures: a screen's black glass behind its screenshot, and the sheen over it. */
+.v-black {
+  fill: var(--anatomy-halo);
+}
+.v-glare {
+  fill: url(#v-glare);
+  pointer-events: none;
+}

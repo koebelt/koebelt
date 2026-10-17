@@ -1,9 +1,10 @@
 import { Button, Card, Divider, Icon, MediaFrame, SectionHeading, Tag } from '@ds'
-import { useEffect, useRef, type ReactNode } from 'react'
+import { Suspense, useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { DIAGRAMS } from '../components/diagrams'
 import { Gallery } from '../components/Gallery'
+import { FIGURES } from '../figures'
 import { Reveal } from '../components/Reveal'
 import { projectDiagrams, projectGallery, projectImages, projectLinks, projectReleases, projectStacks, type ProjectRelease } from '../content/site'
 import { useCopy, useLocale } from '../i18n/LocaleContext'
@@ -51,6 +52,7 @@ export default function ProjectDetail() {
   const gallery = projectGallery[slug] ?? []
   const diagrams = (projectDiagrams[slug] ?? []).filter((id) => DIAGRAMS[`${slug}/${id}`] && project.diagrams?.[id])
   const release = projectReleases[slug]
+  const Figure = FIGURES[slug]
 
   return (
     <article ref={articleRef} className="container section">
@@ -99,7 +101,16 @@ export default function ProjectDetail() {
 
         <div className="case-media" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
           <Reveal>
-            <MediaFrame src={projectImages[slug]} alt={project.title} ratio="4/3" label={project.title} />
+            {Figure && project.figure ? (
+              // An empty frame holds the space while the figure's chunk loads after a
+              // client-side navigation; prerendered pages already carry the figure.
+              // No image here: React preloads every image it renders, fallbacks too.
+              <Suspense fallback={<MediaFrame ratio="4/3" label={project.title} />}>
+                <Figure fig="Fig 1" copy={project.figure} />
+              </Suspense>
+            ) : (
+              <MediaFrame src={projectImages[slug]} alt={project.title} ratio="4/3" label={project.title} />
+            )}
           </Reveal>
           <Reveal order={1}>
             <Card>

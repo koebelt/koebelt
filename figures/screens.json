@@ -1,0 +1,145 @@
+{
+  "portfolio": {
+    "hero": {
+      "href": "/figures/portfolio/hero.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "projects": {
+      "href": "/figures/portfolio/projects.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "case": {
+      "href": "/figures/portfolio/case.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "mobile": {
+      "href": "/figures/portfolio/mobile.webp",
+      "w": 520,
+      "h": 1125
+    },
+    "mobile-skills": {
+      "href": "/figures/portfolio/mobile-skills.webp",
+      "w": 520,
+      "h": 1125
+    }
+  },
+  "cbienla": {
+    "home": {
+      "href": "/figures/cbienla/home.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "listing": {
+      "href": "/figures/cbienla/listing.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "region": {
+      "href": "/figures/cbienla/region.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "home-scroll": {
+      "href": "/figures/cbienla/home-scroll.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "mobile": {
+      "href": "/figures/cbienla/mobile.webp",
+      "w": 520,
+      "h": 1125
+    },
+    "mobile-listing": {
+      "href": "/figures/cbienla/mobile-listing.webp",
+      "w": 520,
+      "h": 1125
+    }
+  },
+  "koebelt-dash": {
+    "wall": {
+      "href": "/figures/koebelt-dash/wall.webp",
+      "w": 1000,
+      "h": 695
+    },
+    "replay": {
+      "href": "/figures/koebelt-dash/replay.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "sequences": {
+      "href": "/figures/koebelt-dash/sequences.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "arm-control": {
+      "href": "/figures/koebelt-dash/arm-control.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "phone-live": {
+      "href": "/figures/koebelt-dash/phone-live.webp",
+      "w": 520,
+      "h": 1125
+    },
+    "phone-control": {
+      "href": "/figures/koebelt-dash/phone-control.webp",
+      "w": 520,
+      "h": 1125
+    },
+    "phone-sequences": {
+      "href": "/figures/koebelt-dash/phone-sequences.webp",
+      "w": 520,
+      "h": 1125
+    },
+    "phone-bench": {
+      "href": "/figures/koebelt-dash/phone-bench.webp",
+      "w": 520,
+      "h": 1125
+    }
+  },
+  "facix": {
+    "home": {
+      "href": "/figures/facix/home.webp",
+      "w": 520,
+      "h": 1127
+    },
+    "search": {
+      "href": "/figures/facix/search.webp",
+      "w": 520,
+      "h": 1127
+    },
+    "details": {
+      "href": "/figures/facix/details.webp",
+      "w": 520,
+      "h": 1127
+    },
+    "pay": {
+      "href": "/figures/facix/pay.webp",
+      "w": 520,
+      "h": 1127
+    },
+    "success": {
+      "href": "/figures/facix/success.webp",
+      "w": 520,
+      "h": 1127
+    },
+    "web-home": {
+      "href": "/figures/facix/web-home.webp",
+      "w": 1200,
+      "h": 698
+    },
+    "web-details": {
+      "href": "/figures/facix/web-details.webp",
+      "w": 1200,
+      "h": 750
+    },
+    "web-success": {
+      "href": "/figures/facix/web-success.webp",
+      "w": 1200,
+      "h": 750
+    }
+  }
+}

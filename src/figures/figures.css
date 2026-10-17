@@ -1,0 +1,91 @@
+/* The kit's plate, set in the design system: a MediaFrame-style panel on the
+   sunken surface with a hairline, mono corner labels in the label type, and
+   the legend in body type. Tokens only; the drawing's own colours are in
+   palette.css. */
+.anatomy.iso-figure,
+.anatomy {
+  margin: 0;
+}
+
+.anatomy .iso-plate {
+  padding: var(--space-10) var(--space-5);
+  border-radius: var(--radius-media);
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset-hairline);
+}
+
+.anatomy .iso-plate-corners {
+  inset: var(--space-5) var(--space-6);
+}
+
+.anatomy .iso-plate-corner {
+  font: var(--text-label-sm);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.anatomy .iso-plate-corner[data-corner='fig'] {
+  color: var(--text-accent);
+}
+
+.anatomy .iso-plate-corner[data-corner='readout'] {
+  color: var(--text-secondary);
+  text-transform: none;
+  /* Numbers change every frame: no tracking, fixed-width digits. */
+  letter-spacing: 0;
+}
+
+.anatomy .iso-stage {
+  outline: none;
+  cursor: crosshair;
+  border-radius: var(--radius-control);
+}
+
+.anatomy .iso-stage:focus-visible {
+  box-shadow: var(--focus-shadow);
+}
+
+.anatomy .iso-legend {
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  font: var(--text-body-sm);
+  color: var(--text-muted);
+}
+
+.anatomy .iso-keys {
+  gap: var(--space-2) var(--space-6);
+}
+
+.anatomy .iso-key {
+  gap: var(--space-3);
+  color: var(--text-secondary);
+}
+
+.anatomy-swatch {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--radius-xs);
+  border: var(--border-width) solid var(--border-subtle);
+}
+
+.anatomy-swatch[data-mark='lit'] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.anatomy-swatch[data-mark='raised'] {
+  background: var(--surface-raised);
+}
+
+/* On a phone the corners need their own rows above and below the drawing. */
+@media (max-width: 560px) {
+  .anatomy .iso-plate {
+    padding: var(--space-10) var(--space-3) var(--space-12);
+  }
+  .anatomy .iso-plate-corner[data-corner='hint'] {
+    bottom: var(--space-6);
+  }
+}

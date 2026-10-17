@@ -4,6 +4,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import '@ds/styles.css'
 import './styles/app.css'
+// Anatomy figures load as their own chunks, but their styles cannot: the
+// prerendered page carries the drawing, and it must be styled before (and
+// without) the chunk.
+import './figures/iso.css'
+import './figures/palette.css'
+import './figures/figures.css'
 
 import { routes } from './routes'
 
@@ -17,6 +23,7 @@ const app = (
 
 // Production pages arrive prerendered (scripts/prerender.mjs) so crawlers and AI
 // agents that do not run JavaScript still read the full content; React adopts
-// that markup rather than replacing it. The dev server serves an empty root.
-if (container.hasChildNodes()) hydrateRoot(container, app)
+// that markup rather than replacing it. The dev server serves a root holding
+// only the placeholder comment, so it renders from scratch.
+if (container.firstElementChild) hydrateRoot(container, app)
 else createRoot(container).render(app)

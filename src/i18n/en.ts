@@ -213,6 +213,19 @@ export const en: Copy = {
         downloadNote:
           "Free and open source, and it updates itself in one click from then on. The Windows installer is not code-signed yet, so SmartScreen asks once; iPhone and iPad are in a TestFlight beta, and Google Play comes later.",
         role: 'Sole designer and engineer',
+        figure: {
+          title: 'koebelt/dash on three screens',
+          hint: 'Click for the next screens',
+          rest: 'desktop: replay',
+          readout: 'desktop: {state}',
+          states: { replay: 'replay', sequences: 'sequences', 'arm-control': 'robot arm control' },
+          keys: [
+            { mark: 'lit', label: 'One Flutter codebase: desktop, tablet and phone' },
+            { mark: 'raised', label: 'Replay, sequences, arm control, the sensor wall and the phone views' },
+          ],
+          caption:
+            'The same app on the desktop, a tablet and a phone, built from one Flutter codebase: a recorded flight replayed with its point cloud, a survey sequence, a robot arm jogged joint by joint, the sensor wall, and the phone’s live view, controls and test bench.',
+        },
         problem:
           "My quadcopter, its controller and the robotic arm each needed their own way to send telemetry, take commands and stop safely, and each time I wrote it again. koebelt/dash does it once: a small library on the device describes what it is and what it measures, and one app builds the screens, the controls and the safety around it, for whatever the board turns out to be.",
         constraints: [
@@ -248,6 +261,19 @@ export const en: Copy = {
           "This site: a React front end with a hand-written WebGL particle engine that changes shape for every section.",
         tags: ["Personal project", "Web", "WebGL", "Creative development"],
         role: "Sole designer and engineer",
+        figure: {
+          title: 'This site, on a laptop and a phone',
+          hint: 'Click for the next pages',
+          rest: 'laptop: home',
+          readout: 'laptop: {state}',
+          states: { hero: 'home', projects: 'projects', case: 'a case study' },
+          keys: [
+            { mark: 'lit', label: 'The particle sphere: one WebGL draw call behind every section' },
+            { mark: 'raised', label: 'The home page, the projects and a case study, on desktop and on a phone' },
+          ],
+          caption:
+            'This site on a laptop and a phone: the hero with its particle sphere, the projects, a case study, and the same pages laid out for a phone, where the sphere drops to 3,000 points.',
+        },
         problem:
           "A portfolio has to say a lot to someone who will give it a minute. I wanted the page itself to show the work: one cloud of points that becomes a globe, orbits, a row of projects and a timeline as you scroll, without getting in the way of the text, slowing down a phone, or breaking for anyone who prefers less motion.",
         constraints: [
@@ -278,6 +304,19 @@ export const en: Copy = {
           "An activity booking app for French associations, taken to a beta with pilot associations: Flutter, in-app payments and a serverless AWS backend.",
         tags: ["Entrepreneurial", "Flutter", "AWS", "Payments"],
         role: "Co-founder and mobile team lead",
+        figure: {
+          title: 'Facix, on a laptop and two phones',
+          hint: 'Click for the next screens',
+          rest: 'laptop: activities',
+          readout: 'laptop: {state}',
+          states: { 'web-home': 'activities', 'web-details': 'an activity', 'web-success': 'booking confirmed' },
+          keys: [
+            { mark: 'lit', label: 'The booking flow: find an activity, register participants, pay in the app' },
+            { mark: 'raised', label: 'The same booking flow on mobile and on the web' },
+          ],
+          caption:
+            'Browsing activities, searching and an activity’s details on one phone; confirming the participants, paying with a saved card and the confirmation on the other; and the web version on the laptop.',
+        },
         problem:
           "Associations run sports and cultural activities but take bookings through forms, phone calls and cash at the door. Facix gave them one place to publish an activity, and gave the public one place to find it, pick a date, register every participant and pay, on mobile and on the web. That meant handling money on behalf of organisations that had never taken a payment online.",
         constraints: [
@@ -310,6 +349,18 @@ export const en: Copy = {
           "A quadcopter built end to end, from part selection and PCB design to flight-control firmware, that holds a stable attitude in manual flight.",
         tags: ['Personal project', 'Embedded systems', 'PCB design'],
         role: 'Sole designer and engineer',
+        figure: {
+          title: 'Stabilised quadcopter',
+          hint: 'Point to lean · click: gust',
+          rest: 'level · hovering',
+          readout: 'roll {roll}° · pitch {pitch}° · motors {motors} %',
+          keys: [
+            { mark: 'lit', label: 'Props: each spins up or down as the loop asks' },
+            { mark: 'raised', label: 'Flight controller: IMU and STM32 on a hand-wired board' },
+          ],
+          caption:
+            'The attitude loop runs 1,000 times a second: it fuses gyroscope and accelerometer into one estimate, compares it with the lean you ask for, and speeds up the props on the side that has to rise. A gust tips the frame; the loop has it back where you asked in about a third of a second.',
+        },
         problem:
           'A quadcopter is unstable by construction: it has four actuators, six degrees of freedom, and no passive tendency to stay level. Keeping it in the air means closing a control loop faster than the airframe can fall out of one.',
         constraints: [
@@ -342,6 +393,18 @@ export const en: Copy = {
           "A radio controller for the quadcopter, designed and 3D printed from scratch, that shows live telemetry from the aircraft on its own screen.",
         tags: ['Personal project', 'Industrial design', '3D printing', 'Embedded systems'],
         role: 'Sole designer and engineer',
+        figure: {
+          title: 'Drone remote controller',
+          hint: 'Point to a stick · click a button',
+          rest: 'TX 50 Hz · link up',
+          readout: 'TX 50 Hz · #{count} · sticks still {idle} s',
+          keys: [
+            { mark: 'lit', label: 'LCD: what the aircraft sends back' },
+            { mark: 'raised', label: 'Sticks: read and sent 50 times a second, moving or not' },
+          ],
+          caption:
+            'Stick positions leave on the nRF24L01 at a fixed 50 Hz, so the count keeps rising while the sticks are still: a dropped packet is one missed update, and silence means the link is gone. The aircraft answers on the same radio with its arming state, flight mode, battery and attitude, shown on the 20×4 LCD. The left buttons arm it, the right ones switch modes.',
+        },
         problem:
           "The quadcopter needed a way to be flown. A controller stays in your hands for the whole flight, so the hard part is not the radio link. It is that the shape, the stick feel and the layout decide whether the aircraft is actually controllable.",
         constraints: [
@@ -378,6 +441,19 @@ export const en: Copy = {
         summary: "Real-estate listing platform I co-founded in 2025, now live: a Flutter app and a Nuxt.js site on a shared Firebase backend.",
         tags: ['Entrepreneurial', 'Flutter', 'Firebase', 'Nuxt.js'],
         role: 'Co-founder and software engineer',
+        figure: {
+          title: 'Cbienlà, on a laptop and a phone',
+          hint: 'Click for the next pages',
+          rest: 'laptop: home',
+          readout: 'laptop: {state}',
+          states: { home: 'home and search', listing: 'a listing', region: 'listings by region', 'home-scroll': 'featured listings' },
+          keys: [
+            { mark: 'lit', label: 'cbienla.fr, server-rendered by Nuxt so every listing can be indexed' },
+            { mark: 'raised', label: 'The same pages on desktop and on a phone' },
+          ],
+          caption:
+            'cbienla.fr: the home page and its search, a listing with its photos and price, the listings by region, and the same site on a phone. Every page is rendered on the server, so search engines read the listings as they are.',
+        },
         problem:
           'A listing platform needs two front ends that never disagree: a mobile app people browse on, and a public web surface search engines can read. Both describe the same properties, so the hard part is one source of truth rather than two codebases drifting.',
         constraints: [
@@ -408,6 +484,19 @@ export const en: Copy = {
         summary: "A robotic arm driven wirelessly from a mobile app: the phone sets the destination, the firmware works out the motion.",
         tags: ['Personal project', 'Robotics'],
         role: 'Sole designer and engineer',
+        figure: {
+          title: 'Robotic arm',
+          hint: 'Point: destination · click: cut the link',
+          rest: 'link up · over the pad',
+          readout: 'to x {x} z {z} mm · {state}',
+          states: { moving: 'moving', there: 'there', holding: 'link lost: holding' },
+          keys: [
+            { mark: 'lit', label: 'The link: the Bluetooth LED and the destination it carries' },
+            { mark: 'raised', label: 'Three servo joints and a two-jaw gripper' },
+          ],
+          caption:
+            'The phone sends only where the jaws should go. The firmware solves the joint angles for that point and moves there at its own pace, at most 140 mm a second, so a late packet delays a move rather than corrupting one. Cut the link and the arm stops where it is: an arm holding something must not let go.',
+        },
         problem:
           'Driving a multi-joint arm from a phone means a command leaves a touchscreen and has to arrive as coordinated motion across several motors, over a link that is neither fast nor reliable enough to be trusted with the details.',
         constraints: [

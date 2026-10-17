@@ -17,7 +17,8 @@
     "build:landmask": "node scripts/build-landmask.mjs",
     "build:favicon": "python3 scripts/build-favicon.py",
     "build:images": "python3 scripts/build-project-images.py",
-    "build:og": "sh scripts/build-og-image.sh"
+    "build:og": "sh scripts/build-og-image.sh",
+    "build:figures": "node figures/quadcopter/build.mjs && node figures/drone-controller/build.mjs && node --experimental-strip-types --no-warnings figures/robotic-arm/build.mjs && node figures/portfolio/build.mjs && node figures/cbienla/build.mjs && node figures/koebelt-dash/build.mjs && node figures/facix/build.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
