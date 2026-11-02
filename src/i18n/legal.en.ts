@@ -91,9 +91,11 @@ export const legalEn: Copy['legal'] = {
             list: [
               'On your phone or computer only: your settings, the devices you paired and their pairing keys, sequences, screen layouts, recordings and the map tiles you have viewed. Uninstalling the app removes them on iPhone, iPad and Android; on a computer they stay in the app’s folder until you delete it.',
               'Your devices: the app talks to the machines you connect, over Wi-Fi, Bluetooth, USB or radio. That traffic goes between the app and them, not to me.',
-              'Maps: to show the map, the app downloads tiles from the provider chosen in Settings, OpenStreetMap or OpenTopoMap by default, or your own. Like any website, that server sees your IP address and which area of the map is asked for, under its own privacy policy. Choosing None in Settings turns this off.',
+              'Maps: to show the map, the app downloads tiles from Mapbox (mapbox.com), or from the provider you set in Settings. Like any website, that server sees your IP address and which area of the map is asked for, under its own privacy policy (Mapbox: mapbox.com/legal/privacy). Choosing None in Settings turns this off.',
               'Updates: the versions downloaded from GitHub ask GitHub for the latest release when they start and once a day, so GitHub sees your IP address, under its privacy statement. You can turn this off in Settings > Updates. The App Store and TestFlight versions do not do this; Apple updates them.',
               'Exports and sharing: recordings, logs and videos leave the app only when you export or share them, to where you choose.',
+              'Scripts: they run in Python on your computer, or on a computer of your network that you pair as a script host; what they exchange with the app stays on your network. A script can use any Python package, under that package’s own terms. On a computer, the Scripts screen asks PyPI (pypi.org) once a day for the newest koebelt-dash-scripts, so PyPI sees your IP address, under its own privacy policy.',
+              'AI assistants: off until you turn them on in Settings. Then an assistant you connect (Claude, Cursor or another MCP client) can read what the app shows it, such as telemetry, camera pictures, recordings and scripts, and sends it to its own provider under that provider’s terms. The app itself sends nothing to any AI service.',
               'Permissions: Bluetooth and the local network are used to find and connect your devices, motion sensors for tilt control when you choose it, and files for import and export. Nothing else.',
             ],
           },
@@ -194,7 +196,7 @@ export const legalEn: Copy['legal'] = {
           {
             title: 'Maps',
             paragraphs: [
-              'Map tiles come from OpenStreetMap or OpenTopoMap under their own terms, which allow light personal use; for heavier use, set your own tile provider in Settings.',
+              'Map tiles come from Mapbox, under its terms (mapbox.com/legal/tos), with map data © OpenStreetMap contributors; the map shows their credits. You can use your own Mapbox token or tile provider in Settings, under that provider’s terms.',
             ],
           },
         ],

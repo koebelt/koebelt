@@ -4,7 +4,7 @@
  */
 
 /** When the privacy policy and terms (src/i18n, legal) last changed. */
-export const legalUpdated = '2026-10-16'
+export const legalUpdated = '2026-11-02'
 
 export const site = {
   name: 'Thomas Koebel',
@@ -111,10 +111,12 @@ export const projectGallery: Record<string, ProjectImage[]> = {
     { id: 'arm-control', src: '/projects/koebelt-dash/arm-control.png', ratio: '1440/900', shape: 'wide' },
     { id: 'sequences', src: '/projects/koebelt-dash/sequences.png', ratio: '1440/900', shape: 'wide' },
     { id: 'replay', src: '/projects/koebelt-dash/replay.png', ratio: '1440/900', shape: 'wide' },
+    { id: 'scripts', src: '/projects/koebelt-dash/scripts.png', ratio: '1440/900', shape: 'wide' },
     { id: 'phone-live', src: '/projects/koebelt-dash/phone-live.png', ratio: '780/1688', shape: 'tall' },
     { id: 'phone-control', src: '/projects/koebelt-dash/phone-control.png', ratio: '780/1688', shape: 'tall' },
     { id: 'phone-sequences', src: '/projects/koebelt-dash/phone-sequences.png', ratio: '780/1688', shape: 'tall' },
     { id: 'phone-bench', src: '/projects/koebelt-dash/phone-bench.png', ratio: '780/1688', shape: 'tall' },
+    { id: 'phone-scripts', src: '/projects/koebelt-dash/phone-scripts.png', ratio: '780/1694', shape: 'tall' },
   ],
 }
 
@@ -146,12 +148,12 @@ export interface ProjectRelease {
  * Downloadable releases, keyed by slug. The file names carry the version, so
  * this is updated with each release.
  */
-const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.2.3/koebelt-dash-1.2.3'
+const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.3.0/koebelt-dash-1.3.0'
 export const projectReleases: Record<string, ProjectRelease> = {
   'koebelt-dash': {
-    version: '1.2.3',
-    date: '2026-10-17',
-    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.2.3',
+    version: '1.3.0',
+    date: '2026-11-02',
+    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.3.0',
     downloads: [
       { platform: 'macOS', detail: '.dmg · macOS 12+', href: `${dashRelease}-macos.dmg` },
       { platform: 'Windows', detail: '.exe · Windows 10+, x64', href: `${dashRelease}-windows-x64-setup.exe` },

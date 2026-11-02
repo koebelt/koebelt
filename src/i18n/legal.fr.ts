@@ -87,9 +87,11 @@ export const legalFr: Copy['legal'] = {
             list: [
               'Uniquement sur votre téléphone ou votre ordinateur : vos réglages, les appareils appairés et leurs clés d’appairage, les séquences, les dispositions d’écran, les enregistrements et les tuiles de carte déjà affichées. Désinstaller l’application les supprime sur iPhone, iPad et Android ; sur ordinateur, ils restent dans le dossier de l’application jusqu’à ce que vous le supprimiez.',
               'Vos appareils : l’application échange avec les machines que vous connectez, en Wi-Fi, Bluetooth, USB ou radio. Ces échanges restent entre l’application et elles, sans passer par moi.',
-              'Cartes : pour afficher la carte, l’application télécharge des tuiles auprès du fournisseur choisi dans les Réglages, OpenStreetMap ou OpenTopoMap par défaut, ou le vôtre. Comme pour tout site web, ce serveur voit votre adresse IP et la zone demandée, selon sa propre politique de confidentialité. Choisir Aucune dans les Réglages désactive ces téléchargements.',
+              'Cartes : pour afficher la carte, l’application télécharge des tuiles auprès de Mapbox (mapbox.com), ou du fournisseur indiqué dans les Réglages. Comme pour tout site web, ce serveur voit votre adresse IP et la zone demandée, selon sa propre politique de confidentialité (Mapbox : mapbox.com/legal/privacy). Choisir Aucune dans les Réglages désactive ces téléchargements.',
               'Mises à jour : les versions téléchargées sur GitHub demandent à GitHub la dernière version au lancement et une fois par jour ; GitHub voit donc votre adresse IP, selon sa déclaration de confidentialité. Vous pouvez le désactiver dans Réglages > Mises à jour. Les versions App Store et TestFlight ne le font pas : Apple les met à jour.',
               'Exports et partages : enregistrements, journaux et vidéos ne quittent l’application que lorsque vous les exportez ou les partagez, vers la destination de votre choix.',
+              'Scripts : ils s’exécutent en Python sur votre ordinateur, ou sur un ordinateur de votre réseau que vous appairez comme hôte de scripts ; ce qu’ils échangent avec l’application reste sur votre réseau. Un script peut utiliser n’importe quelle bibliothèque Python, selon ses propres conditions. Sur ordinateur, l’écran Scripts demande une fois par jour à PyPI (pypi.org) la dernière version de koebelt-dash-scripts ; PyPI voit donc votre adresse IP, selon sa propre politique de confidentialité.',
+              'Assistants IA : désactivés tant que vous ne les activez pas dans les Réglages. Un assistant que vous connectez (Claude, Cursor ou un autre client MCP) peut alors lire ce que l’application lui montre, comme la télémétrie, les images de la caméra, les enregistrements et les scripts, et l’envoie à son propre fournisseur selon les conditions de celui-ci. L’application elle-même n’envoie rien à aucun service d’IA.',
               'Autorisations : le Bluetooth et le réseau local servent à trouver et connecter vos appareils, les capteurs de mouvement au pilotage par inclinaison si vous le choisissez, et les fichiers aux imports et exports. Rien d’autre.',
             ],
           },
@@ -190,7 +192,7 @@ export const legalFr: Copy['legal'] = {
           {
             title: 'Cartes',
             paragraphs: [
-              'Les tuiles de carte proviennent d’OpenStreetMap ou d’OpenTopoMap selon leurs propres conditions, qui autorisent un usage personnel modéré ; pour un usage plus intensif, indiquez votre propre fournisseur dans les Réglages.',
+              'Les tuiles de carte proviennent de Mapbox, selon ses conditions (mapbox.com/legal/tos), avec des données cartographiques © les contributeurs d’OpenStreetMap ; la carte affiche leurs mentions. Vous pouvez utiliser votre propre jeton Mapbox ou fournisseur de tuiles dans les Réglages, selon ses conditions.',
             ],
           },
         ],
