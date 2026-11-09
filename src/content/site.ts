@@ -148,16 +148,17 @@ export interface ProjectRelease {
  * Downloadable releases, keyed by slug. The file names carry the version, so
  * this is updated with each release.
  */
-const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.3.0/koebelt-dash-1.3.0'
+const dashRelease = 'https://github.com/koebelt/koebelt_dash/releases/download/app-v1.4.0/koebelt-dash-1.4.0'
 export const projectReleases: Record<string, ProjectRelease> = {
   'koebelt-dash': {
-    version: '1.3.0',
-    date: '2026-11-02',
-    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.3.0',
+    version: '1.4.0',
+    date: '2026-11-09',
+    notes: 'https://github.com/koebelt/koebelt_dash/releases/tag/app-v1.4.0',
     downloads: [
       { platform: 'macOS', detail: '.dmg · macOS 12+', href: `${dashRelease}-macos.dmg` },
       { platform: 'Windows', detail: '.exe · Windows 10+, x64', href: `${dashRelease}-windows-x64-setup.exe` },
       { platform: 'Linux', detail: '.tar.gz · x64, GTK 3', href: `${dashRelease}-linux-x64.tar.gz` },
+      { platform: 'Linux', detail: '.tar.gz · ARM64, GTK 3', href: `${dashRelease}-linux-arm64.tar.gz` },
       { platform: 'Android', detail: '.apk · Android 7+', href: `${dashRelease}-android.apk` },
       { platform: 'iPhone, iPad', detail: 'App Store · iOS 15+', href: 'https://apps.apple.com/app/id6823365530' },
     ],

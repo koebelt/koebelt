@@ -133,7 +133,7 @@ export const fr: Copy = {
       'koebelt-dash': {
         title: 'koebelt/dash',
         summary:
-          "Une application open source pour drones, rovers, bras robotisés et bancs d’essai, et la bibliothèque qui y connecte une carte, publiées sur ordinateur, Android, iPhone et iPad. Des scripts Python et des assistants IA peuvent piloter les machines, l’opérateur gardant la main.",
+          "Une application open source pour drones, avions, rovers, bateaux, robots à pattes, bras robotisés et bancs d’essai, en sept langues, et la bibliothèque qui y connecte une carte, publiées sur ordinateur, Android, iPhone et iPad. Des scripts Python et des assistants IA peuvent piloter les machines, l’opérateur gardant la main.",
         tags: ['Projet personnel', 'Open source', 'Flutter', 'Systèmes embarqués'],
         captions: {
           wall: 'Le mur de capteurs sur tablette : une tuile par donnée envoyée par le drone, avec la vue 3D, la carte et la caméra.',
