@@ -133,7 +133,7 @@ export const en: Copy = {
       'koebelt-dash': {
         title: 'koebelt/dash',
         summary:
-          "An open-source app for drones, rovers, robot arms and test benches, and the library that connects a board to it, released on desktop and Android. Python scripts and AI assistants can drive the machines, with the operator in charge.",
+          "An open-source app for drones, rovers, robot arms and test benches, and the library that connects a board to it, released on desktop, Android, iPhone and iPad. Python scripts and AI assistants can drive the machines, with the operator in charge.",
         tags: ['Personal project', 'Open source', 'Flutter', 'Embedded systems'],
         captions: {
           wall: 'The sensor wall on a tablet: one tile per channel the drone sends, with the 3D view, the map and the camera.',
@@ -213,7 +213,7 @@ export const en: Copy = {
           },
         },
         downloadNote:
-          "Free and open source, and it updates itself in one click from then on. The Windows installer is not code-signed yet, so SmartScreen asks once; iPhone and iPad are in a TestFlight beta, and Google Play comes later.",
+          "Free and open source, and it updates itself in one click from then on. The Windows installer is not code-signed yet, so SmartScreen asks once; iPhone and iPad get it from the App Store, which updates it, and Google Play comes later.",
         role: 'Sole designer and engineer',
         figure: {
           title: 'koebelt/dash on three screens',

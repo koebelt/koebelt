@@ -159,6 +159,7 @@ export const projectReleases: Record<string, ProjectRelease> = {
       { platform: 'Windows', detail: '.exe · Windows 10+, x64', href: `${dashRelease}-windows-x64-setup.exe` },
       { platform: 'Linux', detail: '.tar.gz · x64, GTK 3', href: `${dashRelease}-linux-x64.tar.gz` },
       { platform: 'Android', detail: '.apk · Android 7+', href: `${dashRelease}-android.apk` },
+      { platform: 'iPhone, iPad', detail: 'App Store · iOS 15+', href: 'https://apps.apple.com/app/id6823365530' },
     ],
   },
 }
