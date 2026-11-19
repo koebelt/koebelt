@@ -45,22 +45,6 @@
 
 <img src="assets/activity.svg" width="100%" alt="GitHub activity: contribution calendar, streaks and languages, refreshed nightly.">
 
-<sub>Editor time, from WakaTime:</sub>
-
-<!--START_SECTION:waka-->
-
-```txt
-From: 20 November 2022 - To: 30 October 2026
-
-Dart                                 ██████▓░░░░░░░░░░░░░░░░░░   26.67 %
-JavaScript                           ██████░░░░░░░░░░░░░░░░░░░   24.04 %
-C++                                  █████▓░░░░░░░░░░░░░░░░░░░   22.81 %
-TypeScript                           ███▒░░░░░░░░░░░░░░░░░░░░░   13.18 %
-CSS                                  █░░░░░░░░░░░░░░░░░░░░░░░░   04.32 %
-```
-
-<!--END_SECTION:waka-->
-
 <br>
 
 <a href="mailto:contact@koebelt.com"><img src="assets/contact.svg" width="100%" alt="Get in touch: contact@koebelt.com"></a>
